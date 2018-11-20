@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-11-19T20:12:29
+# Project created by QtCreator 2018-11-20T13:13:40
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = SpaceTurtleSpeedTyping
+TARGET = GameWindow
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
