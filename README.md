@@ -4,6 +4,7 @@
 ## IMPORTANT LINKS
 
 - [trello](https://trello.com/purplepicnicturtles20)
+- [words](http://www.wordfrequency.info)
 
 
 ## TODO LIST (use "\~~" to delete):
