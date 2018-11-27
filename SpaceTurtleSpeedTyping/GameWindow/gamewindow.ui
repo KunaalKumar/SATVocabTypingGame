@@ -37,18 +37,63 @@
        <string>Start Screen</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="gameStartButton">
+     <widget class="QGroupBox" name="menuBox">
       <property name="geometry">
        <rect>
         <x>260</x>
-        <y>410</y>
-        <width>170</width>
-        <height>48</height>
+        <y>420</y>
+        <width>165</width>
+        <height>241</height>
        </rect>
       </property>
-      <property name="text">
-       <string>Start Game</string>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
       </property>
+      <property name="title">
+       <string>Menu</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <widget class="QPushButton" name="gameStartButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>50</y>
+         <width>170</width>
+         <height>48</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Start Game</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="optionButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>120</y>
+         <width>170</width>
+         <height>48</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Options</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="tutorialButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>180</y>
+         <width>170</width>
+         <height>48</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Tutorial</string>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="page_2">
