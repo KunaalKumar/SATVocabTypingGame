@@ -40,8 +40,8 @@
      <widget class="QGroupBox" name="menuBox">
       <property name="geometry">
        <rect>
-        <x>260</x>
-        <y>420</y>
+        <x>220</x>
+        <y>340</y>
         <width>165</width>
         <height>241</height>
        </rect>
@@ -132,7 +132,7 @@
      <x>0</x>
      <y>0</y>
      <width>720</width>
-     <height>39</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
