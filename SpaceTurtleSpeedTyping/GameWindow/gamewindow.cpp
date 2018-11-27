@@ -20,6 +20,7 @@ GameWindow::~GameWindow()
 
 void GameWindow::keyPressEvent(QKeyEvent *event)
 {
+    // Only inside of the game screen we take keyboard inputs
     if (ui->stackedWidget->currentIndex() == 1)
         qDebug() << " Key Pressed: " << (char)event->key();
 }
