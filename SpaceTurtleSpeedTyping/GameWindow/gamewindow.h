@@ -19,11 +19,19 @@ public:
 
 private slots:
 
+    // Game Start button action in starting screen.
+    // Press the button will take the user to game page.
     void on_gameStartButton_clicked();
 
+    // End Game button action in game page. Similar logic to
+    // game start button action
     void on_endGameButton_clicked();
 
 private:
+
+    // This ui reference is composed of 2 pages enabled by the stackedWidget
+    // by using stackedWidge's function - setCurrentIndex(index), we have a way
+    // to navigate between these 2 pages.
     Ui::GameWindow *ui;
 };
 
