@@ -15,6 +15,14 @@ public:
     explicit GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
 
+
+
+private slots:
+
+    void on_gameStartButton_clicked();
+
+    void on_endGameButton_clicked();
+
 private:
     Ui::GameWindow *ui;
 };
