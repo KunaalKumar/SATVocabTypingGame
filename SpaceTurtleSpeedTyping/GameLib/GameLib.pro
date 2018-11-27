@@ -25,13 +25,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         gamelib.cpp \
     enemy.cpp \
-    load.cpp
+    load.cpp \
+    status.cpp
 
 HEADERS += \
         gamelib.h \
         gamelib_global.h \ 
     enemy.h \
-    load.h
+    load.h \
+    status.h
 
 unix {
     target.path = /usr/lib

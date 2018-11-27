@@ -3,5 +3,7 @@ build-*
 SpaceTurtleSpeedTyping/build-*
 
 #ignore-files
-*.user
+*.user*
+SpaceTurtleSpeedTyping/GameLib/*.user*
+SpaceTurtleSpeedTyping/GameWindow/*.user*
 
