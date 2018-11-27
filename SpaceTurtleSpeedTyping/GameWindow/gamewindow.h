@@ -2,10 +2,6 @@
 #define GAMEWINDOW_H
 
 #include <QMainWindow>
-#include <QVector>
-#include <QString>
-#include <QFile>
-#include <QTextStream>
 #include <QDebug>
 
 namespace Ui {
@@ -39,8 +35,6 @@ private:
     // by using stackedWidge's function - setCurrentIndex(index), we have a way
     // to navigate between these 2 pages.
     Ui::GameWindow *ui;
-    QVector<QString> listOfWords;
-    void importWords();
 };
 
 #endif // GAMEWINDOW_H
