@@ -3,42 +3,31 @@
 
 GameLib::GameLib()
 {
+    hitStreak = 0;
+    totalShotCount = 0;
+    correctShotCount = 0;
+    totalKillCount = 0;
 }
 
-//void sortWordTxtFile()
-//{
-//    std::fstream stream;
-//     stream.open("../GameLib/temp");
-//     std::vector<std::string> words;
-//     if (stream.is_open())
-//     {
-//        std::string line;
-//        int i = 0;
-//        while (!stream.eof())
-//        {
-//            std::getline(stream, line);
-//            if (line.length() > 0)
-//            {
-//                words.push_back(line);
-//            }
-//         }
-//    }
+void GameLib::startRound()
+{
+    round++;
+    Load::createRoundWords(round);
+    QTimer::singleShot(0, this, SLOT(createEnemies()));
+}
 
-//     std::sort(words.begin(), words.end(),
-//           [](const std::string& lhs, const std::string& rhs)
-//            {
-//                return lhs.size() == rhs.size() ? lhs < rhs : lhs.size() < rhs.size();
-//            });
+void GameLib::createEnemies()
+{
+    Enemy enemy(round);
+    if (enemy.getWord() != "")
+    {
+        currentEnemies.push_back(Enemy(round));
 
-//     words.erase( unique( words.begin(), words.end() ), words.end() );
+        int enemyInterval = 2500;
+        QTimer::singleShot(enemyInterval, this, SLOT(createEnemies()));
+    }
+}
 
-//     stream.close();
 
-//     stream.open("../GameLib/words");
-//     for (int i = 0; i < words.size(); i++)
-//     {
-//        stream << words.at(i) << std::endl;
-//     }
 
-//    stream.close();
-//}
+
