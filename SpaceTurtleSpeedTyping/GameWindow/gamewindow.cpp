@@ -39,6 +39,5 @@ void GameWindow::on_tutorialButton_clicked()
 
     QMessageBox::StandardButton box = QMessageBox::information(this, "Tutorial", "This is toturial",
                                                                QMessageBox::Ok, QMessageBox::NoButton);
-   if(box == QMessageBox::Ok)
-       QApplication::quit();
+
 }
