@@ -29,6 +29,8 @@ private slots:
     // game start button action
     void on_endGameButton_clicked();
 
+    void on_optionButton_clicked();
+
     void on_tutorialButton_clicked();
 
 private:
