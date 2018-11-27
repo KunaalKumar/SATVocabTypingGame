@@ -3,6 +3,7 @@
 
 #include "load.h"
 
+#include <math.h>
 #include <string>
 #include <QPoint>
 
@@ -12,8 +13,11 @@ public:
     Enemy(int baseSpeed);
 
     // returns whether or not enemy was hit
-    bool shootEnemy(std::string letter);
+    bool shoot(std::string letter);
     std::string getWord();
+    QPoint getPosition();
+    double distanceTo(QPoint other);
+    bool startsWith(std::string letter);
 
 private:
     std::string word;

@@ -4,6 +4,7 @@
 #include "gamelib_global.h"
 #include "enemy.h"
 
+#include <float.h>
 #include <vector>
 #include <QTimer>
 #include <QObject>
@@ -15,9 +16,9 @@ class GAMELIBSHARED_EXPORT GameLib: QObject
 
 public:
     GameLib();
+    ~GameLib();
     void startRound();
-
-private slots:
+    bool shoot(QString letter);
     void createEnemies();
 
 private:
@@ -27,6 +28,7 @@ private:
     int totalShotCount;
     int correctShotCount;
     int totalKillCount;
+    Enemy *currentEnemy;
     std::vector<Enemy> currentEnemies;
 
 
