@@ -28,19 +28,20 @@ void GameLib::createEnemies()
     }
 }
 
-bool GameLib::shoot(QString letter)
+bool GameLib::shoot(std::string letter)
 {
     if (currentEnemy == nullptr)
     {
         // shoot closest enemy with starting letter = letter
         //TO FIX: put in real user position
-        QPoint userPos(600, 300);
+        int userX = 300;
+        int userY = 600;
         double lowestDistance = DBL_MAX;
         for (Enemy enemy : currentEnemies)
         {
-            if (enemy.startsWith(letter.toStdString()))
+            if (enemy.startsWith(letter))
             {
-                double distance = enemy.distanceTo(userPos);
+                double distance = enemy.distanceTo(userX, userY);
 
                 if (distance < lowestDistance)
                 {
@@ -51,13 +52,13 @@ bool GameLib::shoot(QString letter)
         }
         if (currentEnemy != nullptr)
         {
-            currentEnemy->shoot(letter.toStdString());
+            currentEnemy->shoot(letter);
         }
         return currentEnemy == nullptr;
     }
     else
     {
-        return currentEnemy->shoot(letter.toStdString());
+        return currentEnemy->shoot(letter);
     }
 }
 
