@@ -2,6 +2,7 @@
 #include "ui_gamewindow.h"
 #include <QDebug>
 #include <QKeyEvent>
+#include "../GameLib/status.h"
 
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
