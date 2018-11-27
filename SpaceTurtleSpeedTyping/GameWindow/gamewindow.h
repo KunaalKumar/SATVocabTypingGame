@@ -2,6 +2,11 @@
 #define GAMEWINDOW_H
 
 #include <QMainWindow>
+#include <QVector>
+#include <QString>
+#include <QFile>
+#include <QTextStream>
+#include <QDebug>
 
 namespace Ui {
 class GameWindow;
@@ -17,6 +22,8 @@ public:
 
 private:
     Ui::GameWindow *ui;
+    QVector<QString> listOfWords;
+    void importWords();
 };
 
 #endif // GAMEWINDOW_H
