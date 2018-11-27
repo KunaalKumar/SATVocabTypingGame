@@ -20,7 +20,8 @@ public:
     explicit GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
 
-
+    // Detect keyboard pressed event
+    void keyPressEvent(QKeyEvent* event);
 
 private slots:
 
