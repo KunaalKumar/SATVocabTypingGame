@@ -6,12 +6,15 @@
 #include <QMessageBox>
 #include <iostream>
 #include <QWidget>
+#include "../GameLib/gamelib.h"
 
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GameWindow)
 {
     ui->setupUi(this);
+
+
 }
 
 GameWindow::~GameWindow()
@@ -21,7 +24,9 @@ GameWindow::~GameWindow()
 
 void GameWindow::keyPressEvent(QKeyEvent *event)
 {
-    qDebug() << " Key Pressed: " << (char)event->key();
+    // Only inside of the game screen we take keyboard inputs
+    if (ui->stackedWidget->currentIndex() == 1)
+        qDebug() << " Key Pressed: " << (char)event->key();
 }
 
 void GameWindow::on_gameStartButton_clicked()
@@ -33,11 +38,16 @@ void GameWindow::on_endGameButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
 }
+
 void GameWindow::on_tutorialButton_clicked()
 {
     std::cout<<"tutorial clicked!"<<std::endl;
 
     QMessageBox::StandardButton box = QMessageBox::information(this, "Tutorial", "This is toturial",
                                                                QMessageBox::Ok, QMessageBox::NoButton);
+}
+
+void GameWindow::on_optionButton_clicked()
+{
 
 }
