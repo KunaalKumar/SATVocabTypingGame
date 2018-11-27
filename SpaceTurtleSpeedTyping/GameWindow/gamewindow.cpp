@@ -6,6 +6,22 @@ GameWindow::GameWindow(QWidget *parent) :
     ui(new Ui::GameWindow)
 {
     ui->setupUi(this);
+    importWords();
+}
+
+void GameWindow::importWords(){
+    QFile file("..//src/dictionary/words");
+    //if it fails to read the file
+    if(!file.open(QIODevice::ReadOnly)){
+
+    }
+    //else take all the words and put it into the vector listOfWords
+    QTextStream output(&file);
+    while(!output.atEnd()){
+        QString line = output.readLine();
+        listOfWords.append(line);
+    }
+    qDebug()<< "Number of words read = " << listOfWords.length();
 }
 
 GameWindow::~GameWindow()
