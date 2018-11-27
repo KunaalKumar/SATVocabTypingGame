@@ -6,19 +6,16 @@
 
 #include <float.h>
 #include <vector>
-#include <QTimer>
-#include <QObject>
 
 
-class GAMELIBSHARED_EXPORT GameLib: QObject
+class GAMELIBSHARED_EXPORT GameLib
 {
-    Q_OBJECT
 
 public:
     GameLib();
     ~GameLib();
     void startRound();
-    bool shoot(QString letter);
+    bool shoot(std::string letter);
     void createEnemies();
 
 private:

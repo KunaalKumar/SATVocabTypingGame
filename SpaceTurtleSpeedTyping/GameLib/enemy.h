@@ -5,7 +5,6 @@
 
 #include <math.h>
 #include <string>
-#include <QPoint>
 
 class Enemy
 {
@@ -15,13 +14,13 @@ public:
     // returns whether or not enemy was hit
     bool shoot(std::string letter);
     std::string getWord();
-    QPoint getPosition();
-    double distanceTo(QPoint other);
+    double distanceTo(int otherX, int otherY);
     bool startsWith(std::string letter);
 
 private:
     std::string word;
-    QPoint position;
+    int x;
+    int y;
     int speed;
 
 

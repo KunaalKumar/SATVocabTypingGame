@@ -3,7 +3,9 @@
 Enemy::Enemy(int baseSpeed)
 {
     word = Load::getWord();
-    QPoint position(0, 0);
+    // TO FIX: starting x,y
+    int x = 0;
+    int y = 0;
     speed = baseSpeed - (word.length() - 1);
 }
 
@@ -12,16 +14,11 @@ std::string Enemy::getWord()
     return word;
 }
 
-QPoint Enemy::getPosition()
+double Enemy::distanceTo(int otherX, int otherY)
 {
-    return position;
-}
-
-double Enemy::distanceTo(QPoint other)
-{
-    int x = other.rx() - this->position.rx();
-    int y = other.ry() - this->position.ry();
-    return pow((x*x)+(y*y), 0.5);
+    int xDiff = otherX - x;
+    int yDiff = otherY - y;
+    return pow((xDiff*xDiff)+(yDiff*yDiff), 0.5);
 }
 
 bool Enemy::startsWith(std::string letter)
