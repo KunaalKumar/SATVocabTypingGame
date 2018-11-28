@@ -7,12 +7,14 @@ Enemy::Enemy(int baseSpeed, posTuple pos) : DrawableObject(pos)
     word = Load::getWord();
     type = Type::enemy;
     speed = baseSpeed - (word.length() - 1);
+    currentLetterPos = 0;
 }
 
 Enemy::Enemy(int baseSpeed) : DrawableObject ()
 {
     word = Load::getWord();
     speed = baseSpeed - (word.length() - 1);
+    currentLetterPos = 0;
 }
 
 std::string Enemy::getWord()

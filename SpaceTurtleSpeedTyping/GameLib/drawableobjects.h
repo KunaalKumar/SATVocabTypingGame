@@ -1,7 +1,7 @@
-#include <tuple>
-
 #ifndef DRAWABLEOBJECTS_H
 #define DRAWABLEOBJECTS_H
+
+#include <tuple>
 
 namespace DrawableObjects {
 

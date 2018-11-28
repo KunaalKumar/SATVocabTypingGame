@@ -11,6 +11,7 @@ Player::Player() : DrawableObject()
 Player::Player(unsigned int health, posTuple pos) : DrawableObject(pos)
 {
     this->health = health;
+    this->type = Type::player;
 }
 
 }
