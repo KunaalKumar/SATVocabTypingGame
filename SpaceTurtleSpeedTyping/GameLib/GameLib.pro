@@ -35,10 +35,10 @@ HEADERS += \
         gamelib_global.h \ 
     enemy.h \
     load.h \
-    status.h \
-    drawableobjects.h \
     player.h \
-    projectile.h
+    projectile.h \
+    gameobjects.h \
+    stats.h
 
 unix {
     target.path = /usr/lib

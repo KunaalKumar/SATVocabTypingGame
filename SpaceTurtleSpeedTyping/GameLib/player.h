@@ -1,11 +1,11 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "drawableobjects.h"
+#include "gameobjects.h"
 
-namespace DrawableObjects {
+namespace GameObjects {
 
-    class Player : DrawableObject
+    class Player : GameObject
     {
         public:
             Player(unsigned int health, posTuple pos);

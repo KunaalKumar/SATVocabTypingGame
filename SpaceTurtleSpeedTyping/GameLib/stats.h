@@ -2,10 +2,10 @@
 #define STATUS_H
 
 
-class Status
+class Stats
 {
     public:
-        Status();
+        Stats();
 
         void addRound();
         int getRound();
@@ -15,6 +15,9 @@ class Status
         int getCorrectType();
         void addTotalKill();
         int getTotalKill();
+
+        // todo: streak
+        // todo: load stats
 
     private:
         int round;

@@ -3,7 +3,7 @@
 
 #include <tuple>
 
-namespace DrawableObjects {
+namespace GameObjects {
 
     using posTuple = std::tuple<unsigned int, unsigned int>;
 
@@ -15,16 +15,16 @@ namespace DrawableObjects {
     };
 
 
-    class DrawableObject
+    class GameObject
     {
         public:
-            DrawableObject()
+            GameObject()
             {
                 posX = 0;
                 posY = 0;
             }
 
-            DrawableObject(posTuple pos)
+            GameObject(posTuple pos)
             {
                 posX = std::get<0>(pos);
                 posY = std::get<1>(pos);

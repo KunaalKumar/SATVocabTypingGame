@@ -1,8 +1,8 @@
 #include "projectile.h"
 
-namespace DrawableObjects {
+namespace GameObjects {
 
-Projectile::Projectile(posTuple pos) : DrawableObject(pos)
+Projectile::Projectile(posTuple pos) : GameObject(pos)
 {
     type = Type::projectile;
 }

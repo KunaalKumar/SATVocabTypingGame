@@ -2,7 +2,7 @@
 #include "ui_gamewindow.h"
 #include <QDebug>
 #include <QKeyEvent>
-#include "../GameLib/status.h"
+#include "../GameLib/stats.h"
 #include <QMessageBox>
 #include <iostream>
 #include <QWidget>

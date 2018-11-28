@@ -1,6 +1,6 @@
-#include "status.h"
+#include "stats.h"
 
-Status::Status()
+Stats::Stats()
 {
     round = 0;
     totalTypeCount = 0;
@@ -8,15 +8,15 @@ Status::Status()
     totalKillCount = 0;
 }
 
-void Status::addRound() {
+void Stats::addRound() {
     round++;
 }
 
-int Status::getRound() {
+int Stats::getRound() {
     return round;
 }
 
-void Status::addTypeCount(bool isCorrectLetter) {
+void Stats::addTypeCount(bool isCorrectLetter) {
     if(isCorrectLetter) {
         totalTypeCount++;
         correctTypeCount++;
@@ -25,7 +25,7 @@ void Status::addTypeCount(bool isCorrectLetter) {
     }
 }
 
-double Status::getCorrectRate() {
+double Stats::getCorrectRate() {
     if(totalTypeCount == 0) {
         return 0.0;
     } else {
@@ -33,18 +33,18 @@ double Status::getCorrectRate() {
     }
 }
 
-int Status::getTotalType() {
+int Stats::getTotalType() {
     return totalTypeCount;
 }
 
-int Status::getCorrectType() {
+int Stats::getCorrectType() {
     return correctTypeCount;
 }
 
-void Status::addTotalKill() {
+void Stats::addTotalKill() {
     totalKillCount++;
 }
 
-int Status::getTotalKill() {
+int Stats::getTotalKill() {
     return totalKillCount;
 }
