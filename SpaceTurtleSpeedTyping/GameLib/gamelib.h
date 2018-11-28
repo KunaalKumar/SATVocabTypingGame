@@ -21,8 +21,8 @@ class GAMELIBSHARED_EXPORT GameLib
         ~GameLib();
 
         /* Objects */
-        std::vector<GameObjects::GameObject> getGameObject();
-        Stats getStats();
+        std::vector<GameObjects::GameObject>& getGameObject();
+        Stats& getStats();
 
         /* Game */
         void startRound();
