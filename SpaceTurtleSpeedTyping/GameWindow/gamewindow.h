@@ -39,6 +39,7 @@ private:
     // by using stackedWidge's function - setCurrentIndex(index), we have a way
     // to navigate between these 2 pages.
     Ui::GameWindow *ui;
+    void simulateGravity();
 };
 
 #endif // GAMEWINDOW_H
