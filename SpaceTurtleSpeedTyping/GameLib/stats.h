@@ -2,10 +2,10 @@
 #define STATUS_H
 
 
-class Status
+class Stats
 {
     public:
-        Status();
+        Stats();
 
         void addRound();
         int getRound();
