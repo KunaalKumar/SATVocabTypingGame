@@ -49,5 +49,8 @@ void GameWindow::on_tutorialButton_clicked()
 
 void GameWindow::on_optionButton_clicked()
 {
+    std::cout<<"option clicked!"<<std::endl;
 
+    QMessageBox::StandardButton box = QMessageBox::information(this, "Option", "Back to Title",
+                                                               QMessageBox::Ok, QMessageBox::NoButton);
 }
