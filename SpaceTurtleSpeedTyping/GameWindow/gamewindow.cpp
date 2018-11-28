@@ -7,14 +7,13 @@
 #include <iostream>
 #include <QWidget>
 #include "../GameLib/gamelib.h"
+#include "Box2D/Box2D.h"
 
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GameWindow)
 {
     ui->setupUi(this);
-
-
 }
 
 GameWindow::~GameWindow()
@@ -41,16 +40,10 @@ void GameWindow::on_endGameButton_clicked()
 
 void GameWindow::on_tutorialButton_clicked()
 {
-    std::cout<<"tutorial clicked!"<<std::endl;
-
-    QMessageBox::StandardButton box = QMessageBox::information(this, "Tutorial", "This is toturial",
-                                                               QMessageBox::Ok, QMessageBox::NoButton);
+    QMessageBox::StandardButton box = QMessageBox::information(this, "Tutorial", "This is toturial",                                                              QMessageBox::Ok, QMessageBox::NoButton);
 }
 
 void GameWindow::on_optionButton_clicked()
 {
-    std::cout<<"option clicked!"<<std::endl;
-
-    QMessageBox::StandardButton box = QMessageBox::information(this, "Option", "Back to Title",
-                                                               QMessageBox::Ok, QMessageBox::NoButton);
+    QMessageBox::StandardButton box = QMessageBox::information(this, "Option", "Back to Title",                                                              QMessageBox::Ok, QMessageBox::NoButton);
 }
