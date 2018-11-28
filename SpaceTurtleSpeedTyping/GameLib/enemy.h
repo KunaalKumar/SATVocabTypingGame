@@ -24,6 +24,7 @@ public:
 private:
     std::string word;
     int speed;
+    unsigned int currentLetterPos;
 
 
 };
