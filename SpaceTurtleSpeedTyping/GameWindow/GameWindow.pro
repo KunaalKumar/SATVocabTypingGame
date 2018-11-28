@@ -34,7 +34,7 @@ HEADERS += \
 FORMS += \
         gamewindow.ui
 
-# Default rules for deployment.
+# Default rules for deploymentr.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
@@ -42,22 +42,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     ../src/src.qrc
 
-macx: LIBS += -L$$PWD/../Box2D/lib/ -lBox2D
+unix:!macx: LIBS += -L$$PWD/../Box2D/lib/ -lBox2D
 
 INCLUDEPATH += $$PWD/../Box2D/include
 DEPENDPATH += $$PWD/../Box2D/include
 
-macx: PRE_TARGETDEPS += $$PWD/../Box2D/lib/libBox2D.a
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../Box2D/lib/release/ -lBox2D
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../Box2D/lib/debug/ -lBox2D
-else:unix:!macx: LIBS += -L$$PWD/../Box2D/lib/ -lBox2D
-
-INCLUDEPATH += $$PWD/../Box2D/include
-DEPENDPATH += $$PWD/../Box2D/include
-
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../Box2D/lib/release/libBox2D.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../Box2D/lib/debug/libBox2D.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../Box2D/lib/release/Box2D.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../Box2D/lib/debug/Box2D.lib
-else:unix:!macx: PRE_TARGETDEPS += $$PWD/../Box2D/lib/libBox2D.a
+unix:!macx: PRE_TARGETDEPS += $$PWD/../Box2D/lib/libBox2D.a
