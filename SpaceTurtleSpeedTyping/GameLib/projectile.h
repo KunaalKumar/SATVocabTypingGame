@@ -5,13 +5,13 @@
 
 namespace DrawableObjects {
 
-class Projectile : DrawableObject
-{
-public:
-    Projectile(posTuple pos);
-private:
-    //
-};
+    class Projectile : DrawableObject
+    {
+        public:
+            Projectile(posTuple pos);
+        private:
+            //
+    };
 
 }
 

@@ -11,23 +11,21 @@ namespace DrawableObjects {
 
 class Enemy : private DrawableObject
 {
-public:
-    Enemy(int baseSpeed, posTuple pos);
-    Enemy(int baseSpeed);
+    public:
+        Enemy(int baseSpeed, posTuple pos);
+        Enemy(int baseSpeed);
 
-    using hitPlayer = bool;
-    hitPlayer shoot(char letter);
+        using hitPlayer = bool;
+        hitPlayer shoot(char letter);
 
-    std::string getWord();
-    double distanceTo(int otherX, int otherY);
-    bool startsWith(char letter);
+        std::string getWord();
+        double distanceTo(int otherX, int otherY);
+        bool startsWith(char letter);
 
-private:
-    std::string word;
-    int speed;
-    unsigned int currentLetterPos;
-
-
+    private:
+        std::string word;
+        int speed;
+        unsigned int currentLetterPos;
 };
 
 }
