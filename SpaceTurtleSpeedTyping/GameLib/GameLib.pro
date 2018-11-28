@@ -26,14 +26,19 @@ SOURCES += \
         gamelib.cpp \
     enemy.cpp \
     load.cpp \
-    status.cpp
+    status.cpp \
+    player.cpp \
+    projectile.cpp
 
 HEADERS += \
         gamelib.h \
         gamelib_global.h \ 
     enemy.h \
     load.h \
-    status.h
+    status.h \
+    drawableobjects.h \
+    player.h \
+    projectile.h
 
 unix {
     target.path = /usr/lib

@@ -1,11 +1,17 @@
 #include "enemy.h"
 
-Enemy::Enemy(int baseSpeed)
+namespace DrawableObjects {
+
+Enemy::Enemy(int baseSpeed, posTuple pos) : DrawableObject(pos)
 {
     word = Load::getWord();
-    // TO FIX: starting x,y
-    int x = 0;
-    int y = 0;
+    type = Type::enemy;
+    speed = baseSpeed - (word.length() - 1);
+}
+
+Enemy::Enemy(int baseSpeed) : DrawableObject ()
+{
+    word = Load::getWord();
     speed = baseSpeed - (word.length() - 1);
 }
 
@@ -16,8 +22,8 @@ std::string Enemy::getWord()
 
 double Enemy::distanceTo(int otherX, int otherY)
 {
-    int xDiff = otherX - x;
-    int yDiff = otherY - y;
+    int xDiff = otherX - posX;
+    int yDiff = otherY - posY;
     return pow((xDiff*xDiff)+(yDiff*yDiff), 0.5);
 }
 
@@ -35,4 +41,6 @@ bool Enemy::shoot(std::string letter)
         return true;
     }
     return false;
+}
+
 }

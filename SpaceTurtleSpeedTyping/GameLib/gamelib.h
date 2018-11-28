@@ -39,8 +39,8 @@ private:
     int totalShotCount;
     int correctShotCount;
     int totalKillCount;
-    Enemy *currentEnemy;
-    std::vector<Enemy> currentEnemies;
+    DrawableObjects::Enemy *currentEnemy;
+    std::vector<DrawableObjects::Enemy> currentEnemies;
 
 
 };
