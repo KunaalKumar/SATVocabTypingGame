@@ -2,13 +2,17 @@
 #define ENEMY_H
 
 #include "load.h"
+#include "drawableobjects.h"
 
 #include <math.h>
 #include <string>
 
-class Enemy
+namespace DrawableObjects {
+
+class Enemy : private DrawableObject
 {
 public:
+    Enemy(int baseSpeed, posTuple pos);
     Enemy(int baseSpeed);
 
     // returns whether or not enemy was hit
@@ -19,11 +23,11 @@ public:
 
 private:
     std::string word;
-    int x;
-    int y;
     int speed;
 
 
 };
+
+}
 
 #endif // ENEMY_H
