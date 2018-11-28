@@ -30,7 +30,7 @@ void GameLib::createEnemies()
     }
 }
 
-bool GameLib::shoot(std::string letter)
+bool GameLib::shoot(char letter)
 {
     if (currentEnemy == nullptr)
     {

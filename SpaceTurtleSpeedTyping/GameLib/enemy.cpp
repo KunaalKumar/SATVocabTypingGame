@@ -29,14 +29,14 @@ double Enemy::distanceTo(int otherX, int otherY)
     return pow((xDiff*xDiff)+(yDiff*yDiff), 0.5);
 }
 
-bool Enemy::startsWith(std::string letter)
+bool Enemy::startsWith(char letter)
 {
-    return letter == word.substr(0, 1);
+    return letter == word[0];
 }
 
-bool Enemy::shoot(std::string letter)
+bool Enemy::shoot(char letter)
 {
-    if (letter == word.substr(0, 1))
+    if (letter == word[0])
     {
         int newLength = word.length()-1;
         word = word.substr(1, newLength);

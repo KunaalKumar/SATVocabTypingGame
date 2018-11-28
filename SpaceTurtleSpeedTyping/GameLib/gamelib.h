@@ -19,7 +19,10 @@ public:
 
     /* Enemies */
     void startRound();
-    bool shoot(std::string letter); // should this be a char? Because we need to update it everytime user input a char
+
+    using hitEnemy = bool;
+    hitEnemy shoot(char letter);
+
     void createEnemies(); // I don't think this is necessary, GameLib should decide when will create the Enemies
     // getEnemiesPos();
 
