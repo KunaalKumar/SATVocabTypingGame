@@ -32,11 +32,11 @@ public:
 
     posTuple getPos()
     {
-        return std::make_tuple(posX, posY);
+        return {posX, posY};
     }
 
-    void updatePosX(unsigned int x) { posX = x; }
-    void updatePosY(unsigned int y) { posY = y; }
+    void setPosX(unsigned int x) { posX = x; }
+    void setPosY(unsigned int y) { posY = y; }
 
 protected:
     unsigned int posX;
