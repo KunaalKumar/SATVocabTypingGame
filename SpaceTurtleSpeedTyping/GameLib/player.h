@@ -10,6 +10,7 @@ namespace DrawableObjects {
         public:
             Player(unsigned int health, posTuple pos);
             Player();
+            void removeLife();
 
         private:
             unsigned int health;

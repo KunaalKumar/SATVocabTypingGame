@@ -1,0 +1,7 @@
+#include "status.h"
+
+//This handles player info such as lives and score
+Status::Status()
+{
+    
+}
