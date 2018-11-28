@@ -34,7 +34,7 @@ HEADERS += \
 FORMS += \
         gamewindow.ui
 
-# Default rules for deploymentr.
+# Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
@@ -42,23 +42,23 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     ../src/src.qrc
 
-macx: LIBS += -L$$PWD/../Box2D/lib/osx/ -lBox2D
+macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/osx/ -lBox2D
 
-INCLUDEPATH += $$PWD/../Box2D/include
-DEPENDPATH += $$PWD/../Box2D/include
+INCLUDEPATH += $$PWD/../3rdPartyLibraries/Box2D/include
+DEPENDPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 
-macx: PRE_TARGETDEPS += $$PWD/../Box2D/lib/osx/libBox2D.a
+macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/osx/libBox2D.a
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../Box2D/lib/win32/ -lBox2D
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../Box2D/lib/win32/ -lBox2D
-else:unix:!macx: LIBS += -L$$PWD/../Box2D/lib/linux/ -lBox2D
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/win32/ -lBox2D
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/win32/ -lBox2D
+else:unix:!macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/linux/ -lBox2D
 
-INCLUDEPATH += $$PWD/../Box2D/include
-DEPENDPATH += $$PWD/../Box2D/include
+INCLUDEPATH += $$PWD/../3rdPartyLibraries/Box2D/include
+DEPENDPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../Box2D/lib/win32/libBox2D.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../Box2D/lib/win32/libBox2D.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../Box2D/lib/win32/Box2D.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../Box2D/lib/win32/Box2D.lib
-else:unix:!macx: PRE_TARGETDEPS += $$PWD/../Box2D/lib/linux/libBox2D.a
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/libBox2D.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/libBox2D.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/Box2D.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/Box2D.lib
+else:unix:!macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/linux/libBox2D.a
 

@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/kunaalkumar/A8-an-educational-app-f18-Purple-Picnic-Turtles-2.0/SpaceTurtleSpeedTyping/3rdPartyLibraries/SFML/src/SFML/Window/OSX/SFApplication.m
+SFML/Window/OSX/SFApplication.h
+-
+
+/Users/kunaalkumar/A8-an-educational-app-f18-Purple-Picnic-Turtles-2.0/SpaceTurtleSpeedTyping/3rdPartyLibraries/SFML/src/SFML/Window/OSX/SFApplicationDelegate.m
+SFML/Window/OSX/SFApplicationDelegate.h
+-
+
+/Users/kunaalkumar/A8-an-educational-app-f18-Purple-Picnic-Turtles-2.0/SpaceTurtleSpeedTyping/3rdPartyLibraries/SFML/src/SFML/Window/OSX/SFSilentResponder.m
+SFML/Window/OSX/SFSilentResponder.h
+-
+
+/Users/kunaalkumar/A8-an-educational-app-f18-Purple-Picnic-Turtles-2.0/SpaceTurtleSpeedTyping/3rdPartyLibraries/SFML/src/SFML/Window/OSX/SFWindow.m
+SFML/Window/OSX/SFWindow.h
+-
+
+src/SFML/Window/OSX/SFApplication.h
+AppKit/AppKit.h
+-
+Foundation/Foundation.h
+-
+
+src/SFML/Window/OSX/SFApplicationDelegate.h
+AppKit/AppKit.h
+-
+Foundation/Foundation.h
+-
+
+src/SFML/Window/OSX/SFSilentResponder.h
+AppKit/AppKit.h
+-
+
+src/SFML/Window/OSX/SFWindow.h
+AppKit/AppKit.h
+-
+
