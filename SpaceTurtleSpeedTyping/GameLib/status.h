@@ -4,12 +4,23 @@
 
 class Status
 {
-public:
-    Status();
+    public:
+        Status();
 
-private:
-    int playerLife;
-    // add more here
+        void addRound();
+        int getRound();
+        void addTypeCount(bool isCorrectLetter);
+        double getCorrectRate();
+        int getTotalType();
+        int getCorrectType();
+        void addTotalKill();
+        int getTotalKill();
+
+    private:
+        int round;
+        int totalTypeCount;
+        int correctTypeCount;
+        int totalKillCount;
 };
 
 #endif // STATUS_H

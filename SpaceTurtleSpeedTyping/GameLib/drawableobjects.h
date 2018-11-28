@@ -5,44 +5,44 @@
 
 namespace DrawableObjects {
 
-using posTuple = std::tuple<unsigned int, unsigned int>;
+    using posTuple = std::tuple<unsigned int, unsigned int>;
 
-enum class Type
-{
-    projectile,
-    enemy,
-    player
-};
-
-
-class DrawableObject
-{
-public:
-    DrawableObject()
+    enum class Type
     {
-        posX = 0;
-        posY = 0;
-    }
+        projectile,
+        enemy,
+        player
+    };
 
-    DrawableObject(posTuple pos)
+
+    class DrawableObject
     {
-        posX = std::get<0>(pos);
-        posY = std::get<1>(pos);
-    }
+        public:
+            DrawableObject()
+            {
+                posX = 0;
+                posY = 0;
+            }
 
-    posTuple getPos()
-    {
-        return {posX, posY};
-    }
+            DrawableObject(posTuple pos)
+            {
+                posX = std::get<0>(pos);
+                posY = std::get<1>(pos);
+            }
 
-    void setPosX(unsigned int x) { posX = x; }
-    void setPosY(unsigned int y) { posY = y; }
+            posTuple getPos()
+            {
+                return {posX, posY};
+            }
 
-protected:
-    unsigned int posX;
-    unsigned int posY;
-    Type type;
-};
+            void setPosX(unsigned int x) { posX = x; }
+            void setPosY(unsigned int y) { posY = y; }
+
+        protected:
+            unsigned int posX;
+            unsigned int posY;
+            Type type;
+    };
 
 }
 
