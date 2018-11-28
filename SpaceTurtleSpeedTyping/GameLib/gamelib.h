@@ -32,19 +32,20 @@ class GAMELIBSHARED_EXPORT GameLib
         using hitEnemy = bool;
         hitEnemy shoot(char letter);
 
-        // should move to enemy class
-        void createEnemies(); // I don't think this is necessary, GameLib should decide when will create the Enemies
-        // getEnemiesPos();
-
         /* Load */
         void setNewDictionary(std::string dictionary);
+
+        // soren: should move to enemy class
+        void createEnemies();
+        // getEnemiesPos();
+
 
     private:
         std::vector<GameObjects::GameObject> gameObjects;
         Stats statistic;
 
-        // goes back to zero on a missed shot
-        // !!!!!! Should those move to the new status.h file?
+        // soren: Please move all the things related to enemy class into enemy class
+        // Jack will remove all the things later, so pls move all the useful code
         int round;
         int hitStreak; // is this necessary?
         int totalShotCount;
