@@ -41,6 +41,7 @@ private:
     int totalKillCount;
     DrawableObjects::Enemy *currentEnemy;
     std::vector<DrawableObjects::Enemy> currentEnemies;
+    std::vector<DrawableObjects::DrawableObject&> gameObjects;
 
 
 };
