@@ -1,8 +1,8 @@
 #include "enemy.h"
 
-namespace DrawableObjects {
+namespace GameObjects {
 
-Enemy::Enemy(int baseSpeed, posTuple pos) : DrawableObject(pos)
+Enemy::Enemy(int baseSpeed, posTuple pos) : GameObject(pos)
 {
     word = Load::getWord();
     type = Type::enemy;
@@ -10,7 +10,7 @@ Enemy::Enemy(int baseSpeed, posTuple pos) : DrawableObject(pos)
     currentLetterPos = 0;
 }
 
-Enemy::Enemy(int baseSpeed) : DrawableObject ()
+Enemy::Enemy(int baseSpeed) : GameObject ()
 {
     word = Load::getWord();
     speed = baseSpeed - (word.length() - 1);
