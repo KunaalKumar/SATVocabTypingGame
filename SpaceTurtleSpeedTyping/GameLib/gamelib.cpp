@@ -1,5 +1,5 @@
 #include "gamelib.h"
-#include  "drawableobjects.h"
+#include  "gameobjects.h"
 
 
 GameLib::GameLib()
@@ -22,10 +22,10 @@ void GameLib::startRound()
 
 void GameLib::createEnemies()
 {
-    DrawableObjects::Enemy enemy(round);
+    GameObjects::Enemy enemy(round);
     if (enemy.getWord() != "")
     {
-        currentEnemies.push_back(DrawableObjects::Enemy(round, {0,0})); /*adding comment for claification, calling the default connstructor of enemy will give a starting pos of 0,0
+        currentEnemies.push_back(GameObjects::Enemy(round, {0,0})); /*adding comment for claification, calling the default connstructor of enemy will give a starting pos of 0,0
                                                                           but a position can be specified by providing a tuple<unsigned int, usigned int> - which can be done with {,}*/
     }
 }
@@ -39,7 +39,7 @@ bool GameLib::shoot(char letter)
         int userX = 300;
         int userY = 600;
         double lowestDistance = DBL_MAX;
-        for (DrawableObjects::Enemy enemy : currentEnemies)
+        for (GameObjects::Enemy enemy : currentEnemies)
         {
             if (enemy.startsWith(letter))
             {

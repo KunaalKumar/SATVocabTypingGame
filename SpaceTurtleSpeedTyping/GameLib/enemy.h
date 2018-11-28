@@ -2,14 +2,14 @@
 #define ENEMY_H
 
 #include "load.h"
-#include "drawableobjects.h"
+#include "gameobjects.h"
 
 #include <math.h>
 #include <string>
 
-namespace DrawableObjects {
+namespace GameObjects {
 
-class Enemy : private DrawableObject
+class Enemy : private GameObject
 {
     public:
         Enemy(int baseSpeed, posTuple pos);

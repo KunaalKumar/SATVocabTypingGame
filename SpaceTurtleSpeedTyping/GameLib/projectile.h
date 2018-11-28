@@ -1,11 +1,11 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
-#include "drawableobjects.h"
+#include "gameobjects.h"
 
-namespace DrawableObjects {
+namespace GameObjects {
 
-    class Projectile : DrawableObject
+    class Projectile : GameObject
     {
         public:
             Projectile(posTuple pos);
