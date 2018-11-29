@@ -10,13 +10,6 @@ Enemy::Enemy(int baseSpeed, posTuple pos) : GameObject(pos)
     currentLetterPos = 0;
 }
 
-Enemy::Enemy(int baseSpeed) : GameObject ()
-{
-    word = Load::getWord();
-    speed = baseSpeed - (word.length() - 1);
-    currentLetterPos = 0;
-}
-
 std::string Enemy::getWord()
 {
     return word;

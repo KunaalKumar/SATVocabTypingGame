@@ -13,7 +13,6 @@ class Enemy : private GameObject
 {
     public:
         Enemy(int baseSpeed, posTuple pos);
-        Enemy(int baseSpeed);
 
         using hitPlayer = bool;
         hitPlayer shoot(char letter);
