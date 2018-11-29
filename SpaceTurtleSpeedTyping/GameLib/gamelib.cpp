@@ -1,5 +1,6 @@
 #include "gamelib.h"
 #include "gameobjects.h"
+#include "loadwords.h"
 
 
 GameLib::GameLib()
