@@ -15,6 +15,8 @@ GameWindow::GameWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->gravityLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
+    // Testing purpose for SFML
+    texture.clear();
     simulateGravity();
 
 }
