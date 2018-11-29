@@ -15,7 +15,7 @@ GameWindow::GameWindow(QWidget *parent) :
     ui(new Ui::GameWindow)
 {
     ui->setupUi(this);
-    displacement = 5;
+    displacement = 10;
 
 //    simulateGravity();
 
@@ -47,7 +47,7 @@ void GameWindow::on_gameStartButton_clicked()
     ui->graphicsView->show();
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(moveRect()));
-    timer->start(1000);
+    timer->start(167);
     QTimer::singleShot(5000, this, SLOT(stopTimer()));
 
 }

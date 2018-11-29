@@ -13,6 +13,6 @@ void MyRect::keyPressEvent(QKeyEvent *event)
 
 void MyRect::moveRectBy(int i)
 {
-    moveBy(x() + i, y());
+    moveBy(i, 0);
 
 }
