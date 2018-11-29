@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QDebug>
+#include <SFML/Graphics.hpp>
 
 namespace Ui {
 class GameWindow;
@@ -19,6 +20,7 @@ public:
     // Detect keyboard pressed event
     void keyPressEvent(QKeyEvent* event);
 
+    void renderTexture();
 private slots:
 
     // Game Start button action in starting screen.
@@ -39,6 +41,11 @@ private:
     // by using stackedWidge's function - setCurrentIndex(index), we have a way
     // to navigate between these 2 pages.
     Ui::GameWindow *ui;
+    sf::RenderTexture texture;
+    sf::Texture sprite_texture;
+    sf::Sprite sprite;
+    QTimer *timer;
+
     void simulateGravity();
 };
 
