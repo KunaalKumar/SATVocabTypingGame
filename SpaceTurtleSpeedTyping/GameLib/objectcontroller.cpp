@@ -22,7 +22,7 @@ void ObjectController::createEnemy(int round)
 
 bool ObjectController::shoot(char letter)
 {
-    if (currentEnemy == nullptr)
+    if (targetedEnemy == nullptr)
     {
         // shoot closest enemy with starting letter = letter
         //TO FIX: put in real user position
@@ -38,18 +38,18 @@ bool ObjectController::shoot(char letter)
                 if (distance < lowestDistance)
                 {
                     lowestDistance = distance;
-                    currentEnemy = &enemy;
+                    targetedEnemy = &enemy;
                 }
             }
         }
-        if (currentEnemy != nullptr)
+        if (targetedEnemy != nullptr)
         {
-            currentEnemy->shoot(letter);
+            targetedEnemy->shoot(letter);
         }
-        return currentEnemy == nullptr;
+        return targetedEnemy == nullptr;
     }
     else
     {
-        return currentEnemy->shoot(letter);
+        return targetedEnemy->shoot(letter);
     }
 }

@@ -43,6 +43,20 @@ RESOURCES += \
     ../src/src.qrc
 
 macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/osx/ -lBox2D
+macx: LIBS += -F$$PWD/../3rdPartyLibraries/SFML/Frameworks/
+
+macx: LIBS += -framework sfml-audio
+macx: LIBS += -framework sfml-graphics
+macx: LIBS += -framework sfml-network
+macx: LIBS += -framework sfml-window
+macx: LIBS += -framework sfml-system
+macx: LIBS += -framework SFML
+
+unix:!macx: LIBS += -lsfml-audio
+unix:!macx: LIBS += -lsfml-graphics
+unix:!macx: LIBS += -lsfml-network
+unix:!macx: LIBS += -lsfml-window
+unix:!macx: LIBS += -lsfml-system
 
 INCLUDEPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 DEPENDPATH += $$PWD/../3rdPartyLibraries/Box2D/include
@@ -53,8 +67,8 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdPartyLibraries/Box2D
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/win32/ -lBox2D
 else:unix:!macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/linux/ -lBox2D
 
-INCLUDEPATH += $$PWD/../3rdPartyLibraries/Box2D/include
-DEPENDPATH += $$PWD/../3rdPartyLibraries/Box2D/include
+INCLUDEPATH += $$PWD/../3rdPartyLibraries/SFML/include
+DEPENDPATH += $$PWD/../3rdPartyLibraries/SFML/include
 
 win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/libBox2D.a
 else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/libBox2D.a
