@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+#include "myrect.h"
 
 namespace Ui {
 class GameWindow;
@@ -35,15 +36,21 @@ private slots:
 
     void on_tutorialButton_clicked();
 
+    void moveRect();
+
+    void stopTimer();
+
 private:
 
     // This ui reference is composed of 2 pages enabled by the stackedWidget
     // by using stackedWidge's function - setCurrentIndex(index), we have a way
     // to navigate between these 2 pages.
     Ui::GameWindow *ui;
-    QGraphicsItem *obj;
+    MyRect *rect;
     QGraphicsScene *scene;
+    int displacement;
     void simulateGravity();
+    QTimer *timer;
 };
 
 #endif // GAMEWINDOW_H

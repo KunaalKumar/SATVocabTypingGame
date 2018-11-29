@@ -26,10 +26,12 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        gamewindow.cpp
+        gamewindow.cpp \
+    myrect.cpp
 
 HEADERS += \
-        gamewindow.h
+        gamewindow.h \
+    myrect.h
 
 FORMS += \
         gamewindow.ui

@@ -7,12 +7,15 @@
 #include <QWidget>
 #include "Box2D/Box2D.h"
 #include <QVBoxLayout>
+#include "myrect.h"
+#include <QTimer>
 
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GameWindow)
 {
     ui->setupUi(this);
+    displacement = 0;
     ui->gravityLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
     simulateGravity();
@@ -38,10 +41,30 @@ void GameWindow::on_gameStartButton_clicked()
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
 
-    QGraphicsRectItem* rect = new QGraphicsRectItem(100,100,100,100);
-    rect->setPos(10, -100);
+    rect = new MyRect();
+    rect->setRect(0,0,100,100);
     scene->addItem(rect);
+    rect->setFocus();
     ui->graphicsView->show();
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(moveRect()));
+    timer->start(1000);
+    QTimer::singleShot(5000, this, SLOT(stopTimer()));
+
+}
+
+void GameWindow::moveRect() {
+
+        qInfo() << "Moved";
+        rect->moveRectBy(displacement);
+//        rect->moveBy(rect->x() - displacement, rect->y());
+        displacement+=1;
+}
+
+void GameWindow::stopTimer()
+{
+    qInfo() << "Stopping timer";
+    timer->stop();
 }
 
 void GameWindow::on_endGameButton_clicked()
