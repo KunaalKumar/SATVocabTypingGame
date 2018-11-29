@@ -2,6 +2,7 @@
 #define DRAWABLEOBJECTS_H
 
 #include <tuple>
+#include <string>
 
 namespace GameObjects {
 
@@ -37,6 +38,7 @@ namespace GameObjects {
 
             void setPosX(unsigned int x) { posX = x; }
             void setPosY(unsigned int y) { posY = y; }
+
 
         protected:
             unsigned int posX;
