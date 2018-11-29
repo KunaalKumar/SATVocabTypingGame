@@ -2,18 +2,21 @@
 #include "ui_gamewindow.h"
 #include <QDebug>
 #include <QKeyEvent>
-#include "../GameLib/stats.h"
 #include <QMessageBox>
 #include <iostream>
 #include <QWidget>
-#include "../GameLib/gamelib.h"
 #include "Box2D/Box2D.h"
+#include <QVBoxLayout>
 
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GameWindow)
 {
     ui->setupUi(this);
+
+    // Testing purpose for SFML
+    texture.clear();
+
 }
 
 GameWindow::~GameWindow()
