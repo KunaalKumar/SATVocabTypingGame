@@ -35,8 +35,6 @@ class GAMELIBSHARED_EXPORT GameLib
         /* Load */
         void setNewDictionary(std::string dictionary);
 
-        // soren: should move to enemy class
-        void createEnemies();
         // getEnemiesPos();
 
 
@@ -44,15 +42,11 @@ class GAMELIBSHARED_EXPORT GameLib
         std::vector<GameObjects::GameObject> gameObjects;
         Stats statistic;
 
-        // soren: Please move all the things related to enemy class into enemy class
         // Jack will remove all the things later, so pls move all the useful code
-        int round;
         int hitStreak; // is this necessary?
         int totalShotCount;
         int correctShotCount;
         int totalKillCount;
-        GameObjects::Enemy *currentEnemy;
-        std::vector<GameObjects::Enemy> currentEnemies;
 
 };
 

@@ -26,9 +26,10 @@ SOURCES += \
         gamelib.cpp \
     enemy.cpp \
     load.cpp \
-    status.cpp \
     player.cpp \
-    projectile.cpp
+    projectile.cpp \
+    objectcontroller.cpp \
+    stats.cpp
 
 HEADERS += \
         gamelib.h \
@@ -38,7 +39,8 @@ HEADERS += \
     player.h \
     projectile.h \
     gameobjects.h \
-    stats.h
+    stats.h \
+    objectcontroller.h
 
 unix {
     target.path = /usr/lib
