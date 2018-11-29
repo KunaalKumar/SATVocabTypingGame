@@ -26,6 +26,7 @@ class GAMELIBSHARED_EXPORT GameLib
 
         /* Game */
         void startRound();
+        bool isEndRound();
 
         void updateFrame();
 
@@ -35,19 +36,9 @@ class GAMELIBSHARED_EXPORT GameLib
         /* Load */
         void setNewDictionary(std::string dictionary);
 
-        // getEnemiesPos();
-
-
     private:
         std::vector<GameObjects::GameObject> gameObjects;
         Stats statistic;
-
-        // Jack will remove all the things later, so pls move all the useful code
-        int hitStreak; // is this necessary?
-        int totalShotCount;
-        int correctShotCount;
-        int totalKillCount;
-
 };
 
 #endif // GAMELIB_H

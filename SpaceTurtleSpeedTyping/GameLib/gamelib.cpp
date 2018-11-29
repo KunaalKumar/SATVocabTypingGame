@@ -4,14 +4,31 @@
 
 GameLib::GameLib()
 {
-    hitStreak = 0;
-    totalShotCount = 0;
-    correctShotCount = 0;
-    totalKillCount = 0;
+}
+
+GameLib::~GameLib()
+{
+}
+
+std::vector<GameObjects::GameObject>& GameLib::getGameObject() {
+    return gameObjects;
+}
+
+Stats& GameLib::getStats() {
+    return statistic;
 }
 
 void GameLib::startRound()
 {
+    statistic.addRound();
+    //todo
+}
+
+bool GameLib::isEndRound() {
+
+}
+
+void GameLib::updateFrame() {
 
 }
 
@@ -19,6 +36,11 @@ bool GameLib::shoot(char letter)
 {
 
 }
+
+void GameLib::setNewDictionary(std::string dictionary) {
+
+}
+
 
 
 
