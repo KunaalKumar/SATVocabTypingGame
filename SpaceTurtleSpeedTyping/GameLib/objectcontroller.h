@@ -12,12 +12,11 @@ class ObjectController
 {
 public:
     ObjectController();
-    void createRoundOfEnemies();
-    void createEnemy();
+    void createRoundOfEnemies(int round);
+    void createEnemy(int round);
     bool shoot(char letter);
 
  private:
-    int round;
     GameObjects::Enemy *currentEnemy;
     std::vector<GameObjects::Enemy> currentEnemies;
 };

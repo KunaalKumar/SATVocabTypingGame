@@ -5,12 +5,12 @@ ObjectController::ObjectController()
 
 }
 
-void ObjectController::createRoundOfEnemies()
+void ObjectController::createRoundOfEnemies(int round)
 {
-    Load::createRoundWords(++round);
+    Load::createRoundWords(round);
 }
 
-void ObjectController::createEnemy()
+void ObjectController::createEnemy(int round)
 {
     GameObjects::Enemy enemy(round, {0,0});
     if (enemy.getWord() != "")
