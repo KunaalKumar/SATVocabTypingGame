@@ -4,7 +4,6 @@
 #include "gamelib_global.h"
 #include "objectcontroller.h"
 #include "stats.h"
-#include "load.h"
 
 #include <string>
 #include <float.h>
