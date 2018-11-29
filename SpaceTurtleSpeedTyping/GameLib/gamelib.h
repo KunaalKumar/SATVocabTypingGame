@@ -38,7 +38,7 @@ class GAMELIBSHARED_EXPORT GameLib
 
         void updateFrame();
 
-        /* When user input call this API */
+        /* When user input, use this API */
         void letterTyped(char letter);
 
         /* >>>>>>>>>> Load <<<<<<<<<< */

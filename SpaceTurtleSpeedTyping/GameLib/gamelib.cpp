@@ -33,7 +33,7 @@ void GameLib::updateFrame() {
 
 }
 
-bool GameLib::letterTyped(char letter)
+void GameLib::letterTyped(char letter)
 {
 
 }
