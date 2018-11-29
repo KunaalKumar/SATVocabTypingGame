@@ -34,6 +34,14 @@ void GameWindow::keyPressEvent(QKeyEvent *event)
 void GameWindow::on_gameStartButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
+
+    scene = new QGraphicsScene(this);
+    ui->graphicsView->setScene(scene);
+
+    QGraphicsRectItem* rect = new QGraphicsRectItem(100,100,100,100);
+    rect->setPos(10, -100);
+    scene->addItem(rect);
+    ui->graphicsView->show();
 }
 
 void GameWindow::on_endGameButton_clicked()

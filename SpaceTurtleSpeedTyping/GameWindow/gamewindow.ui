@@ -95,12 +95,12 @@
        </property>
       </widget>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>60</x>
         <y>30</y>
-        <width>314</width>
+        <width>141</width>
         <height>242</height>
        </rect>
       </property>
@@ -141,19 +141,6 @@
      </widget>
     </widget>
     <widget class="QWidget" name="page_2">
-     <widget class="QLabel" name="label_2">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>240</y>
-        <width>181</width>
-        <height>34</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Game Screen</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="endGameButton">
       <property name="geometry">
        <rect>
@@ -165,6 +152,16 @@
       </property>
       <property name="text">
        <string>End Game</string>
+      </property>
+     </widget>
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>130</y>
+        <width>256</width>
+        <height>192</height>
+       </rect>
       </property>
      </widget>
     </widget>
