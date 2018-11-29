@@ -15,10 +15,9 @@ GameWindow::GameWindow(QWidget *parent) :
     ui(new Ui::GameWindow)
 {
     ui->setupUi(this);
-    displacement = 0;
-    ui->gravityLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+    displacement = 5;
 
-    simulateGravity();
+//    simulateGravity();
 
 }
 
@@ -58,7 +57,6 @@ void GameWindow::moveRect() {
         qInfo() << "Moved";
         rect->moveRectBy(displacement);
 //        rect->moveBy(rect->x() - displacement, rect->y());
-        displacement+=1;
 }
 
 void GameWindow::stopTimer()
@@ -155,7 +153,7 @@ void GameWindow::simulateGravity() {
 
         QString posX = QString::fromStdString(std::to_string(position.x));
         QString posY = QString::fromStdString(std::to_string(position.y));
-        ui->gravityLabel->setText(ui->gravityLabel->text() + "\n(" + posX + ", " + posY + ")");
+//        ui->gravityLabel->setText(ui->gravityLabel->text() + "\n(" + posX + ", " + posY + ")");
 //        printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
     }
 }
