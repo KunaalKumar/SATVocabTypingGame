@@ -2,13 +2,14 @@
 #define GAMELIB_H
 
 #include "gamelib_global.h"
-#include "enemy.h"
+#include "objectcontroller.h"
 #include "stats.h"
 #include "load.h"
 
 #include <string>
 #include <float.h>
 #include <vector>
+#include <map>
 
 
 class GAMELIBSHARED_EXPORT GameLib
@@ -16,15 +17,21 @@ class GAMELIBSHARED_EXPORT GameLib
 
     public:
 
-        /* GameLib */
+        /* >>>>>>>>>> GameLib <<<<<<<<<< */
         GameLib();
         ~GameLib();
 
-        /* Objects */
+        /* >>>>>>>>>> Objects <<<<<<<<<< */
+        /* GameObject:
+         * getPos();
+         * getType();
+         * getWord();
+         */
         std::vector<GameObjects::GameObject>& getGameObject();
-        Stats& getStats();
 
-        /* Game */
+        std::map<std::string, double>& getStats();
+
+        /* >>>>>>>>>> Game <<<<<<<<<< */
         void startRound();
         bool isEndRound();
 
@@ -38,12 +45,13 @@ class GAMELIBSHARED_EXPORT GameLib
         bool isEnemyDestoryed();
         GameObjects::posTuple enemyDestoryedPos();
 
-        /* Load */
+        /* >>>>>>>>>> Load <<<<<<<<<< */
         void setNewDictionary(std::string dictionary);
 
     private:
         std::vector<GameObjects::GameObject> gameObjects;
         Stats statistic;
+        ObjectController oc;
 };
 
 #endif // GAMELIB_H
