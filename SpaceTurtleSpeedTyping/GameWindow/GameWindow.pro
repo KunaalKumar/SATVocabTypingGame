@@ -43,7 +43,11 @@ RESOURCES += \
     ../src/src.qrc
 
 macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/osx/ -lBox2D
-
+LIBS += -lsfml-audio
+LIBS += -lsfml-graphics
+LIBS += -lsfml-network
+LIBS += -lsfml-window
+LIBS += -lsfml-system
 INCLUDEPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 DEPENDPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QDebug>
+#include <SFML/Graphics.hpp>
 
 namespace Ui {
 class GameWindow;
@@ -39,6 +40,7 @@ private:
     // by using stackedWidge's function - setCurrentIndex(index), we have a way
     // to navigate between these 2 pages.
     Ui::GameWindow *ui;
+    sf::RenderTexture texture;
     void simulateGravity();
 };
 
