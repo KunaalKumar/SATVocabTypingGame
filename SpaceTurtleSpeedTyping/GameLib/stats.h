@@ -1,5 +1,5 @@
-#ifndef STATUS_H
-#define STATUS_H
+#ifndef STATS_H
+#define STATS_H
 
 
 class Stats
@@ -26,4 +26,4 @@ class Stats
         int totalKillCount;
 };
 
-#endif // STATUS_H
+#endif // STATS_H
