@@ -14,4 +14,8 @@ Player::Player(unsigned int health, posTuple pos) : GameObject(pos)
     this->type = Type::player;
 }
 
+void Player::removeLife(){
+    health--;
+}
+
 }

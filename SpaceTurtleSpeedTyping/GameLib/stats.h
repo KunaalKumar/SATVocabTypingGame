@@ -1,7 +1,7 @@
 #ifndef STATUS_H
 #define STATUS_H
 
-
+//#include "player.h"
 class Stats
 {
     public:
@@ -15,6 +15,7 @@ class Stats
         int getCorrectType();
         void addTotalKill();
         int getTotalKill();
+        //void loseLife();
 
         // todo: streak
         // todo: load stats
