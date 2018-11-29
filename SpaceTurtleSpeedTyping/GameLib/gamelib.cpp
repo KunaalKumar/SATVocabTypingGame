@@ -1,5 +1,5 @@
 #include "gamelib.h"
-#include  "gameobjects.h"
+#include "gameobjects.h"
 
 
 GameLib::GameLib()
@@ -14,8 +14,8 @@ std::vector<GameObjects::GameObject>& GameLib::getGameObject() {
     return gameObjects;
 }
 
-Stats& GameLib::getStats() {
-    return statistic;
+std::map<std::string, double>& GameLib::getStats() {
+    // return ;
 }
 
 void GameLib::startRound()
@@ -32,7 +32,7 @@ void GameLib::updateFrame() {
 
 }
 
-bool GameLib::shoot(char letter)
+bool GameLib::letterTyped(char letter)
 {
 
 }
