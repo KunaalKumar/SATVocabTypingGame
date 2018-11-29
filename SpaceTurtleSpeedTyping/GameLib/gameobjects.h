@@ -12,7 +12,9 @@ namespace GameObjects {
     {
         projectile,
         enemy,
-        player
+        targetedEnemy,
+        player,
+        explosion
     };
 
 

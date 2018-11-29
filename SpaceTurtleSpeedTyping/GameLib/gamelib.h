@@ -36,13 +36,7 @@ class GAMELIBSHARED_EXPORT GameLib
 
         void updateFrame();
 
-        using hitEnemy = bool;
-        hitEnemy letterTyped(char letter);
-
-        bool isEnemyHited();
-        GameObjects::posTuple enemyHitedPos();
-        bool isEnemyDestoryed();
-        GameObjects::posTuple enemyDestoryedPos();
+        void letterTyped(char letter);
 
         /* >>>>>>>>>> Load <<<<<<<<<< */
         void setNewDictionary(std::string dictionary);
