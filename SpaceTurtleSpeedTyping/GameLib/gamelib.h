@@ -32,10 +32,13 @@ class GAMELIBSHARED_EXPORT GameLib
 
         /* >>>>>>>>>> Game <<<<<<<<<< */
         void startRound();
+
         bool isEndRound();
+        bool isEndGame();
 
         void updateFrame();
 
+        /* When user input call this API */
         void letterTyped(char letter);
 
         /* >>>>>>>>>> Load <<<<<<<<<< */

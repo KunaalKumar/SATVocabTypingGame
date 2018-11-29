@@ -11,6 +11,10 @@ namespace GameObjects {
             Player(unsigned int health, posTuple pos);
             Player();
 
+            int getHealth();
+            void addHealth();
+            void removeHealth();
+
         private:
             unsigned int health;
     };
