@@ -7,7 +7,7 @@ ObjectController::ObjectController()
 
 void ObjectController::createRoundOfEnemies(int round)
 {
-    Load::createRoundWords(round);
+    LoadWords::createRoundWords(round);
 }
 
 void ObjectController::createEnemy(int round)
@@ -20,36 +20,36 @@ void ObjectController::createEnemy(int round)
     }
 }
 
-bool ObjectController::shoot(char letter)
-{
-    if (targetedEnemy == nullptr)
-    {
-        // shoot closest enemy with starting letter = letter
-        //TO FIX: put in real user position
-        int userX = 300;
-        int userY = 600;
-        double lowestDistance = DBL_MAX;
-        for (GameObjects::Enemy enemy : currentEnemies)
-        {
-            if (enemy.startsWith(letter))
-            {
-                double distance = enemy.distanceTo(userX, userY);
+//bool ObjectController::shoot(char letter)
+//{
+//    if (targetedEnemy == nullptr)
+//    {
+//        // shoot closest enemy with starting letter = letter
+//        //TO FIX: put in real user position
+//        int userX = 300;
+//        int userY = 600;
+//        double lowestDistance = DBL_MAX;
+//        for (GameObjects::Enemy enemy : currentEnemies)
+//        {
+//            if (enemy.startsWith(letter))
+//            {
+//                double distance = enemy.distanceTo(userX, userY);
 
-                if (distance < lowestDistance)
-                {
-                    lowestDistance = distance;
-                    targetedEnemy = &enemy;
-                }
-            }
-        }
-        if (targetedEnemy != nullptr)
-        {
-            targetedEnemy->shoot(letter);
-        }
-        return targetedEnemy == nullptr;
-    }
-    else
-    {
-        return targetedEnemy->shoot(letter);
-    }
-}
+//                if (distance < lowestDistance)
+//                {
+//                    lowestDistance = distance;
+//                    targetedEnemy = &enemy;
+//                }
+//            }
+//        }
+//        if (targetedEnemy != nullptr)
+//        {
+//            targetedEnemy->shoot(letter);
+//        }
+//        return targetedEnemy == nullptr;
+//    }
+//    else
+//    {
+//        return targetedEnemy->shoot(letter);
+//    }
+//}

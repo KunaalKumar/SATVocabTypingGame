@@ -1,7 +1,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "load.h"
+#include "loadwords.h"
 #include "gameobjects.h"
 
 #include <math.h>

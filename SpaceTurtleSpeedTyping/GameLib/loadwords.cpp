@@ -2,8 +2,11 @@
 
 LoadWords::LoadWords()
 {
-
 }
+
+std::map<int, std::vector<std::string>> LoadWords::allWords;
+std::vector<std::string> LoadWords::roundWords;
+int LoadWords::nextWordIndex;
 
 void LoadWords::importWords()
 {

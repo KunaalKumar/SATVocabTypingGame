@@ -5,6 +5,7 @@
 #include "gameobjects.h"
 #include "player.h"
 #include "projectile.h"
+#include "loadwords.h"
 
 #include <string>
 #include <float.h>
