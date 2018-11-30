@@ -2,7 +2,8 @@
 
 ObjectController::ObjectController()
 {
-
+    b2Vec2 gravity(0.0f, -10.0f);
+    world = new b2World(gravity);
 }
 
 void ObjectController::createRoundOfEnemies(int round)
