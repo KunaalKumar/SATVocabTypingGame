@@ -33,7 +33,7 @@ SOURCES += \
 
 HEADERS += \
         gamelib.h \
-        gamelib_global.h \ 
+        gamelib_global.h \
     enemy.h \
     player.h \
     projectile.h \
@@ -50,12 +50,16 @@ unix {
 RESOURCES += \
     ../src/src.qrc
 
+unix:!macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/linux/ -lBox2D
+
+INCLUDEPATH += $$PWD/../3rdPartyLibraries/Box2D/include
+DEPENDPATH += $$PWD/../3rdPartyLibraries/Box2D/include
+
+unix:!macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/linux/libBox2D.a
+
 macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/osx/ -lBox2D
 
 INCLUDEPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 DEPENDPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 
 macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/osx/libBox2D.a
-
-unix:!macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/linux/ -lBox2D
-unix:!macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/linux/libBox2D.a
