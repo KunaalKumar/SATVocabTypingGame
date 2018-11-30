@@ -50,17 +50,12 @@ unix {
 RESOURCES += \
     ../src/src.qrc
 
+macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/osx/ -lBox2D
+
 INCLUDEPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 DEPENDPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 
 macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/osx/libBox2D.a
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/win32/ -lBox2D
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/win32/ -lBox2D
-else:unix:!macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/linux/ -lBox2D
-
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/libBox2D.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/libBox2D.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/Box2D.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/Box2D.lib
-else:unix:!macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/linux/libBox2D.a
+unix:!macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/linux/ -lBox2D
+unix:!macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/linux/libBox2D.a
