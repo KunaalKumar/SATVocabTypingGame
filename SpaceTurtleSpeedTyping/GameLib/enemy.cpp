@@ -4,7 +4,7 @@ namespace GameObjects {
 
 Enemy::Enemy(int baseSpeed, posTuple pos) : GameObject(pos)
 {
-    word = Load::getWord();
+    word = LoadWords::getWord();
     type = Type::enemy;
     speed = baseSpeed - (word.length() - 1);
     currentLetterPos = 0;
