@@ -9,23 +9,33 @@
 
 namespace GameObjects {
 
-class Enemy : private GameObject
-{
-    public:
-        Enemy(int baseSpeed, posTuple pos);
+    class Enemy : protected GameObject
+    {
+        public:
+            Enemy(const Enemy& enemy);
+            Enemy(int baseSpeed, posTuple pos, std::string word, QImage image);
 
-        using hitPlayer = bool;
-        hitPlayer shoot(char letter);
+            std::string getWord();
+            double distanceTo(GameObjects::posTuple);
+            bool startsWith(char letter);
 
-        std::string getWord();
-        double distanceTo(int otherX, int otherY);
-        bool startsWith(char letter);
+        protected:
+            std::string word;
+            int speed;
+    };
 
-    private:
-        std::string word;
-        int speed;
-        unsigned int currentLetterPos;
-};
+    class TargetedEnemy : Enemy
+    {
+        public:
+            TargetedEnemy(Enemy enemy);
+
+            using hitPlayer = bool;
+            hitPlayer shoot(char letter);
+
+            bool wasDestroyed();
+        private:
+            unsigned int currentLetterPos;
+    };
 
 }
 

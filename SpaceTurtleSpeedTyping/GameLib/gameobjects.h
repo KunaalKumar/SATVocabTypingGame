@@ -1,6 +1,7 @@
 #ifndef DRAWABLEOBJECTS_H
 #define DRAWABLEOBJECTS_H
 
+#include <QImage>
 #include <tuple>
 #include <string>
 
@@ -46,6 +47,7 @@ namespace GameObjects {
             unsigned int posX;
             unsigned int posY;
             Type type;
+            QImage image;
     };
 
 }

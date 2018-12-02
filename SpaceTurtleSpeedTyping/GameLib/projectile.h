@@ -3,9 +3,10 @@
 
 #include "gameobjects.h"
 
-namespace GameObjects {
+namespace GameObjects
+{
 
-    class Projectile : GameObject
+    class Projectile : public GameObject
     {
         public:
             Projectile(posTuple pos);

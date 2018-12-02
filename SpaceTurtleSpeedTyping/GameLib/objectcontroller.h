@@ -16,26 +16,44 @@ class ObjectController
 {
 public:
     ObjectController();
+    ~ObjectController();
 
     GameObjects::Player createPlayer();
-
     void createRoundOfEnemies(int round);
-    void createEnemy(int round);
+    GameObjects::Enemy createEnemy(int round);
 
+    // call after letterTyped
+    GameObjects::Projectile createProjectile();
     using hitEnemy = bool;
     hitEnemy letterTyped(char letter);
 
+    // to be called when isEnemyKilled == true and next letterTyped == true
+    GameObjects::TargetedEnemy getTargetedEnemy();
 
-    GameObjects::Projectile createProjectile(); // call after shooting word
-    GameObjects::posTuple isEnemyHit();
-    GameObjects::posTuple isEnemyDestroyed();
+    // Updates all object positions in currentEnemeies
+    void updateObjectPositions();
+
+    bool isEnemyKilled();
+    bool isRoundEnd();
+    bool isEndGame();
 
  private:
     GameObjects::Player player;
-    GameObjects::Enemy *targetedEnemy;
+    GameObjects::TargetedEnemy *targetedEnemy;
     std::vector<GameObjects::Enemy> currentEnemies;
     std::vector<GameObjects::Projectile> projectiles;
+
+    int frameCounter;
+    bool stopCreatingEnemies;
+
+    // Box2D instances
     b2World *world;
+    // Enemy Body Definition
+    b2BodyDef enemyBodyDef;
+    // TODO: Sync timeStep with front end update rate
+    float32 timeStep = 1.0f / 60.0f;
+    int32 velocityIterations = 8;
+    int32 positionIterations = 3;
 };
 
 #endif // OBJECTCONTROLLER_H
