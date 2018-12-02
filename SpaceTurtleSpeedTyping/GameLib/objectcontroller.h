@@ -5,6 +5,8 @@
 #include "gameobjects.h"
 #include "player.h"
 #include "projectile.h"
+#include "loadwords.h"
+#include <Box2D/Box2D.h>
 
 #include <string>
 #include <float.h>
@@ -33,6 +35,7 @@ public:
     GameObjects::Enemy *targetedEnemy;
     std::vector<GameObjects::Enemy> currentEnemies;
     std::vector<GameObjects::Projectile> projectiles;
+    b2World *world;
 };
 
 #endif // OBJECTCONTROLLER_H
