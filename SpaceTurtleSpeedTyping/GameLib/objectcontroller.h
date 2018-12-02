@@ -30,6 +30,9 @@ public:
     // to be called when isEnemyKilled == true and next letterTyped == true
     GameObjects::TargetedEnemy getTargetedEnemy();
 
+    // Updates all object positions in currentEnemeies
+    void updateObjectPositions();
+
     bool isEnemyKilled();
     bool isRoundEnd();
     bool isEndGame();
@@ -39,12 +42,18 @@ public:
     GameObjects::TargetedEnemy *targetedEnemy;
     std::vector<GameObjects::Enemy> currentEnemies;
     std::vector<GameObjects::Projectile> projectiles;
-    b2World *world;
-    // Enemy Body Definition
-    b2BodyDef enemyBodyDef;
 
     int frameCounter;
     bool stopCreatingEnemies;
+
+    // Box2D instances
+    b2World *world;
+    // Enemy Body Definition
+    b2BodyDef enemyBodyDef;
+    // TODO: Sync timeStep with front end update rate
+    float32 timeStep = 1.0f / 60.0f;
+    int32 velocityIterations = 8;
+    int32 positionIterations = 3;
 };
 
 #endif // OBJECTCONTROLLER_H
