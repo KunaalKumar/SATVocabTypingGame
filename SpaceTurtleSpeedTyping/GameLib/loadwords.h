@@ -7,14 +7,15 @@
 #include <vector>
 
 
-class Load
+class LoadWords
 {
     public:
-        Load();
+        LoadWords();
         static void importWords();
         static void createRoundWords(int round);
         // returns "" if end of round
         static std::string getWord();
+
     private:
         static std::map<int, std::vector<std::string>> allWords;
         static std::vector<std::string> roundWords;
