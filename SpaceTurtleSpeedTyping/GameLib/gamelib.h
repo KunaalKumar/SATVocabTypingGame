@@ -15,9 +15,8 @@ class GAMELIBSHARED_EXPORT GameLib
 {
 
     public:
-
         /* >>>>>>>>>> GameLib <<<<<<<<<< */
-        GameLib();
+        GameLib(int x, int y);
         ~GameLib();
 
         /* >>>>>>>>>> Objects <<<<<<<<<< */
