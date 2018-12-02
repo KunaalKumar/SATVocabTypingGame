@@ -5,10 +5,10 @@
 
 namespace GameObjects {
 
-    class Player : GameObject
+    class Player : public GameObject
     {
         public:
-            Player(unsigned int health, posTuple pos);
+            Player(posTuple pos);
             Player();
 
             int getHealth();

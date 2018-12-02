@@ -16,15 +16,19 @@ class ObjectController
 {
 public:
     ObjectController();
+    ~ObjectController();
 
     GameObjects::Player createPlayer();
-
     void createRoundOfEnemies(int round);
-    void createEnemy(int round);
+    GameObjects::Enemy createEnemy(int round);
 
+    // call after letterTyped
+    GameObjects::Projectile createProjectile();
     using hitEnemy = bool;
     hitEnemy letterTyped(char letter);
-    GameObjects::Projectile createProjectile(); // call after shooting word
+
+    // to be called when isEnemyKilled == true and next letterTyped == true
+    GameObjects::TargetedEnemy getTargetedEnemy();
 
     bool isEnemyKilled();
     bool isRoundEnd();
@@ -32,12 +36,13 @@ public:
 
  private:
     GameObjects::Player player;
-    GameObjects::Enemy *targetedEnemy;
+    GameObjects::TargetedEnemy *targetedEnemy;
     std::vector<GameObjects::Enemy> currentEnemies;
     std::vector<GameObjects::Projectile> projectiles;
     b2World *world;
 
     int frameCounter;
+    bool stopCreatingEnemies;
 };
 
 #endif // OBJECTCONTROLLER_H

@@ -8,9 +8,10 @@ Player::Player() : GameObject()
     this->type = Type::player;
 }
 
-Player::Player(unsigned int health, posTuple pos) : GameObject(pos)
+Player::Player(posTuple pos) : GameObject(pos)
 {
-    this->health = health;
+    // this->image =
+    this->health = 3;
     this->type = Type::player;
 }
 
