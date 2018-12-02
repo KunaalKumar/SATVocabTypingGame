@@ -15,10 +15,10 @@ std::string Enemy::getWord()
     return word;
 }
 
-double Enemy::distanceTo(int otherX, int otherY)
+double Enemy::distanceTo(GameObjects::posTuple otherPos)
 {
-    int xDiff = otherX - posX;
-    int yDiff = otherY - posY;
+    int xDiff = std::get<0>(otherPos) - posX;
+    int yDiff = std::get<1>(otherPos) - posY;
     return pow((xDiff*xDiff)+(yDiff*yDiff), 0.5);
 }
 
