@@ -123,6 +123,12 @@ GameObjects::TargetedEnemy ObjectController::getTargetedEnemy()
     return *targetedEnemy;
 }
 
+void ObjectController::updateObjectPositions()
+{
+    world->Step(timeStep, velocityIterations, positionIterations);
+    //TODO: Update currentEnemies list with updated positions
+}
+
 bool ObjectController::isEnemyKilled()
 {
     return targetedEnemy == nullptr;
