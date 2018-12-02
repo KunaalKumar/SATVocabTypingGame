@@ -3,8 +3,14 @@
 ObjectController::ObjectController()
 {
     // TODO: Generate all enemy images
-    b2Vec2 gravity(0.0f, -10.0f);
+    b2Vec2 gravity(0.0f, 0.0f);
     world = new b2World(gravity);
+
+    // Initializing body defs
+    enemyBodyDef.type = b2_dynamicBody;
+    // TODO: Set starting position dynamically when creating enemy objects based on window size
+    enemyBodyDef.position.Set(0,0);
+    enemyBodyDef.angle = 0;
 }
 
 ObjectController::~ObjectController()
@@ -29,6 +35,17 @@ void ObjectController::createRoundOfEnemies(int round)
 GameObjects::Enemy ObjectController::createEnemy(int round)
 {
     // TODO: Box2D
+    b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
+    b2PolygonShape boxShape;
+    boxShape.SetAsBox(1,1);
+
+    b2FixtureDef boxFixtureDef;
+    boxFixtureDef.shape = &boxShape;
+    boxFixtureDef.density = 1;
+
+    enemyBody->CreateFixture(&boxFixtureDef);
+
+
     // TODO: EnemyImageGenerate
 
 //     GameObjects::Enemy enemy(round, {0,0}, LoadWords::getWord());

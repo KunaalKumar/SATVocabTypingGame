@@ -40,6 +40,8 @@ public:
     std::vector<GameObjects::Enemy> currentEnemies;
     std::vector<GameObjects::Projectile> projectiles;
     b2World *world;
+    // Enemy Body Definition
+    b2BodyDef enemyBodyDef;
 
     int frameCounter;
     bool stopCreatingEnemies;
