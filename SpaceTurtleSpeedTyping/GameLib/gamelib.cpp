@@ -29,6 +29,10 @@ bool GameLib::isEndRound() {
 
 }
 
+bool GameLib::isEndGame(){
+
+}
+
 void GameLib::updateFrame() {
 
 }
