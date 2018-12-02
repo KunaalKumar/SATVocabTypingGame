@@ -26,13 +26,18 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        gamewindow.cpp
+        gamewindow.cpp \
+    qsfmlcanvas.cpp \
+    gameview.cpp
 
 HEADERS += \
-        gamewindow.h
+        gamewindow.h \
+    qsfmlcanvas.h \
+    gameview.h
 
 FORMS += \
-        gamewindow.ui
+        gamewindow.ui \
+    gameview.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
