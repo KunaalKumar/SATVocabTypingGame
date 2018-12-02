@@ -2,9 +2,10 @@
 
 namespace GameObjects {
 
-Projectile::Projectile(posTuple pos) : GameObject(pos)
-{
-    type = Type::projectile;
-}
+    Projectile::Projectile(posTuple pos) : GameObject(pos)
+    {
+    //    this->image =
+        type = Type::projectile;
+    }
 
 }

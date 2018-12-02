@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+QT       += gui
 
 TARGET = GameLib
 TEMPLATE = lib
@@ -29,7 +29,8 @@ SOURCES += \
     projectile.cpp \
     objectcontroller.cpp \
     stats.cpp \
-    loadwords.cpp
+    loadwords.cpp \
+    explosion.cpp
 
 HEADERS += \
         gamelib.h \
@@ -40,7 +41,8 @@ HEADERS += \
     gameobjects.h \
     stats.h \
     objectcontroller.h \
-    loadwords.h
+    loadwords.h \
+    explosion.h
 
 unix {
     target.path = /usr/lib

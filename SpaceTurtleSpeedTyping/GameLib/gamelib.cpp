@@ -27,7 +27,11 @@ void GameLib::startRound()
 }
 
 bool GameLib::isEndRound() {
-
+//    if(oc.isRoundEnd()) {
+//
+//    } else {
+//
+//    }
 }
 
 bool GameLib::isEndGame(){
@@ -35,12 +39,19 @@ bool GameLib::isEndGame(){
 }
 
 void GameLib::updateFrame() {
-
+        // todo: oc
 }
 
 void GameLib::letterTyped(char letter)
 {
-
+    if (oc.letterTyped(letter)) {
+        statistic.addTypeCount(true);
+        // if(oc. isEnemyDestroyed()) {
+        //    statistic.addTotalKill();
+        //}
+    } else {
+        statistic.addTypeCount(false);
+    }
 }
 
 void GameLib::setNewDictionary(std::string dictionary) {
