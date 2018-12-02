@@ -3,8 +3,9 @@
 #include "loadwords.h"
 
 
-GameLib::GameLib()
+GameLib::GameLib(int x, int y)
 {
+    //todo
 }
 
 GameLib::~GameLib()
