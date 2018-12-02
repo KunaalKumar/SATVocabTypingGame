@@ -18,7 +18,7 @@ class Enemy : private GameObject
         hitPlayer shoot(char letter);
 
         std::string getWord();
-        double distanceTo(int otherX, int otherY);
+        double distanceTo(GameObjects::posTuple);
         bool startsWith(char letter);
 
     private:

@@ -21,20 +21,17 @@ void ObjectController::createEnemy(int round)
     }
 }
 
-//bool ObjectController::shoot(char letter)
-//{
+bool ObjectController::letterTyped(char letter)
+{
 //    if (targetedEnemy == nullptr)
 //    {
 //        // shoot closest enemy with starting letter = letter
-//        //TO FIX: put in real user position
-//        int userX = 300;
-//        int userY = 600;
 //        double lowestDistance = DBL_MAX;
 //        for (GameObjects::Enemy enemy : currentEnemies)
 //        {
 //            if (enemy.startsWith(letter))
 //            {
-//                double distance = enemy.distanceTo(userX, userY);
+//                double distance = enemy.distanceTo(player.getPos());
 
 //                if (distance < lowestDistance)
 //                {
@@ -53,4 +50,4 @@ void ObjectController::createEnemy(int round)
 //    {
 //        return targetedEnemy->shoot(letter);
 //    }
-//}
+}

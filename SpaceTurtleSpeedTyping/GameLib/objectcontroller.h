@@ -24,11 +24,11 @@ public:
 
     using hitEnemy = bool;
     hitEnemy letterTyped(char letter);
-
-
     GameObjects::Projectile createProjectile(); // call after shooting word
-    GameObjects::posTuple isEnemyHit();
-    GameObjects::posTuple isEnemyDestroyed();
+
+    bool isEnemyKilled();
+    bool isRoundEnd();
+    bool isEndGame();
 
  private:
     GameObjects::Player player;
@@ -36,6 +36,8 @@ public:
     std::vector<GameObjects::Enemy> currentEnemies;
     std::vector<GameObjects::Projectile> projectiles;
     b2World *world;
+
+    int frameCounter;
 };
 
 #endif // OBJECTCONTROLLER_H
