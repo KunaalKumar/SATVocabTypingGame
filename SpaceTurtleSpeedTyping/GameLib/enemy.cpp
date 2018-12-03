@@ -1,10 +1,11 @@
 #include "enemy.h"
 namespace GameObjects {
 
-TargetedEnemy::TargetedEnemy(Enemy enemy) : Enemy(enemy)
+TargetedEnemy::TargetedEnemy(Enemy enemy, unsigned int vectorIndex) : Enemy(enemy)
 {
 //    image =
     currentLetterPos = 0;
+    this->vectorIndex = vectorIndex;
 }
 
 Enemy::Enemy(int speed, std::string word, QImage image, float posX, float posY, b2Body &body):
@@ -40,6 +41,11 @@ bool TargetedEnemy::shoot(char letter)
         return true;
     }
     return false;
+}
+
+bool TargetedEnemy::getVectorIndex()
+{
+    return vectorIndex;
 }
 
 bool TargetedEnemy::wasDestroyed()

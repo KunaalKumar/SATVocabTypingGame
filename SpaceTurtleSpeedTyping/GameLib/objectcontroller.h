@@ -18,17 +18,14 @@ public:
     ObjectController();
     ~ObjectController();
 
-    GameObjects::Player createPlayer();
+    void createPlayer();
     void createRoundOfEnemies(int round);
-    GameObjects::Enemy createEnemy(int round);
+    void createEnemy(int round);
 
     // call after letterTyped
-    GameObjects::Projectile createProjectile();
+    void createProjectile();
     using hitEnemy = bool;
     hitEnemy letterTyped(char letter);
-
-    // to be called when isEnemyKilled == true and next letterTyped == true
-    GameObjects::TargetedEnemy getTargetedEnemy();
 
     // Updates all object positions in currentEnemeies
     void updateObjectPositions();
@@ -38,9 +35,9 @@ public:
     bool isEndGame();
 
  private:
-    GameObjects::Player player;
+    GameObjects::Player *player;
     GameObjects::TargetedEnemy *targetedEnemy;
-    std::vector<GameObjects::GameObject> objectsOnScreen;
+    std::vector<GameObjects::GameObject&> objectsOnScreen;
 
     int frameCounter;
     bool stopCreatingEnemies;

@@ -43,6 +43,7 @@ RESOURCES += \
     ../src/src.qrc
 
 macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/osx/ -lBox2D
+macx: LIBS += -F$$PWD/../3rdPartyLibraries/SFML/Frameworks/
 
 macx: LIBS += -framework sfml-audio
 macx: LIBS += -framework sfml-graphics

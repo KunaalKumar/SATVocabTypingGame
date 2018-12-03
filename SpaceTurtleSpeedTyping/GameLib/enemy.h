@@ -9,7 +9,7 @@
 
 namespace GameObjects {
 
-    class Enemy : protected GameObject
+    class Enemy : public GameObject
     {
         public:
             Enemy(int speed, std::string word, QImage image, float posX, float posY, b2Body &body);
@@ -26,14 +26,18 @@ namespace GameObjects {
     class TargetedEnemy : Enemy
     {
         public:
-            TargetedEnemy(Enemy enemy);
+            TargetedEnemy(Enemy enemy, unsigned int vectorIndex);
 
             using hitPlayer = bool;
             hitPlayer shoot(char letter);
 
+            bool getVectorIndex();
+
             bool wasDestroyed();
         private:
             unsigned int currentLetterPos;
+            unsigned int vectorIndex;
+
     };
 
 }
