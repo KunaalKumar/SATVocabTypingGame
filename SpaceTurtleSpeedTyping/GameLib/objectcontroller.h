@@ -40,8 +40,7 @@ public:
  private:
     GameObjects::Player player;
     GameObjects::TargetedEnemy *targetedEnemy;
-    std::vector<GameObjects::Enemy> currentEnemies;
-    std::vector<GameObjects::Projectile> projectiles;
+    std::vector<GameObjects::GameObject> objectsOnScreen;
 
     int frameCounter;
     bool stopCreatingEnemies;

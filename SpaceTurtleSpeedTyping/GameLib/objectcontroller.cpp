@@ -126,6 +126,9 @@ GameObjects::TargetedEnemy ObjectController::getTargetedEnemy()
 void ObjectController::updateObjectPositions()
 {
     world->Step(timeStep, velocityIterations, positionIterations);
+    for(int i = 0; i < objectsOnScreen.size(); i++) {
+        objectsOnScreen[i].updatePos();
+    }
     //TODO: Update currentEnemies list with updated positions
 }
 

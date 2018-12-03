@@ -4,6 +4,7 @@
 #include <QImage>
 #include <tuple>
 #include <string>
+#include <Box2D/Box2D.h>
 
 namespace GameObjects {
 
@@ -22,10 +23,11 @@ namespace GameObjects {
     class GameObject
     {
         public:
-            GameObject()
+            GameObject(unsigned int posX, unsigned int posY, b2Body body)
             {
-                posX = 0;
-                posY = 0;
+                this->posX = posX;
+                this->posY = posY;
+                this->body = &body;
             }
 
             GameObject(posTuple pos)
@@ -39,8 +41,19 @@ namespace GameObjects {
                 return {posX, posY};
             }
 
-            void setPosX(unsigned int x) { posX = x; }
-            void setPosY(unsigned int y) { posY = y; }
+            b2Body& getBody() {
+                return *body;
+            }
+
+            // Sets the values of the x,y positions to the latest b2Body positions
+            void updatePos() {
+                posX = body->GetPosition().x;
+                posY = body->GetPosition().y;
+            }
+
+            // TODO: Convert using window size to QtWindow coordinates
+            unsigned int getPosX() { return posX; }
+            unsigned int getPosY() { return posY; }
 
 
         protected:
@@ -48,6 +61,7 @@ namespace GameObjects {
             unsigned int posY;
             Type type;
             QImage image;
+            b2Body *body;
     };
 
 }
