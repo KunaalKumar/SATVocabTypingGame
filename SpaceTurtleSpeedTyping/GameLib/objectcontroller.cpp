@@ -1,8 +1,6 @@
 #include "objectcontroller.h"
 
-ObjectController::ObjectController(double windowSizeX, double windowSizeY):
-    windowSizeX(windowSizeX / 2),
-  windowSizeY(windowSizeY / 2)
+ObjectController::ObjectController()
 {
     // TODO: Generate all enemy images
     b2Vec2 gravity(0.0f, 0.0f);

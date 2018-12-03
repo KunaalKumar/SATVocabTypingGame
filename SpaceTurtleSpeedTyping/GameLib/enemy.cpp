@@ -7,12 +7,12 @@ TargetedEnemy::TargetedEnemy(Enemy enemy) : Enemy(enemy)
     currentLetterPos = 0;
 }
 
-Enemy::Enemy(int speed, std::string word, QImage image, unsigned int posX, unsigned int posY, b2Body &body, double windowSizeX, double windowSizeY):
-    GameObject (posX, posY, body, windowSizeX, windowSizeY)
+Enemy::Enemy(int speed, std::string word, QImage image, float posX, float posY, b2Body &body):
+    GameObject (posX, posY, body)
 {
     this->word = word;
     type = Type::enemy;
-    this->speed = speed - (word.length() - 1);
+    this->speed = (float)speed - (word.length() - 1);
 }
 
 std::string Enemy::getWord()
@@ -22,8 +22,8 @@ std::string Enemy::getWord()
 
 double Enemy::distanceTo(GameObjects::posTuple otherPos)
 {
-    int xDiff = std::get<0>(otherPos) - posX;
-    int yDiff = std::get<1>(otherPos) - posY;
+    float xDiff = std::get<0>(otherPos) - posX;
+    float yDiff = std::get<1>(otherPos) - posY;
     return pow((xDiff*xDiff)+(yDiff*yDiff), 0.5);
 }
 
