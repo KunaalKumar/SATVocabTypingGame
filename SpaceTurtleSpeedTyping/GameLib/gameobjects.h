@@ -24,17 +24,11 @@ namespace GameObjects {
     class GameObject
     {
         public:
-            GameObject(float posX, float posY, b2Body &body)
+            GameObject(posTuple pos, b2Body &body)
             {
-                this->posX = posX;
-                this->posY = posY;
+                this->posX = std::get<0>(pos);
+                this->posY = std::get<1>(pos);
                 this->body = &body;
-            }
-
-            GameObject(posTuple pos)
-            {
-                posX = std::get<0>(pos);
-                posY = std::get<1>(pos);
             }
 
             posTuple getPos()

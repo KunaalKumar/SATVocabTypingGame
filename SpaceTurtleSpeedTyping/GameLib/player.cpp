@@ -2,13 +2,7 @@
 
 namespace GameObjects {
 
-Player::Player() : GameObject()
-{
-    this->health = 3;
-    this->type = Type::player;
-}
-
-Player::Player(posTuple pos) : GameObject(pos)
+Player::Player(posTuple pos, b2Body &body) : GameObject(pos, body)
 {
     // this->image =
     this->health = 3;

@@ -2,6 +2,7 @@
 #define EXPLOSION_H
 
 #include "gameobjects.h"
+#include <Box2D/Box2D.h>
 
 namespace GameObjects
 {
@@ -9,7 +10,7 @@ namespace GameObjects
     class explosion : protected GameObject
     {
     public:
-        explosion(posTuple pos);
+        explosion(posTuple pos, b2Body &body);
     };
 
 }

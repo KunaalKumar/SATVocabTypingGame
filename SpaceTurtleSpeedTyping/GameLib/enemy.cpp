@@ -9,7 +9,7 @@ TargetedEnemy::TargetedEnemy(Enemy enemy, unsigned int vectorIndex) : Enemy(enem
 }
 
 Enemy::Enemy(int speed, std::string word, QImage image, float posX, float posY, b2Body &body):
-    GameObject (posX, posY, body)
+    GameObject ({posX, posY}, body)
 {
     this->word = word;
     type = Type::enemy;

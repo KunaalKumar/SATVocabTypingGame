@@ -2,14 +2,14 @@
 #define PLAYER_H
 
 #include "gameobjects.h"
+#include <Box2D/Box2D.h>
 
 namespace GameObjects {
 
     class Player : public GameObject
     {
         public:
-            Player(posTuple pos);
-            Player();
+            Player(posTuple pos, b2Body &body);
 
             int getHealth();
             void addHealth();
