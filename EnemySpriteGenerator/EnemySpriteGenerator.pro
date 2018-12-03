@@ -23,7 +23,8 @@ SOURCES += \
         enemyspritegenerator.cpp
 
 HEADERS += \
-        enemyspritegenerator.h
+        enemyspritegenerator.h \
+    shipstructures.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
