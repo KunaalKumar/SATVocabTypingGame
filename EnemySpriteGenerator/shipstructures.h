@@ -41,11 +41,41 @@ ShipStructure createSmallShip1()
 }
 
 //Define structures here
-std::vector<ShipStructure> generateStructures()
+std::vector<ShipStructure> generateSmallShips()
 {
     std::vector<ShipStructure> structures;
 
     structures.push_back(createSmallShip1());
+    //...
+
+    return structures;
+}
+
+std::vector<ShipStructure> generateMediumShips()
+{
+    std::vector<ShipStructure> structures;
+
+    //structures.push_back(createMediumShip1);
+    //...
+
+    return structures;
+}
+
+std::vector<ShipStructure> generateLargeShips()
+{
+    std::vector<ShipStructure> structures;
+
+    //structures.push_back(createLargeShip1);
+    //...
+
+    return structures;
+}
+
+std::vector<ShipStructure> generateHugeShips()
+{
+    std::vector<ShipStructure> structures;
+
+    //structures.push_back(createHugeShip1);
     //...
 
     return structures;

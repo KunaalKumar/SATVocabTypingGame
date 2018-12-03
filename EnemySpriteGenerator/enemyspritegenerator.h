@@ -9,8 +9,11 @@ public:
     EnemySpriteGenerator();
     QImage generateNewEnemy(ShipSize ss);
 private:
-    std::vector<ShipStructure> structures;
-    void setRegionColors();
+    std::vector<ShipStructure> smallShips;
+    std::vector<ShipStructure> mediumShips;
+    std::vector<ShipStructure> largeShips;
+    std::vector<ShipStructure> hugeShips;
+    QImage setRegionColors(ShipStructure);
 };
 
 #endif // ENEMYSPRITEGENERATOR_H
