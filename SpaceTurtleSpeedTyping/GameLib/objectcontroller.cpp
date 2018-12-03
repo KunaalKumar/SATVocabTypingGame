@@ -125,6 +125,13 @@ void ObjectController::updateObjectPositions()
 {
     // All body positions within world get updates after calling Step()
     world->Step(timeStep, velocityIterations, positionIterations);
+
+    // TO FIX: Currently creating enemies every 2 seconds
+    if (!stopCreatingEnemies && ++frameCounter % 2000 == 0)
+    {
+        // TO FIX: Currently round is constant 1
+        createEnemy(1);
+    }
 }
 
 bool ObjectController::isEnemyKilled()
