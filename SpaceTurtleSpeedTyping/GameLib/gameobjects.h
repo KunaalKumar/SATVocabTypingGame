@@ -5,10 +5,11 @@
 #include <tuple>
 #include <string>
 #include <Box2D/Box2D.h>
+#include "gamelib_global.h"
 
 namespace GameObjects {
 
-    using posTuple = std::tuple<unsigned int, unsigned int>;
+    using posTuple = std::tuple<float, float>;
 
     enum class Type
     {
@@ -23,7 +24,7 @@ namespace GameObjects {
     class GameObject
     {
         public:
-            GameObject(unsigned int posX, unsigned int posY, b2Body body)
+            GameObject(float posX, float posY, b2Body &body)
             {
                 this->posX = posX;
                 this->posY = posY;
@@ -45,22 +46,17 @@ namespace GameObjects {
 
             bool isOfType(Type other) { return type == other; }
 
-            b2Body& getBody() {
-                return *body;
-            }
-
         private:
             // Sets the values of the x,y positions to the latest b2Body positions
-            void updatePos()
-            {
-                posX = body->GetPosition().x;
-                posY = body->GetPosition().y;
+            void updatePos() {
+                posX = body->GetPosition().x + windowSizeX;
+                posY = body->GetPosition().y + windowSizeY;
             }
 
 
         protected:
-            unsigned int posX;
-            unsigned int posY;
+            float posX;
+            float posY;
             Type type;
             QImage image;
             b2Body *body;

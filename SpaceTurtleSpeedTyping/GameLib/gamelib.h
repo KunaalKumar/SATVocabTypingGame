@@ -16,6 +16,11 @@ class GAMELIBSHARED_EXPORT GameLib
 
     public:
         /* >>>>>>>>>> GameLib <<<<<<<<<< */
+    /**
+         * @brief GameLib
+         * @param x - size of widnow: x axis
+         * @param y - size of widnow: y axis
+         */
         GameLib(int x, int y);
         ~GameLib();
 

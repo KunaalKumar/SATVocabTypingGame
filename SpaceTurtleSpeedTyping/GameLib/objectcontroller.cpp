@@ -46,7 +46,6 @@ void ObjectController::createEnemy(int round)
 
     enemyBody->CreateFixture(&boxFixtureDef);
 
-
     // TODO: EnemyImageGenerate
 
 //     GameObjects::Enemy enemy(round, {0,0}, LoadWords::getWord());
@@ -124,11 +123,8 @@ bool ObjectController::letterTyped(char letter)
 
 void ObjectController::updateObjectPositions()
 {
+    // All body positions within world get updates after calling Step()
     world->Step(timeStep, velocityIterations, positionIterations);
-    for(int i = 0; i < objectsOnScreen.size(); i++) {
-        objectsOnScreen[i].updatePos();
-    }
-    //TODO: Update currentEnemies list with updated positions
 }
 
 bool ObjectController::isEnemyKilled()

@@ -12,8 +12,7 @@ namespace GameObjects {
     class Enemy : public GameObject
     {
         public:
-            Enemy(const Enemy& enemy);
-            Enemy(int baseSpeed, posTuple pos, std::string word, QImage image);
+            Enemy(int speed, std::string word, QImage image, float posX, float posY, b2Body &body);
 
             std::string getWord();
             double distanceTo(GameObjects::posTuple);
@@ -21,7 +20,7 @@ namespace GameObjects {
 
         protected:
             std::string word;
-            int speed;
+            float speed;
     };
 
     class TargetedEnemy : Enemy

@@ -5,7 +5,8 @@
 
 GameLib::GameLib(int x, int y)
 {
-    //todo
+    windowSizeX = x / 2;
+    windowSizeY = y / 2;
 }
 
 GameLib::~GameLib()

@@ -1,5 +1,4 @@
 #include "enemy.h"
-
 namespace GameObjects {
 
 TargetedEnemy::TargetedEnemy(Enemy enemy, unsigned int vectorIndex) : Enemy(enemy)
@@ -9,18 +8,12 @@ TargetedEnemy::TargetedEnemy(Enemy enemy, unsigned int vectorIndex) : Enemy(enem
     this->vectorIndex = vectorIndex;
 }
 
-Enemy::Enemy(const Enemy& enemy) : GameObject(GameObjects::posTuple{enemy.posX, enemy.posY})
-{
-    speed = enemy.speed;
-    word = enemy.word;
-}
-
-Enemy::Enemy(int baseSpeed, posTuple pos, std::string word, QImage image) : GameObject(pos)
+Enemy::Enemy(int speed, std::string word, QImage image, float posX, float posY, b2Body &body):
+    GameObject (posX, posY, body)
 {
     this->word = word;
     type = Type::enemy;
-    speed = baseSpeed - (word.length() - 1);
-    this->image = image;
+    this->speed = (float)speed - (word.length() - 1);
 }
 
 std::string Enemy::getWord()
@@ -30,8 +23,8 @@ std::string Enemy::getWord()
 
 double Enemy::distanceTo(GameObjects::posTuple otherPos)
 {
-    int xDiff = std::get<0>(otherPos) - posX;
-    int yDiff = std::get<1>(otherPos) - posY;
+    float xDiff = std::get<0>(otherPos) - posX;
+    float yDiff = std::get<1>(otherPos) - posY;
     return pow((xDiff*xDiff)+(yDiff*yDiff), 0.5);
 }
 
