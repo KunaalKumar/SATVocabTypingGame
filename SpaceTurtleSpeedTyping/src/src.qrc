@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/src">
         <file>dictionary/words</file>
+        <file>PT Serif Caption.ttf</file>
+        <file>icon.png</file>
     </qresource>
 </RCC>

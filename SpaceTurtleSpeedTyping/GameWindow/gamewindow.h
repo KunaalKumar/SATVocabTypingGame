@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QDebug>
+#include <Box2D/Box2D.h>
+#include <SFML/Graphics.hpp>
 
 namespace Ui {
 class GameWindow;
@@ -39,6 +41,20 @@ private:
     // by using stackedWidge's function - setCurrentIndex(index), we have a way
     // to navigate between these 2 pages.
     Ui::GameWindow *ui;
+
+    // Create a new render-texture
+    sf::RenderTexture texture;
+    sf::Texture sprite_texture;
+    sf::Sprite sprite;
+    sf::Font font;
+    sf::Text text;
+
+    QTimer *timer;
+    int count, firedms;
+    bool fired;
+
+    void renderTexture();
+    void fire(float x1, float y1, float x2, float y2);
 };
 
 #endif // GAMEWINDOW_H
