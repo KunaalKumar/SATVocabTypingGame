@@ -1,10 +1,8 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-12-02T20:58:27
+# Project created by QtCreator 2018-12-02T21:32:15
 #
 #-------------------------------------------------
-
-QT       -= gui
 
 TARGET = EnemySpriteGenerator
 TEMPLATE = lib
