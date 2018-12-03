@@ -2,13 +2,14 @@
 
 namespace GameObjects {
 
-TargetedEnemy::TargetedEnemy(Enemy enemy) : Enemy(enemy)
+TargetedEnemy::TargetedEnemy(Enemy enemy, unsigned int vectorIndex) : Enemy(enemy)
 {
 //    image =
     currentLetterPos = 0;
+    this->vectorIndex = vectorIndex;
 }
 
-Enemy::Enemy(const Enemy& enemy)
+Enemy::Enemy(const Enemy& enemy) : GameObject(GameObjects::posTuple{enemy.posX, enemy.posY})
 {
     speed = enemy.speed;
     word = enemy.word;
@@ -47,6 +48,11 @@ bool TargetedEnemy::shoot(char letter)
         return true;
     }
     return false;
+}
+
+bool TargetedEnemy::getVectorIndex()
+{
+    return vectorIndex;
 }
 
 bool TargetedEnemy::wasDestroyed()

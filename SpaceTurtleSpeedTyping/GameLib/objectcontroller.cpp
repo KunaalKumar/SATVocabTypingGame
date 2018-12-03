@@ -16,15 +16,16 @@ ObjectController::ObjectController()
 ObjectController::~ObjectController()
 {
     delete targetedEnemy;
+    delete player;
     delete world;
 }
 
-GameObjects::Player ObjectController::createPlayer()
+void ObjectController::createPlayer()
 {
     // TO FIX: Position
     GameObjects::posTuple pos({0, 0});
-    player = GameObjects::Player(pos);
-    return player;
+    player = new GameObjects::Player(pos);
+    objectsOnScreen.push_back(*player);
 }
 
 void ObjectController::createRoundOfEnemies(int round)
@@ -32,7 +33,7 @@ void ObjectController::createRoundOfEnemies(int round)
     LoadWords::createRoundWords(round);
 }
 
-GameObjects::Enemy ObjectController::createEnemy(int round)
+void ObjectController::createEnemy(int round)
 {
     // TODO: Box2D
     b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
@@ -52,7 +53,7 @@ GameObjects::Enemy ObjectController::createEnemy(int round)
     // load image
 //    if (enemy.getWord() != "")
 //    {
-//        currentEnemies.push_back(enemy); /*adding comment for claification, calling the default connstructor of enemy will give a starting pos of 0,0
+//        objectsOnScreen.push_back(enemy); /*adding comment for claification, calling the default connstructor of enemy will give a starting pos of 0,0
 //                                                                          but a position can be specified by providing a tuple<unsigned int, usigned int> - which can be done with {,}*/
 //        return enemy;
 //    }
@@ -62,7 +63,7 @@ GameObjects::Enemy ObjectController::createEnemy(int round)
 //    }
 }
 
-GameObjects::Projectile ObjectController::createProjectile()
+void ObjectController::createProjectile()
 {
     if (targetedEnemy == nullptr)
     {
@@ -81,8 +82,7 @@ GameObjects::Projectile ObjectController::createProjectile()
 
     // TODO: Box2D
     GameObjects::Projectile projectile({0,0});
-    projectiles.push_back(projectile);
-    return projectile;
+    objectsOnScreen.push_back(projectile);
 }
 
 bool ObjectController::letterTyped(char letter)
@@ -91,18 +91,22 @@ bool ObjectController::letterTyped(char letter)
     {
         // shoot closest enemy with starting letter = letter
         double lowestDistance = DBL_MAX;
-        for (unsigned int i = 0; i < currentEnemies.size(); i++)
+        for (unsigned int i = 0; i < objectsOnScreen.size(); i++)
         {
-            if (currentEnemies[i].startsWith(letter))
+            if (objectsOnScreen[i]->isOfType(GameObjects::Type::enemy))
             {
-                double distance = currentEnemies[i].distanceTo(player.getPos());
-
-                if (distance < lowestDistance)
+                GameObjects::Enemy &enemy = static_cast<GameObjects::Enemy &>(objectsOnScreen[i]);
+                if (enemy.startsWith(letter))
                 {
-                    lowestDistance = distance;
+                    double distance = enemy.distanceTo(player->getPos());
 
-                    targetedEnemy = new GameObjects::TargetedEnemy(currentEnemies[i]);
-                    currentEnemies.erase(currentEnemies.begin() + i);
+                    if (distance < lowestDistance)
+                    {
+                        lowestDistance = distance;
+
+                        targetedEnemy = new GameObjects::TargetedEnemy(objectsOnScreen[i]);
+                        objectsOnScreen[i] = targetedEnemy;
+                    }
                 }
             }
         }
@@ -116,11 +120,6 @@ bool ObjectController::letterTyped(char letter)
     {
         return targetedEnemy->shoot(letter);
     }
-}
-
-GameObjects::TargetedEnemy ObjectController::getTargetedEnemy()
-{
-    return *targetedEnemy;
 }
 
 void ObjectController::updateObjectPositions()
@@ -139,10 +138,11 @@ bool ObjectController::isEnemyKilled()
 
 bool ObjectController::isRoundEnd()
 {
-    return targetedEnemy == nullptr && currentEnemies.size() == 0;
+
+    return targetedEnemy == nullptr && objectsOnScreen.size() == 1;
 }
 
 bool ObjectController::isEndGame()
 {
-    return player.getHealth() == 0;
+    return player->getHealth() == 0;
 }

@@ -43,13 +43,16 @@ namespace GameObjects {
                 return {posX, posY};
             }
 
+            bool isOfType(Type other) { return type == other; }
+
             b2Body& getBody() {
                 return *body;
             }
 
         private:
             // Sets the values of the x,y positions to the latest b2Body positions
-            void updatePos() {
+            void updatePos()
+            {
                 posX = body->GetPosition().x;
                 posY = body->GetPosition().y;
             }
