@@ -46,6 +46,8 @@ public:
     b2World *world;
     // Enemy Body Definition
     b2BodyDef enemyBodyDef;
+    // Player Body Definition
+    b2BodyDef playerBodyDef;
     // TODO: Sync timeStep with front end update rate
     float32 timeStep = 1.0f / 60.0f;
     int32 velocityIterations = 8;

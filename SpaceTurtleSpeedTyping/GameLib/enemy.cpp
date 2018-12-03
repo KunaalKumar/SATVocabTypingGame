@@ -8,8 +8,8 @@ TargetedEnemy::TargetedEnemy(Enemy enemy, unsigned int vectorIndex) : Enemy(enem
     this->vectorIndex = vectorIndex;
 }
 
-Enemy::Enemy(int speed, std::string word, QImage image, float posX, float posY, b2Body &body):
-    GameObject ({posX, posY}, body)
+Enemy::Enemy(int speed, std::string word, QImage image, GameObjects::posTuple pos, b2Body &body):
+    GameObject (pos, body)
 {
     this->word = word;
     type = Type::enemy;

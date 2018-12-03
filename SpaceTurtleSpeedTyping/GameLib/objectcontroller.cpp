@@ -1,4 +1,6 @@
 #include "objectcontroller.h"
+#include <stdlib.h>
+#include <QImage>
 
 ObjectController::ObjectController()
 {
@@ -8,9 +10,10 @@ ObjectController::ObjectController()
 
     // Initializing body defs
     enemyBodyDef.type = b2_dynamicBody;
-    // TODO: Set starting position dynamically when creating enemy objects based on window size
-    enemyBodyDef.position.Set(0,0);
     enemyBodyDef.angle = 0;
+
+    playerBodyDef.type = b2_staticBody;
+    playerBodyDef.angle = 0;
 }
 
 ObjectController::~ObjectController()
@@ -35,6 +38,9 @@ void ObjectController::createRoundOfEnemies(int round)
 
 void ObjectController::createEnemy(int round)
 {
+    // Set starting position dynamically when creating enemy objects based on window size
+    enemyBodyDef.position.Set((rand() % (int)windowSizeX*2) - windowSizeX, windowSizeY);
+
     // TODO: Box2D
     b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
     b2PolygonShape boxShape;
@@ -45,6 +51,10 @@ void ObjectController::createEnemy(int round)
     boxFixtureDef.density = 1;
 
     enemyBody->CreateFixture(&boxFixtureDef);
+
+    // TODO: 1) Add speed
+    //       2) Add image
+    objectsOnScreen.push_back(new GameObjects::Enemy(10, "", QImage(), {enemyBodyDef.position.x, windowSizeY}, *enemyBody));
 
     // TODO: EnemyImageGenerate
 
