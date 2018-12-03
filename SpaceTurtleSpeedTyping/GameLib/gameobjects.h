@@ -38,6 +38,8 @@ namespace GameObjects {
 
             posTuple getPos()
             {
+                updatePos();
+                // TODO: Convert using window size to QtWindow coordinates
                 return {posX, posY};
             }
 
@@ -45,15 +47,12 @@ namespace GameObjects {
                 return *body;
             }
 
+        private:
             // Sets the values of the x,y positions to the latest b2Body positions
             void updatePos() {
                 posX = body->GetPosition().x;
                 posY = body->GetPosition().y;
             }
-
-            // TODO: Convert using window size to QtWindow coordinates
-            unsigned int getPosX() { return posX; }
-            unsigned int getPosY() { return posY; }
 
 
         protected:
