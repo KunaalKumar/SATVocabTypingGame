@@ -1,5 +1,4 @@
 #include "enemy.h"
-
 namespace GameObjects {
 
 TargetedEnemy::TargetedEnemy(Enemy enemy) : Enemy(enemy)
@@ -8,18 +7,12 @@ TargetedEnemy::TargetedEnemy(Enemy enemy) : Enemy(enemy)
     currentLetterPos = 0;
 }
 
-Enemy::Enemy(const Enemy& enemy)
-{
-    speed = enemy.speed;
-    word = enemy.word;
-}
-
-Enemy::Enemy(int baseSpeed, posTuple pos, std::string word, QImage image) : GameObject(pos)
+Enemy::Enemy(int speed, std::string word, QImage image, unsigned int posX, unsigned int posY, b2Body &body, double windowSizeX, double windowSizeY):
+    GameObject (posX, posY, body, windowSizeX, windowSizeY)
 {
     this->word = word;
     type = Type::enemy;
-    speed = baseSpeed - (word.length() - 1);
-    this->image = image;
+    this->speed = speed - (word.length() - 1);
 }
 
 std::string Enemy::getWord()

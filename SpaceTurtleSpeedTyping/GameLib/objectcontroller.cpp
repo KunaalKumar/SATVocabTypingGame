@@ -1,6 +1,8 @@
 #include "objectcontroller.h"
 
-ObjectController::ObjectController()
+ObjectController::ObjectController(double windowSizeX, double windowSizeY):
+    windowSizeX(windowSizeX / 2),
+  windowSizeY(windowSizeY / 2)
 {
     // TODO: Generate all enemy images
     b2Vec2 gravity(0.0f, 0.0f);
@@ -44,7 +46,6 @@ GameObjects::Enemy ObjectController::createEnemy(int round)
     boxFixtureDef.density = 1;
 
     enemyBody->CreateFixture(&boxFixtureDef);
-
 
     // TODO: EnemyImageGenerate
 
@@ -125,11 +126,8 @@ GameObjects::TargetedEnemy ObjectController::getTargetedEnemy()
 
 void ObjectController::updateObjectPositions()
 {
+    // All body positions within world get updates after calling Step()
     world->Step(timeStep, velocityIterations, positionIterations);
-    for(int i = 0; i < objectsOnScreen.size(); i++) {
-        objectsOnScreen[i].updatePos();
-    }
-    //TODO: Update currentEnemies list with updated positions
 }
 
 bool ObjectController::isEnemyKilled()

@@ -15,7 +15,7 @@
 class ObjectController
 {
 public:
-    ObjectController();
+    ObjectController(double windowSizeX, double windowSizeY);
     ~ObjectController();
 
     GameObjects::Player createPlayer();
@@ -38,6 +38,9 @@ public:
     bool isEndGame();
 
  private:
+    double windowSizeX;
+    double windowSizeY;
+
     GameObjects::Player player;
     GameObjects::TargetedEnemy *targetedEnemy;
     std::vector<GameObjects::GameObject> objectsOnScreen;

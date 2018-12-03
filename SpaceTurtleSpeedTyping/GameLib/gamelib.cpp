@@ -6,6 +6,7 @@
 GameLib::GameLib(int x, int y)
 {
     //todo
+    oc = new ObjectController(x, y);
 }
 
 GameLib::~GameLib()
@@ -44,7 +45,7 @@ void GameLib::updateFrame() {
 
 void GameLib::letterTyped(char letter)
 {
-    if (oc.letterTyped(letter)) {
+    if (oc->letterTyped(letter)) {
         statistic.addTypeCount(true);
         // if(oc. isEnemyDestroyed()) {
         //    statistic.addTotalKill();

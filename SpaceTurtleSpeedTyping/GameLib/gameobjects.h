@@ -23,11 +23,13 @@ namespace GameObjects {
     class GameObject
     {
         public:
-            GameObject(unsigned int posX, unsigned int posY, b2Body body)
+            GameObject(unsigned int posX, unsigned int posY, b2Body &body, double windowSizeX, double windowSizeY)
             {
                 this->posX = posX;
                 this->posY = posY;
                 this->body = &body;
+                this->windowSizeX = windowSizeX;
+                this->windowSizeY = windowSizeY;
             }
 
             GameObject(posTuple pos)
@@ -43,21 +45,19 @@ namespace GameObjects {
                 return {posX, posY};
             }
 
-            b2Body& getBody() {
-                return *body;
-            }
-
         private:
             // Sets the values of the x,y positions to the latest b2Body positions
             void updatePos() {
-                posX = body->GetPosition().x;
-                posY = body->GetPosition().y;
+                posX = body->GetPosition().x + windowSizeX;
+                posY = body->GetPosition().y + windowSizeY;
             }
 
 
         protected:
             unsigned int posX;
             unsigned int posY;
+            double windowSizeX;
+            double windowSizeY;
             Type type;
             QImage image;
             b2Body *body;
