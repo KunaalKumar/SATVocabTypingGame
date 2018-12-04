@@ -14,6 +14,7 @@ Enemy::Enemy(int speed, std::string word, QImage image, GameObjects::posTuple po
     this->word = word;
     type = Type::enemy;
     this->speed = (float)speed - (word.length() - 1);
+    this->image = image;
 }
 
 std::string Enemy::getWord()

@@ -38,6 +38,8 @@ namespace GameObjects {
                 return {posX, posY};
             }
 
+            QImage getImage() { return image; }
+
             bool isOfType(Type other) { return type == other; }
 
         private:

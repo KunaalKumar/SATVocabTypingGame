@@ -23,7 +23,7 @@ namespace GameObjects {
             float speed;
     };
 
-    class TargetedEnemy : Enemy
+    class TargetedEnemy : public Enemy
     {
         public:
             TargetedEnemy(Enemy enemy, unsigned int vectorIndex);
