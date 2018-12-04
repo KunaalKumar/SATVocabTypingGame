@@ -10,7 +10,6 @@ namespace GameObjects
         this->health = 3;
         this->type = Type::player;
     }
-
 //Player::Player(unsigned int health, posTuple pos) : GameObjects(pos)
 //{
 //    this->health = health;
@@ -19,6 +18,11 @@ namespace GameObjects
 
 void Player::removeLife(){
     health--;
+}
+
+int Player::getHealth()
+{
+        return health;
 }
 
 }

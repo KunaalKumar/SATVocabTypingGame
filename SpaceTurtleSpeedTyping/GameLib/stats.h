@@ -6,6 +6,9 @@
 #include <string>
 #include <vector>
 #include <QDebug>
+#include <string>
+#include <map>
+
 class Stats
 {
     public:
@@ -24,6 +27,8 @@ class Stats
         int getKillStreak();
         // todo: load stats text file 3 highest scores
         bool highScore(bool isGameDone, int score);
+        const std::map<std::string, double>& getAllStats();
+
 
     private:
         int round;
@@ -31,6 +36,7 @@ class Stats
         int correctTypeCount;
         int totalKillCount;
         int killStreak;
+        std::map<std::string, double> statsMap;
 };
 
 #endif // STATS_H
