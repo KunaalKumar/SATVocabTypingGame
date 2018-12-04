@@ -5,7 +5,6 @@
 #include <QMessageBox>
 #include <iostream>
 #include <QWidget>
-#include "Box2D/Box2D.h"
 #include <QVBoxLayout>
 
 GameWindow::GameWindow(QWidget *parent) :
