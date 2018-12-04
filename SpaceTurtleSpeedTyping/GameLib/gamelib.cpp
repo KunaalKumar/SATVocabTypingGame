@@ -13,11 +13,13 @@ GameLib::~GameLib()
 {
 }
 
-std::vector<GameObjects::GameObject>& GameLib::getGameObject() {
+const std::vector<GameObjects::GameObject>& GameLib::getGameObject()
+{
     return gameObjects;
 }
 
-std::map<std::string, double>& GameLib::getStats() {
+const std::map<std::string, double>& GameLib::getStats()
+{
     // return ;
 }
 
@@ -27,7 +29,8 @@ void GameLib::startRound()
     //todo
 }
 
-bool GameLib::isEndRound() {
+bool GameLib::isEndRound()
+{
 //    if(oc.isRoundEnd()) {
 //
 //    } else {
@@ -35,27 +38,33 @@ bool GameLib::isEndRound() {
 //    }
 }
 
-bool GameLib::isEndGame(){
+bool GameLib::isEndGame()
+{
 
 }
 
-void GameLib::updateFrame() {
+void GameLib::updateFrame()
+{
         // todo: oc
 }
 
 void GameLib::letterTyped(char letter)
 {
-    if (oc.letterTyped(letter)) {
+    if (oc.letterTyped(letter))
+    {
         statistic.addTypeCount(true);
         // if(oc. isEnemyDestroyed()) {
         //    statistic.addTotalKill();
         //}
-    } else {
+    }
+    else
+    {
         statistic.addTypeCount(false);
     }
 }
 
-void GameLib::setNewDictionary(std::string dictionary) {
+void GameLib::setNewDictionary(std::string dictionary)
+{
 
 }
 

@@ -7,7 +7,8 @@
 #include <Box2D/Box2D.h>
 #include "gamelib_global.h"
 
-namespace GameObjects {
+namespace GameObjects
+{
 
     using posTuple = std::tuple<float, float>;
 
@@ -37,6 +38,8 @@ namespace GameObjects {
                 // TODO: Convert using window size to QtWindow coordinates
                 return {posX, posY};
             }
+
+            QImage getImage() { return image; }
 
             bool isOfType(Type other) { return type == other; }
 

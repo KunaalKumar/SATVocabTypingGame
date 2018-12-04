@@ -30,9 +30,9 @@ class GAMELIBSHARED_EXPORT GameLib
          * getType();
          * getWord();
          */
-        std::vector<GameObjects::GameObject>& getGameObject(); //dont store references
+        const std::vector<GameObjects::GameObject>& getGameObject();
 
-        std::map<std::string, double>& getStats(); //dont store references
+        const std::map<std::string, double>& getStats();
 
         /* >>>>>>>>>> Game <<<<<<<<<< */
         void startRound();

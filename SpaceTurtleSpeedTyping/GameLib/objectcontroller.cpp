@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <QImage>
 
+
 ObjectController::ObjectController()
 {
     // TODO: Generate all enemy images
@@ -25,10 +26,10 @@ ObjectController::~ObjectController()
 
 void ObjectController::createPlayer()
 {
-    // TO FIX: Position
-    GameObjects::posTuple pos({0, 0});
-    player = new GameObjects::Player(pos);
-    objectsOnScreen.push_back(*player);
+    // TO FIX: B2D
+//    GameObjects::posTuple pos({0, 0});
+//    player = new GameObjects::Player(pos, nullptr);
+//    objectsOnScreen.push_back(player);
 }
 
 void ObjectController::createRoundOfEnemies(int round)
@@ -41,7 +42,6 @@ void ObjectController::createEnemy(int round)
     // Set starting position dynamically when creating enemy objects based on window size
     enemyBodyDef.position.Set((rand() % (int)windowSizeX*2) - windowSizeX, windowSizeY);
 
-    // TODO: Box2D
     b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
     b2PolygonShape boxShape;
     boxShape.SetAsBox(1,1);
@@ -54,22 +54,15 @@ void ObjectController::createEnemy(int round)
 
     // TODO: 1) Add speed
     //       2) Add image
-    objectsOnScreen.push_back(new GameObjects::Enemy(10, "", QImage(), {enemyBodyDef.position.x, windowSizeY}, *enemyBody));
-
-    // TODO: EnemyImageGenerate
-
-//     GameObjects::Enemy enemy(round, {0,0}, LoadWords::getWord());
-    // load image
-//    if (enemy.getWord() != "")
-//    {
-//        objectsOnScreen.push_back(enemy); /*adding comment for claification, calling the default connstructor of enemy will give a starting pos of 0,0
-//                                                                          but a position can be specified by providing a tuple<unsigned int, usigned int> - which can be done with {,}*/
-//        return enemy;
-//    }
-//    else
-//    {
-//        stopCreatingEnemies = true;
-//    }
+    GameObjects::Enemy *enemy = new GameObjects::Enemy(round, LoadWords::getWord(), QImage(), {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
+    if (enemy->getWord() != "")
+    {
+        objectsOnScreen.push_back(enemy);
+    }
+    else
+    {
+        stopCreatingEnemies = true;
+    }
 }
 
 void ObjectController::createProjectile()
@@ -90,8 +83,8 @@ void ObjectController::createProjectile()
     }
 
     // TODO: Box2D
-    GameObjects::Projectile projectile({0,0});
-    objectsOnScreen.push_back(projectile);
+//    GameObjects::Projectile projectile = new GameObjects::Projectile({0,0}, );
+//    objectsOnScreen.push_back(projectile);
 }
 
 bool ObjectController::letterTyped(char letter)
@@ -104,7 +97,7 @@ bool ObjectController::letterTyped(char letter)
         {
             if (objectsOnScreen[i]->isOfType(GameObjects::Type::enemy))
             {
-                GameObjects::Enemy &enemy = static_cast<GameObjects::Enemy &>(objectsOnScreen[i]);
+                GameObjects::Enemy enemy = *(static_cast<GameObjects::Enemy *>(objectsOnScreen[i]));
                 if (enemy.startsWith(letter))
                 {
                     double distance = enemy.distanceTo(player->getPos());
@@ -112,8 +105,7 @@ bool ObjectController::letterTyped(char letter)
                     if (distance < lowestDistance)
                     {
                         lowestDistance = distance;
-
-                        targetedEnemy = new GameObjects::TargetedEnemy(objectsOnScreen[i]);
+                        targetedEnemy = new GameObjects::TargetedEnemy(enemy, i);
                         objectsOnScreen[i] = targetedEnemy;
                     }
                 }

@@ -7,7 +7,8 @@
 #include <math.h>
 #include <string>
 
-namespace GameObjects {
+namespace GameObjects
+{
 
     class Enemy : public GameObject
     {
@@ -23,7 +24,7 @@ namespace GameObjects {
             float speed;
     };
 
-    class TargetedEnemy : Enemy
+    class TargetedEnemy : public Enemy
     {
         public:
             TargetedEnemy(Enemy enemy, unsigned int vectorIndex);
