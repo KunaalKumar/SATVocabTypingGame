@@ -13,7 +13,8 @@ private:
     std::vector<ShipStructure> mediumShips;
     std::vector<ShipStructure> largeShips;
     std::vector<ShipStructure> hugeShips;
-    QImage setRegionColors(ShipStructure);
+    QImage setAllRegionColors(ShipStructure);
+    void setRegionColor(CooordinateList region, ShipStructure& ss, QColor color);
 };
 
 #endif // ENEMYSPRITEGENERATOR_H

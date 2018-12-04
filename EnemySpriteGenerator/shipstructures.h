@@ -5,7 +5,23 @@
 #include <vector>
 #include <tuple>
 
-using CooordinateList = std::vector<std::tuple<int>>;
+struct Cooridante
+{
+    int x;
+    int y;
+    Cooridante(int x,int y)
+    {
+        this->x = x;
+        this->y = y;
+    }
+};
+
+Cooridante makeCoordinate(int x, int y)
+{
+    return Cooridante(x,y);
+}
+
+using CooordinateList = std::vector<Cooridante>;
 
 enum ShipSize
 {
