@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <QDebug>
 class Stats
 {
     public:
@@ -20,6 +21,7 @@ class Stats
         int getTotalKill();
 
         // todo: streak of letters(If it is wrong go back to 0)
+
         // todo: load stats text file 3 highest scores
         bool highScore(bool isGameDone, int score);
 

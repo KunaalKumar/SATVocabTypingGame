@@ -7,6 +7,7 @@ Stats::Stats()
     totalTypeCount = 0;
     correctTypeCount = 0;
     totalKillCount = 0;
+    killStreak = 0;
 }
 
 void Stats::addRound() {
@@ -21,8 +22,10 @@ void Stats::addTypeCount(bool isCorrectLetter) {
     if(isCorrectLetter) {
         totalTypeCount++;
         correctTypeCount++;
+        killStreak++;
     } else {
         totalTypeCount++;
+        killStreak = 0;
     }
 }
 
@@ -50,6 +53,9 @@ int Stats::getTotalKill() {
     return totalKillCount;
 }
 
+int Stats:getKillStreak(){
+    return killStreak;
+}
 bool Stats::highScore(bool isGameDone, int score){
     bool newHighScore = false;
     if(isGameDone){
@@ -73,13 +79,22 @@ bool Stats::highScore(bool isGameDone, int score){
             }
             stream.close();
             //input the score
-            for(int i=0; i<playerScores.size();i++){
-                if((int)atoi(playerScores[i].c_str())<score){
-                    std::string temp = std::to_string(score);
-                    playerScores[i].insert(i,temp);
-                    break;
+            if(playerScores.size()==0){
+                playerScores.push_back(std::to_string(score));
+            }
+            else{
+                for(int i=0; i<playerScores.size();i++){
+                    if((int)atoi(playerScores[i].c_str())<score){
+                        if(i+1==playerScores.size()){
+                            newHighScore = true;
+                        }
+                        std::string temp = std::to_string(score);
+                        playerScores[i].insert(i,temp);
+                        break;
+                    }
                 }
             }
+            qDebug()<< playerScores.size();
             //If there are 4 scores
             if(playerScores.size()==4){
                 playerScores.pop_back();
@@ -94,11 +109,6 @@ bool Stats::highScore(bool isGameDone, int score){
         }
 
     }
-    if(newHighScore){
-        return true;
-    }
-    else{
-        return false;
-    }
+    return newHighScore;
 
 }
