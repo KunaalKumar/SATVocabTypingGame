@@ -21,7 +21,7 @@ class Stats
         int getTotalKill();
 
         // todo: streak of letters(If it is wrong go back to 0)
-
+        int getKillStreak();
         // todo: load stats text file 3 highest scores
         bool highScore(bool isGameDone, int score);
 
@@ -30,6 +30,7 @@ class Stats
         int totalTypeCount;
         int correctTypeCount;
         int totalKillCount;
+        int killStreak;
 };
 
 #endif // STATS_H

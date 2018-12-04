@@ -53,7 +53,7 @@ int Stats::getTotalKill() {
     return totalKillCount;
 }
 
-int Stats:getKillStreak(){
+int Stats::getKillStreak(){
     return killStreak;
 }
 bool Stats::highScore(bool isGameDone, int score){
