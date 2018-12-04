@@ -52,6 +52,12 @@ public:
     float32 timeStep = 1.0f / 60.0f;
     int32 velocityIterations = 8;
     int32 positionIterations = 3;
+
+    /**
+     * @brief attractToPlayer - attracts given body towards player
+     * @param body - b2Body that will be moved towards the player
+     */
+    void attractToPlayer(b2Body &body);
 };
 
 #endif // OBJECTCONTROLLER_H

@@ -6,6 +6,7 @@
 ObjectController::ObjectController()
 {
     // TODO: Generate all enemy images
+    // TODO: make gravity an instance variable
     b2Vec2 gravity(0.0f, 0.0f);
     world = new b2World(gravity);
 
@@ -161,4 +162,14 @@ bool ObjectController::isRoundEnd()
 bool ObjectController::isEndGame()
 {
     return player->getHealth() == 0;
+}
+
+void ObjectController::attractToPlayer(b2Body &body)
+{
+    b2Vec2 playerPos = player->getBody().GetWorldCenter();
+    b2Vec2 bodyPos = body.GetWorldCenter();
+    b2Vec2 force = playerPos - bodyPos;
+    float32 distance = force.Length();
+    force.Normalize();
+    //TODO : Calculate strength
 }
