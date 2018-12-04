@@ -11,4 +11,9 @@ namespace GameObjects
         this->type = Type::player;
     }
 
+    int Player::getHealth()
+    {
+
+    }
+
 }
