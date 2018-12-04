@@ -26,10 +26,22 @@ ObjectController::~ObjectController()
 
 void ObjectController::createPlayer()
 {
-    // TO FIX: B2D
-//    GameObjects::posTuple pos({0, 0});
-//    player = new GameObjects::Player(pos, nullptr);
-//    objectsOnScreen.push_back(player);
+    // Player position - 10% up from the bottom and in the middle of the screen
+    playerBodyDef.position.Set((windowSizeX/2), -(0.9*windowSizeY));
+
+    b2Body *playerBody = world->CreateBody(&playerBodyDef);
+    b2PolygonShape boxShape;
+    boxShape.SetAsBox(1,1);
+
+    b2FixtureDef boxFixtureDef;
+    boxFixtureDef.shape = &boxShape;
+    boxFixtureDef.density = 1;
+
+    playerBody->CreateFixture(&boxFixtureDef);
+
+    GameObjects::Player *player = new GameObjects::Player({playerBodyDef.position.x, playerBodyDef.position.y}, *playerBody);
+    objectsOnScreen.push_back(player);
+
 }
 
 void ObjectController::createRoundOfEnemies(int round)
@@ -52,8 +64,7 @@ void ObjectController::createEnemy(int round)
 
     enemyBody->CreateFixture(&boxFixtureDef);
 
-    // TODO: 1) Add speed
-    //       2) Add image
+    // TODO: 1) Add image
     GameObjects::Enemy *enemy = new GameObjects::Enemy(round, LoadWords::getWord(), QImage(), {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
     if (enemy->getWord() != "")
     {
