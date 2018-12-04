@@ -1,11 +1,14 @@
-#include "load.h"
+#include "loadwords.h"
 
-Load::Load()
+LoadWords::LoadWords()
 {
-
 }
 
-void Load::importWords()
+std::map<int, std::vector<std::string>> LoadWords::allWords;
+std::vector<std::string> LoadWords::roundWords;
+int LoadWords::nextWordIndex;
+
+void LoadWords::importWords()
 {
     std::ifstream stream;
      stream.open("..//src/dictionary/words");
@@ -34,7 +37,7 @@ void Load::importWords()
     }
 }
 
-void Load::createRoundWords(int round)
+void LoadWords::createRoundWords(int round)
 {
     for (int i = 0; i < 20; i++)
     {
@@ -48,7 +51,7 @@ void Load::createRoundWords(int round)
     nextWordIndex = 0;
 }
 
-std::string Load::getWord()
+std::string LoadWords::getWord()
 {
     if (nextWordIndex == roundWords.size())
     {

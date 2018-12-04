@@ -48,3 +48,56 @@ void Stats::addTotalKill() {
 int Stats::getTotalKill() {
     return totalKillCount;
 }
+
+bool Stats::highScore(bool isGameDone, int score){
+    bool newHighScore = false;
+    if(isGameDone){
+        std::ifstream stream;
+         stream.open("..//src/ScoreBoard/playerScore");
+         //If you cannot open the file
+         if (!stream.is_open())
+         {
+             //TODO: Handle
+         }
+         //If you can
+         else
+         {
+            std::string word;
+            std::vector<std::string> playerScores;
+            //Get each score from the file
+            while (!stream.eof())
+            {
+                std::getline(stream, word);
+                playerScores.push_back(word);
+            }
+            stream.close();
+            //input the score
+            for(int i=0; i<playerScores.size();i++){
+                if((int)atoi(playerScores[i].c_str())<score){
+                    std::string temp = std::to_string(score);
+                    playerScores[i].insert(i,temp);
+                    break;
+                }
+            }
+            //If there are 4 scores
+            if(playerScores.size()==4){
+                playerScores.pop_back();
+            }
+            //write it back to the file
+            std::ofstream input;
+            input.open("..//src/ScoreBoard/playerScore");
+            for(int i=0;i<playerScores.size();i++){
+                input<< playerScores[i] +"\n";
+            }
+
+        }
+
+    }
+    if(newHighScore){
+        return true;
+    }
+    else{
+        return false;
+    }
+
+}

@@ -2,43 +2,56 @@
 #define GAMELIB_H
 
 #include "gamelib_global.h"
-#include "enemy.h"
+#include "objectcontroller.h"
 #include "stats.h"
-#include "load.h"
 
 #include <string>
 #include <float.h>
 #include <vector>
+#include <map>
 
 
 class GAMELIBSHARED_EXPORT GameLib
 {
 
     public:
-
-        /* GameLib */
-        GameLib();
+        /* >>>>>>>>>> GameLib <<<<<<<<<< */
+    /**
+         * @brief GameLib
+         * @param x - size of widnow: x axis
+         * @param y - size of widnow: y axis
+         */
+        GameLib(int x, int y);
         ~GameLib();
 
-        /* Objects */
-        std::vector<GameObjects::GameObject>& getGameObject();
-        Stats& getStats();
+        /* >>>>>>>>>> Objects <<<<<<<<<< */
+        /* GameObject:
+         * getPos();
+         * getType();
+         * getWord();
+         */
+        std::vector<GameObjects::GameObject>& getGameObject(); //dont store references
 
-        /* Game */
+        std::map<std::string, double>& getStats(); //dont store references
+
+        /* >>>>>>>>>> Game <<<<<<<<<< */
         void startRound();
+
         bool isEndRound();
+        bool isEndGame();
 
         void updateFrame();
 
-        using hitEnemy = bool;
-        hitEnemy shoot(char letter);
+        /* When user input, use this API */
+        void letterTyped(char letter);
 
-        /* Load */
+        /* >>>>>>>>>> Load <<<<<<<<<< */
         void setNewDictionary(std::string dictionary);
 
     private:
         std::vector<GameObjects::GameObject> gameObjects;
         Stats statistic;
+        ObjectController oc;
 };
 
 #endif // GAMELIB_H

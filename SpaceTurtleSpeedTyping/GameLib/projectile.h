@@ -2,13 +2,15 @@
 #define PROJECTILE_H
 
 #include "gameobjects.h"
+#include <Box2D/Box2D.h>
 
-namespace GameObjects {
+namespace GameObjects
+{
 
-    class Projectile : GameObject
+    class Projectile : public GameObject
     {
         public:
-            Projectile(posTuple pos);
+            Projectile(posTuple pos, b2Body &body);
         private:
             //
     };

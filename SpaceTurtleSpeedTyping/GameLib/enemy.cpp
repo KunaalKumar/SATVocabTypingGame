@@ -1,13 +1,19 @@
 #include "enemy.h"
-
 namespace GameObjects {
 
-Enemy::Enemy(int baseSpeed, posTuple pos) : GameObject(pos)
+TargetedEnemy::TargetedEnemy(Enemy enemy, unsigned int vectorIndex) : Enemy(enemy)
 {
-    word = Load::getWord();
-    type = Type::enemy;
-    speed = baseSpeed - (word.length() - 1);
+//    image =
     currentLetterPos = 0;
+    this->vectorIndex = vectorIndex;
+}
+
+Enemy::Enemy(int speed, std::string word, QImage image, GameObjects::posTuple pos, b2Body &body):
+    GameObject (pos, body)
+{
+    this->word = word;
+    type = Type::enemy;
+    this->speed = (float)speed - (word.length() - 1);
 }
 
 std::string Enemy::getWord()
@@ -15,10 +21,10 @@ std::string Enemy::getWord()
     return word;
 }
 
-double Enemy::distanceTo(int otherX, int otherY)
+double Enemy::distanceTo(GameObjects::posTuple otherPos)
 {
-    int xDiff = otherX - posX;
-    int yDiff = otherY - posY;
+    float xDiff = std::get<0>(otherPos) - posX;
+    float yDiff = std::get<1>(otherPos) - posY;
     return pow((xDiff*xDiff)+(yDiff*yDiff), 0.5);
 }
 
@@ -27,15 +33,24 @@ bool Enemy::startsWith(char letter)
     return letter == word[0];
 }
 
-bool Enemy::shoot(char letter)
+bool TargetedEnemy::shoot(char letter)
 {
-    if (letter == word[0])
+    if (letter == word[currentLetterPos])
     {
-        int newLength = word.length()-1;
-        word = word.substr(1, newLength);
+        currentLetterPos++;
         return true;
     }
     return false;
+}
+
+bool TargetedEnemy::getVectorIndex()
+{
+    return vectorIndex;
+}
+
+bool TargetedEnemy::wasDestroyed()
+{
+    return currentLetterPos == word.length() - 1;
 }
 
 }

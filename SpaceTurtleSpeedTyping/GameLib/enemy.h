@@ -1,7 +1,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "load.h"
+#include "loadwords.h"
 #include "gameobjects.h"
 
 #include <math.h>
@@ -9,23 +9,36 @@
 
 namespace GameObjects {
 
-class Enemy : private GameObject
-{
-    public:
-        Enemy(int baseSpeed, posTuple pos);
+    class Enemy : public GameObject
+    {
+        public:
+            Enemy(int speed, std::string word, QImage image, GameObjects::posTuple pos, b2Body &body);
 
-        using hitPlayer = bool;
-        hitPlayer shoot(char letter);
+            std::string getWord();
+            double distanceTo(GameObjects::posTuple);
+            bool startsWith(char letter);
 
-        std::string getWord();
-        double distanceTo(int otherX, int otherY);
-        bool startsWith(char letter);
+        protected:
+            std::string word;
+            float speed;
+    };
 
-    private:
-        std::string word;
-        int speed;
-        unsigned int currentLetterPos;
-};
+    class TargetedEnemy : Enemy
+    {
+        public:
+            TargetedEnemy(Enemy enemy, unsigned int vectorIndex);
+
+            using hitPlayer = bool;
+            hitPlayer shoot(char letter);
+
+            bool getVectorIndex();
+
+            bool wasDestroyed();
+        private:
+            unsigned int currentLetterPos;
+            unsigned int vectorIndex;
+
+    };
 
 }
 

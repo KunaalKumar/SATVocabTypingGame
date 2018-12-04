@@ -2,6 +2,9 @@
 #define STATS_H
 
 //#include "player.h"
+#include <fstream>
+#include <string>
+#include <vector>
 class Stats
 {
     public:
@@ -15,10 +18,10 @@ class Stats
         int getCorrectType();
         void addTotalKill();
         int getTotalKill();
-        //void loseLife();
 
-        // todo: streak
-        // todo: load stats
+        // todo: streak of letters(If it is wrong go back to 0)
+        // todo: load stats text file 3 highest scores
+        bool highScore(bool isGameDone, int score);
 
     private:
         int round;

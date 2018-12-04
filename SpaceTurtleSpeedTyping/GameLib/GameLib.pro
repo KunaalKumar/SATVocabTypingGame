@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+QT       += gui
 
 TARGET = GameLib
 TEMPLATE = lib
@@ -25,22 +25,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         gamelib.cpp \
     enemy.cpp \
-    load.cpp \
     player.cpp \
     projectile.cpp \
     objectcontroller.cpp \
-    stats.cpp
+    stats.cpp \
+    loadwords.cpp \
+    explosion.cpp
 
 HEADERS += \
         gamelib.h \
-        gamelib_global.h \ 
+        gamelib_global.h \
     enemy.h \
-    load.h \
     player.h \
     projectile.h \
     gameobjects.h \
     stats.h \
-    objectcontroller.h
+    objectcontroller.h \
+    loadwords.h \
+    explosion.h
 
 unix {
     target.path = /usr/lib
@@ -49,3 +51,17 @@ unix {
 
 RESOURCES += \
     ../src/src.qrc
+
+unix:!macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/linux/ -lBox2D
+
+INCLUDEPATH += $$PWD/../3rdPartyLibraries/Box2D/include
+DEPENDPATH += $$PWD/../3rdPartyLibraries/Box2D/include
+
+unix:!macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/linux/libBox2D.a
+
+macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/osx/ -lBox2D
+
+INCLUDEPATH += $$PWD/../3rdPartyLibraries/Box2D/include
+DEPENDPATH += $$PWD/../3rdPartyLibraries/Box2D/include
+
+macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/osx/libBox2D.a

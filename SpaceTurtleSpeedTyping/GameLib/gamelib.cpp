@@ -1,9 +1,12 @@
 #include "gamelib.h"
-#include  "gameobjects.h"
+#include "gameobjects.h"
+#include "loadwords.h"
 
 
-GameLib::GameLib()
+GameLib::GameLib(int x, int y)
 {
+    windowSizeX = x / 2;
+    windowSizeY = y / 2;
 }
 
 GameLib::~GameLib()
@@ -14,8 +17,8 @@ std::vector<GameObjects::GameObject>& GameLib::getGameObject() {
     return gameObjects;
 }
 
-Stats& GameLib::getStats() {
-    return statistic;
+std::map<std::string, double>& GameLib::getStats() {
+    // return ;
 }
 
 void GameLib::startRound()
@@ -25,16 +28,31 @@ void GameLib::startRound()
 }
 
 bool GameLib::isEndRound() {
+//    if(oc.isRoundEnd()) {
+//
+//    } else {
+//
+//    }
+}
+
+bool GameLib::isEndGame(){
 
 }
 
 void GameLib::updateFrame() {
-
+        // todo: oc
 }
 
-bool GameLib::shoot(char letter)
+void GameLib::letterTyped(char letter)
 {
-
+    if (oc.letterTyped(letter)) {
+        statistic.addTypeCount(true);
+        // if(oc. isEnemyDestroyed()) {
+        //    statistic.addTotalKill();
+        //}
+    } else {
+        statistic.addTypeCount(false);
+    }
 }
 
 void GameLib::setNewDictionary(std::string dictionary) {
