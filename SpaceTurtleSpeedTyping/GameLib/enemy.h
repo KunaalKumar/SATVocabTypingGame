@@ -7,7 +7,8 @@
 #include <math.h>
 #include <string>
 
-namespace GameObjects {
+namespace GameObjects
+{
 
     class Enemy : public GameObject
     {

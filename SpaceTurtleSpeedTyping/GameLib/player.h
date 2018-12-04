@@ -4,7 +4,8 @@
 #include "gameobjects.h"
 #include <Box2D/Box2D.h>
 
-namespace GameObjects {
+namespace GameObjects
+{
 
     class Player : public GameObject
     {

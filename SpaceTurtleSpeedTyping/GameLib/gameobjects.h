@@ -7,7 +7,8 @@
 #include <Box2D/Box2D.h>
 #include "gamelib_global.h"
 
-namespace GameObjects {
+namespace GameObjects
+{
 
     using posTuple = std::tuple<float, float>;
 
