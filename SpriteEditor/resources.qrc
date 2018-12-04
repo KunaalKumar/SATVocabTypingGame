@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/src">
+        <file>src/warning.png</file>
+        <file>src/icon.png</file>
+        <file>src/add.png</file>
+        <file>src/black-body-table-byte-0256.csv</file>
+    </qresource>
+</RCC>

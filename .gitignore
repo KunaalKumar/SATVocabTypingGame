@@ -1,9 +1,3 @@
-#ignore-directory
-build-*
-SpaceTurtleSpeedTyping/build-*
-
-#ignore-files
-*.user*
-SpaceTurtleSpeedTyping/GameLib/*.user*
-SpaceTurtleSpeedTyping/GameWindow/*.user*
-
+#ignore build directory
+build-SpriteEditor*
+*.DS_STORE

@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/src">
-        <file>dictionary/words</file>
-    </qresource>
-</RCC>
