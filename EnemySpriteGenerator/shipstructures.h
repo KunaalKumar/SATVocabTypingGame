@@ -21,7 +21,7 @@ Cooridante makeCoordinate(int x, int y)
     return Cooridante(x,y);
 }
 
-using CooordinateList = std::vector<Cooridante>;
+using CoordinateList = std::vector<Cooridante>;
 
 enum ShipSize
 {
@@ -34,11 +34,11 @@ enum ShipSize
 struct ShipStructure
 {
     QImage image;
-    std::vector<CooordinateList> regions;
+    std::vector<CoordinateList> regions;
     ShipSize size;
 };
 
-ShipStructure createShip(ShipSize ss, std::vector<CooordinateList> regions)
+ShipStructure createShip(ShipSize ss, std::vector<CoordinateList> regions)
 {
     ShipStructure structure;
     structure.size = ss;
@@ -51,7 +51,14 @@ ShipStructure createShip(ShipSize ss, std::vector<CooordinateList> regions)
 ShipStructure createSmallShip1()
 {
     //create regions here
-    std::vector<CooordinateList> regions;
+    std::vector<CoordinateList> regions;
+
+    CoordinateList region1;
+    region1.push_back(makeCoordinate(3,1));
+    region1.push_back(makeCoordinate(4,1));
+    region1.push_back(makeCoordinate(3,2));
+    region1.push_back(makeCoordinate(4,2));
+
 
     return createShip(ShipSize::small, regions);
 }

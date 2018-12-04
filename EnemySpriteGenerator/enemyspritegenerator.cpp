@@ -34,7 +34,7 @@ QImage EnemySpriteGenerator::generateNewEnemy(ShipSize ss)
 
 QImage EnemySpriteGenerator::setAllRegionColors(ShipStructure shipStructure)
 {
-    for (CooordinateList region : shipStructure.regions)
+    for (CoordinateList region : shipStructure.regions)
     {
         int red = rand() % 255;
         int blue = rand() % 255;
@@ -47,7 +47,7 @@ QImage EnemySpriteGenerator::setAllRegionColors(ShipStructure shipStructure)
     return shipStructure.image;
 }
 
-void EnemySpriteGenerator::setRegionColor(CooordinateList region, ShipStructure& ss, QColor color)
+void EnemySpriteGenerator::setRegionColor(CoordinateList region, ShipStructure& ss, QColor color)
 {
     for (Cooridante coordinate : region)
     {
