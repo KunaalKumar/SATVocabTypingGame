@@ -49,3 +49,11 @@ void Stats::addTotalKill() {
 int Stats::getTotalKill() {
     return totalKillCount;
 }
+
+const std::map<std::string, double>& Stats::getAllStats(){
+    statsMap.insert(std::pair<std::string, double>("round", getRound()));
+    statsMap.insert(std::pair<std::string, double>("correctRate", getCorrectRate()));
+    statsMap.insert(std::pair<std::string, double>("totalKill", getTotalKill()));
+    return statsMap;
+}
+

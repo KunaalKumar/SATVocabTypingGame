@@ -20,22 +20,22 @@ const std::vector<GameObjects::GameObject>& GameLib::getGameObject()
 
 const std::map<std::string, double>& GameLib::getStats()
 {
-    // return ;
+    return statistic.getAllStats();
 }
 
 void GameLib::startRound()
 {
     statistic.addRound();
-    //todo
+    oc.updateObjectPositions(); // todo
 }
 
 bool GameLib::isEndRound()
 {
-//    if(oc.isRoundEnd()) {
-//
-//    } else {
-//
-//    }
+    if(oc.isRoundEnd()) {
+
+    } else {
+
+    }
 }
 
 bool GameLib::isEndGame()
@@ -53,9 +53,9 @@ void GameLib::letterTyped(char letter)
     if (oc.letterTyped(letter))
     {
         statistic.addTypeCount(true);
-        // if(oc. isEnemyDestroyed()) {
-        //    statistic.addTotalKill();
-        //}
+        if(oc.isEnemyKilled()) {
+            statistic.addTotalKill();
+        }
     }
     else
     {
