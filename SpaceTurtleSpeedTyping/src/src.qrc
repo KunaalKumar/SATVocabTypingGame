@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/src">
         <file>dictionary/words</file>
+        <file>Images/cute_turtle.png</file>
+        <file>Sound/gun.wav</file>
+        <file>Fonts/PTZ56F.ttf</file>
     </qresource>
 </RCC>

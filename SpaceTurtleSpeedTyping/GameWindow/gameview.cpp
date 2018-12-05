@@ -13,7 +13,7 @@ GameView::GameView(QWidget *parent) :
     ui->setupUi(this);
 
     hitIdx = 0;
-    fireSound.setMedia(QUrl("qrc:/src/gun.wav"));
+    fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
     textVector.push_front("Hello");
     textVector.push_front("Hello");
     textVector.push_front("Hello");
@@ -23,13 +23,13 @@ GameView::GameView(QWidget *parent) :
     textVector.push_front("Hello");
 
     texture.create(720, 800);
-    sprite_texture.loadFromFile("/Users/wei-tungtang/Documents/A8-an-educational-app-f18-Purple-Picnic-Turtles-2.0/SpaceTurtleSpeedTyping/src/cute_turtle.png");
+    sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
     sprite_texture.setSmooth(true);
     // Create the sprite
     sprite.setTexture(sprite_texture);
     sprite.setPosition(328,700);
 
-    font.loadFromFile("/Users/wei-tungtang/Documents/A8-an-educational-app-f18-Purple-Picnic-Turtles-2.0/SpaceTurtleSpeedTyping/src/PTZ56F.ttf");
+    font.loadFromFile("../src/Fonts/PTZ56F.ttf");
     text.setFont(font);
     text.setCharacterSize(18);
     text.setString("hello");
@@ -47,29 +47,25 @@ GameView::~GameView()
     delete ui;
 }
 
-
-
-
-
 void GameView::renderTexture() {
     texture.clear(sf::Color::Black);
     texture.draw(sprite);  // sprite is a sf::Sprite
 
-    for (int i = 0; i < textVector.size(); i++)
-    {
-        text.setString(textVector.at(i));
-        if (i == 0)
-            text.setPosition(15, count++);
-        else
-        {
+//    for (int i = 0; i < textVector.size(); i++)
+//    {
+//        text.setString(textVector.at(i));
+//        if (i == 0)
+//            text.setPosition(15, count++);
+//        else
+//        {
 
-            text.setPosition(i * 100, count++);
-        }
-        if (count > 600) count = 0;
-        texture.draw(text);    // text is a sf::Text
-    }
+//            text.setPosition(i * 100, count++);
+//        }
+//        if (count > 600) count = 0;
+//        texture.draw(text);    // text is a sf::Text
+//    }
 
-    //text.setPosition(100, count++);
+    text.setPosition(100, count++);
     texture.draw(text);
 
     if (fired)
@@ -93,7 +89,7 @@ void GameView::renderTexture() {
     const uint8_t *pp = irt.getPixelsPtr();
 
 
-    QImage qi(pp, 328, 600, QImage::Format_ARGB32);
+    QImage qi(pp, 720, 800, QImage::Format_ARGB32);
     qi = qi.rgbSwapped();
 
     ui->label->setPixmap(QPixmap::fromImage(qi));
