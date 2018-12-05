@@ -13,9 +13,9 @@ GameLib::~GameLib()
 {
 }
 
-const std::vector<GameObjects::GameObject>& GameLib::getGameObject()
+const std::vector<GameObjects::GameObject *>& GameLib::getGameObject()
 {
-    return gameObjects;
+    return oc.getObjects();
 }
 
 const std::map<std::string, double>& GameLib::getStats()
@@ -26,26 +26,22 @@ const std::map<std::string, double>& GameLib::getStats()
 void GameLib::startRound()
 {
     statistic.addRound();
-    oc.updateObjectPositions(); // todo
+    oc.updateObjectPositions();
 }
 
 bool GameLib::isEndRound()
 {
-    if(oc.isRoundEnd()) {
-
-    } else {
-
-    }
+    oc.isRoundEnd();
 }
 
 bool GameLib::isEndGame()
 {
-
+    oc.isEndGame();
 }
 
 void GameLib::updateFrame()
 {
-        // todo: oc
+    oc.updateObjectPositions();
 }
 
 void GameLib::letterTyped(char letter)

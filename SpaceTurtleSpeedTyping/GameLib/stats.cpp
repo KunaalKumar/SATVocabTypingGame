@@ -114,10 +114,6 @@ bool Stats::highScore(bool isGameDone, int score){
 
 }
 
-int Stats::getScore() {
-    return getRound() * (getCorrectType() + getTotalKill() + getKillStreak());
-}
-
 const std::map<std::string, double>& Stats::getAllStats(){
     statsMap.insert(std::pair<std::string, double>("round", getRound()));
     statsMap.insert(std::pair<std::string, double>("correctRate", getCorrectRate()));
@@ -127,4 +123,8 @@ const std::map<std::string, double>& Stats::getAllStats(){
     statsMap.insert(std::pair<std::string, double>("highScore", highScore(true, getScore())));
 
     return statsMap;
+}
+
+int Stats::getScore() {
+    return getRound() * (getCorrectType() + getTotalKill() + getKillStreak());
 }

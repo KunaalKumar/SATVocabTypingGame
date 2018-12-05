@@ -30,8 +30,16 @@ class GAMELIBSHARED_EXPORT GameLib
          * getType();
          * getWord();
          */
-        const std::vector<GameObjects::GameObject>& getGameObject();
+        const std::vector<GameObjects::GameObject *>& getGameObject();
 
+        /*
+         * "round"
+         * "correctRate"
+         * "totalKill"
+         * "killStreak"
+         * "currentScore"
+         * "highScore"
+         */
         const std::map<std::string, double>& getStats();
 
         /* >>>>>>>>>> Game <<<<<<<<<< */
