@@ -31,7 +31,7 @@ namespace GameObjects {
     }
 
     // Static
-    int getSize(int wordLength)
+    int Enemy::getSize(int wordLength)
     {
         switch (wordLength)
         {
