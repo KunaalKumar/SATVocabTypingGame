@@ -3,11 +3,11 @@
 
 namespace GameObjects {
 
-    Enemy::Enemy(int speed, std::string word, int enemyImageWidth, QImage image, GameObjects::posTuple pos, b2Body &body):
+    Enemy::Enemy(int speed, std::string word, int boxWidth, QImage image, GameObjects::posTuple pos, b2Body &body):
         GameObject (pos, body)
     {
         this->word = word;
-        this->enemyImageWidth = enemyImageWidth;
+        this->boxWidth = boxWidth;
         type = Type::enemy;
         this->speed = (float)speed - (word.length() - 1);
         this->image = image;
@@ -28,6 +28,18 @@ namespace GameObjects {
     bool Enemy::startsWith(char letter)
     {
         return letter == word[0];
+    }
+
+    // Static
+    int getSize(int wordLength)
+    {
+        switch (wordLength)
+        {
+            case 3 ... 5  : return 32;
+            case 6 ... 8  : return 48;
+            case 9 ... 11 : return 64;
+            default       : return 128;
+        }
     }
 
 // Targeted Enemy

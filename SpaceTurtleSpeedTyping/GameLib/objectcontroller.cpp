@@ -193,12 +193,15 @@ void ObjectController::stepBox2DWorld()
 
 GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
 {
+    std::string word = LoadWords::getWord();
+    int boxSize = GameObjects::Enemy::getSize(word.size());
+
     // Set starting position dynamically when creating enemy objects based on window size
     enemyBodyDef.position.Set((rand() % (int)windowSizeX*2) - windowSizeX, windowSizeY);
 
     b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
     b2PolygonShape boxShape;
-    boxShape.SetAsBox(1,1);
+    boxShape.SetAsBox(boxSize, boxSize);
 
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
@@ -207,8 +210,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
     enemyBody->CreateFixture(&boxFixtureDef);
 
     // TODO: 1) Add image
-//           2) Size
-    return new GameObjects::Enemy(round, LoadWords::getWord(), 1, QImage(), {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
+    return new GameObjects::Enemy(round, word, boxSize, QImage(), {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
 }
 
 GameObjects::Player *ObjectController::b2MakeNewPlayer()
