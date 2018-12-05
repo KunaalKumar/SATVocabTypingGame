@@ -132,7 +132,7 @@ void ObjectController::updateObjectPositions()
     }
 }
 
-std::vector<GameObjects::GameObject *>& ObjectController::getObjects()
+const std::vector<GameObjects::GameObject *>& ObjectController::getObjects()
 {
     return objectsOnScreen;
 }
@@ -220,7 +220,7 @@ GameObjects::Player *ObjectController::b2MakeNewPlayer()
 
     b2Body *playerBody = world->CreateBody(&playerBodyDef);
     b2PolygonShape boxShape;
-    boxShape.SetAsBox(1,1);
+    boxShape.SetAsBox(32, 32);
 
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;

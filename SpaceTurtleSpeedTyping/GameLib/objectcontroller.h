@@ -29,7 +29,7 @@ public:
     using hitEnemy = bool;
     hitEnemy letterTyped(char letter);
 
-    std::vector<GameObjects::GameObject *>& getObjects();
+    const std::vector<GameObjects::GameObject *>& getObjects();
 
     // Updates all object positions in objectsOnScreen
     void updateObjectPositions();
