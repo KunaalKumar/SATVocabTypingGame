@@ -6,18 +6,8 @@
 ObjectController::ObjectController()
 {
     // TODO: Generate all enemy images
-    // TODO: make gravity an instance variable
-    b2Vec2 gravity(0.0f, -1.0f);
-    world = new b2World(gravity);
-
-    // Initializing body defs
-    enemyBodyDef.type = b2_dynamicBody;
-    enemyBodyDef.angle = 0;
-
-    playerBodyDef.type = b2_staticBody;
-    playerBodyDef.angle = 0;
-
     stopCreatingEnemies = true;
+    initBox2DWorld();
 }
 
 ObjectController::~ObjectController()
@@ -30,20 +20,7 @@ ObjectController::~ObjectController()
 
 void ObjectController::createPlayer()
 {
-    // Player position - 10% up from the bottom and in the middle of the screen
-    playerBodyDef.position.Set((windowSizeX/2), -(0.9*windowSizeY));
-
-    b2Body *playerBody = world->CreateBody(&playerBodyDef);
-    b2PolygonShape boxShape;
-    boxShape.SetAsBox(1,1);
-
-    b2FixtureDef boxFixtureDef;
-    boxFixtureDef.shape = &boxShape;
-    boxFixtureDef.density = 1;
-
-    playerBody->CreateFixture(&boxFixtureDef);
-
-    player = new GameObjects::Player({playerBodyDef.position.x, playerBodyDef.position.y}, *playerBody);
+    player = b2MakeNewPlayer();
     objectsOnScreen.push_back(player);
 }
 
@@ -55,21 +32,8 @@ void ObjectController::createRoundOfEnemies(int round)
 
 void ObjectController::createEnemy(int round)
 {
-    // Set starting position dynamically when creating enemy objects based on window size
-    enemyBodyDef.position.Set((rand() % (int)windowSizeX*2) - windowSizeX, windowSizeY);
+    GameObjects::Enemy *enemy = b2MakeNewEnemy(round);
 
-    b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
-    b2PolygonShape boxShape;
-    boxShape.SetAsBox(1,1);
-
-    b2FixtureDef boxFixtureDef;
-    boxFixtureDef.shape = &boxShape;
-    boxFixtureDef.density = 1;
-
-    enemyBody->CreateFixture(&boxFixtureDef);
-
-    // TODO: 1) Add image
-    GameObjects::Enemy *enemy = new GameObjects::Enemy(round, LoadWords::getWord(), 0, QImage(), {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
     if (enemy->getWord() != "")
     {
         objectsOnScreen.push_back(enemy);
@@ -150,8 +114,7 @@ void ObjectController::createExplosion()
 
 void ObjectController::updateObjectPositions()
 {
-    // All body positions within world get updates after calling Step()
-    world->Step(timeStep, velocityIterations, positionIterations);
+    stepBox2DWorld();
 
     // TO FIX: Currently creating enemies every 5 seconds
     if (!stopCreatingEnemies && ++frameCounter == 5000)
@@ -189,6 +152,27 @@ bool ObjectController::isEndGame()
     return player->getHealth() == 0;
 }
 
+//__________             ________  ________      _________ __          _____  _____
+//\______   \ _______  __\_____  \ \______ \    /   _____//  |_ __ ___/ ____\/ ____\
+// |    |  _//  _ \  \/  //  ____/  |    |  \   \_____  \\   __\  |  \   __\\   __\
+// |    |   (  <_> >    </       \  |    `   \  /        \|  | |  |  /|  |   |  |
+// |______  /\____/__/\_ \_______ \/_______  / /_______  /|__| |____/ |__|   |__|
+//        \/            \/       \/        \/          \/
+
+void ObjectController::initBox2DWorld() {
+    // TODO: Generate all enemy images
+    // TODO: make gravity an instance variable
+    b2Vec2 gravity(0.0f, -1.0f);
+    world = new b2World(gravity);
+
+    // Initializing body defs
+    enemyBodyDef.type = b2_dynamicBody;
+    enemyBodyDef.angle = 0;
+
+    playerBodyDef.type = b2_staticBody;
+    playerBodyDef.angle = 0;
+}
+
 void ObjectController::attractAToB(b2Body &bodyA, b2Body &bodyB)
 {
     b2Vec2 posA = bodyA.GetWorldCenter();
@@ -199,4 +183,48 @@ void ObjectController::attractAToB(b2Body &bodyA, b2Body &bodyB)
     float strength = (-1.0f * bodyA.GetMass() * bodyB.GetMass()) / (distance * distance);
     force.operator*=(strength);
     bodyA.ApplyForce(force, bodyA.GetWorldCenter(), true);
+}
+
+void ObjectController::stepBox2DWorld()
+{
+    // All body positions within world get updates after calling Step()
+    world->Step(timeStep, velocityIterations, positionIterations);
+}
+
+GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
+{
+    // Set starting position dynamically when creating enemy objects based on window size
+    enemyBodyDef.position.Set((rand() % (int)windowSizeX*2) - windowSizeX, windowSizeY);
+
+    b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
+    b2PolygonShape boxShape;
+    boxShape.SetAsBox(1,1);
+
+    b2FixtureDef boxFixtureDef;
+    boxFixtureDef.shape = &boxShape;
+    boxFixtureDef.density = 1;
+
+    enemyBody->CreateFixture(&boxFixtureDef);
+
+    // TODO: 1) Add image
+//           2) Size
+    return new GameObjects::Enemy(round, LoadWords::getWord(), 1, QImage(), {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
+}
+
+GameObjects::Player *ObjectController::b2MakeNewPlayer()
+{
+    // Player position - 10% up from the bottom and in the middle of the screen
+    playerBodyDef.position.Set((windowSizeX/2), -(0.9*windowSizeY));
+
+    b2Body *playerBody = world->CreateBody(&playerBodyDef);
+    b2PolygonShape boxShape;
+    boxShape.SetAsBox(1,1);
+
+    b2FixtureDef boxFixtureDef;
+    boxFixtureDef.shape = &boxShape;
+    boxFixtureDef.density = 1;
+
+    playerBody->CreateFixture(&boxFixtureDef);
+
+    return new GameObjects::Player({playerBodyDef.position.x, playerBodyDef.position.y}, *playerBody);
 }
