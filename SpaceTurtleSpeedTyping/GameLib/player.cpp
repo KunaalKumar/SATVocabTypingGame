@@ -10,19 +10,15 @@ namespace GameObjects
         this->health = 3;
         this->type = Type::player;
     }
-//Player::Player(unsigned int health, posTuple pos) : GameObjects(pos)
-//{
-//    this->health = health;
-//    this->type = Type::player;
-//}
 
-void Player::removeLife(){
-    health--;
-}
+    void Player::removeHealth()
+    {
+        health--;
+    }
 
-int Player::getHealth()
-{
-        return health;
-}
+    int Player::getHealth()
+    {
+            return health;
+    }
 
 }

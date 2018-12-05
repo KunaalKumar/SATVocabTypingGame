@@ -31,20 +31,13 @@ public:
 
     const std::vector<GameObjects::GameObject *>& getObjects();
 
-<<<<<<< HEAD
     // Updates all object positions in objectsOnScreen
     void updateObjectPositions();
-=======
-    // Updates all object positions in currentEnemeies
-    void updateObjectPositions();
-
->>>>>>> 365a03a7a7f37cbe35f054225bc0acf203d2fddd
     bool isEnemyKilled();
     bool isRoundEnd();
     bool isEndGame();
 
  private:
-<<<<<<< HEAD
     // shoot closest enemy with starting letter = letter
     void findNewTargetedEnemy(char letter);
 
@@ -52,12 +45,6 @@ public:
     GameObjects::TargetedEnemy *targetedEnemy;
     GameObjects::Explosion *explosion;
     std::vector<GameObjects::GameObject*> objectsOnScreen;
-=======
-    GameObjects::Player player;
-    GameObjects::TargetedEnemy *targetedEnemy;
-    std::vector<GameObjects::Enemy> currentEnemies;
-    std::vector<GameObjects::Projectile> projectiles;
->>>>>>> 365a03a7a7f37cbe35f054225bc0acf203d2fddd
 
     int frameCounter;
     bool stopCreatingEnemies;
@@ -72,7 +59,6 @@ public:
     float32 timeStep = 1.0f / 60.0f;
     int32 velocityIterations = 8;
     int32 positionIterations = 3;
-<<<<<<< HEAD
 
     /**
      * @brief attractAToB - attracts body B to body A
@@ -103,8 +89,6 @@ public:
      * @return
      */
     GameObjects::Player *b2MakeNewPlayer();
-=======
->>>>>>> 365a03a7a7f37cbe35f054225bc0acf203d2fddd
 };
 
 #endif // OBJECTCONTROLLER_H
