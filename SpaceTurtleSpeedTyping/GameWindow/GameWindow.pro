@@ -4,7 +4,6 @@
 #
 #-------------------------------------------------
 
-
 QT       += core gui \
             multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -28,12 +27,11 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         gamewindow.cpp \
-    gameview.cpp
+        gameview.cpp
 
 HEADERS += \
         gamewindow.h \
-    qsfmlcanvas.h \
-    gameview.h
+        gameview.h
 
 FORMS += \
         gamewindow.ui \
@@ -72,10 +70,11 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdPartyLibraries/Box2D
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/win32/ -lBox2D
 else:unix:!macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/linux/ -lBox2D
 
+INCLUDEPATH += $$PWD/../3rdPartyLibraries/SFML/include
+DEPENDPATH += $$PWD/../3rdPartyLibraries/SFML/include
+
 win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/libBox2D.a
 else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/libBox2D.a
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/Box2D.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/Box2D.lib
 else:unix:!macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/linux/libBox2D.a
-
-
