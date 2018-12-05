@@ -54,10 +54,11 @@ public:
     int32 positionIterations = 3;
 
     /**
-     * @brief attractToPlayer - attracts given body towards player
-     * @param body - b2Body that will be moved towards the player
+     * @brief attractAToB - attracts body B to body A
+     * @param bodyA
+     * @param bodyB
      */
-    void attractToPlayer(b2Body &body);
+    void attractAToB(b2Body &bodyA, b2Body &bodyB);
 };
 
 #endif // OBJECTCONTROLLER_H

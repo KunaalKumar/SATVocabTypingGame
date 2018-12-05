@@ -7,7 +7,7 @@ ObjectController::ObjectController()
 {
     // TODO: Generate all enemy images
     // TODO: make gravity an instance variable
-    b2Vec2 gravity(0.0f, 0.0f);
+    b2Vec2 gravity(0.0f, -1.0f);
     world = new b2World(gravity);
 
     // Initializing body defs
@@ -164,12 +164,14 @@ bool ObjectController::isEndGame()
     return player->getHealth() == 0;
 }
 
-void ObjectController::attractToPlayer(b2Body &body)
+void ObjectController::attractAToB(b2Body &bodyA, b2Body &bodyB)
 {
-    b2Vec2 playerPos = player->getBody().GetWorldCenter();
-    b2Vec2 bodyPos = body.GetWorldCenter();
-    b2Vec2 force = playerPos - bodyPos;
-    float32 distance = force.Length();
+    b2Vec2 posA = bodyA.GetWorldCenter();
+    b2Vec2 posB = bodyB.GetWorldCenter();
+    b2Vec2 force = posA - posB;
+    float distance = force.Length();
     force.Normalize();
-    //TODO : Calculate strength
+    float strength = (-1.0f * bodyA.GetMass() * bodyB.GetMass()) / (distance * distance);
+    force.operator*=(strength);
+    bodyA.ApplyForce(force, bodyA.GetWorldCenter(), true);
 }
