@@ -100,8 +100,7 @@ bool ObjectController::letterTyped(char letter)
 
 void ObjectController::updateObjectPositions()
 {
-    // All body positions within world get updates after calling Step()
-    world->Step(timeStep, velocityIterations, positionIterations);
+    stepBox2DWorld();
 
     // TO FIX: Currently creating enemies every 2 seconds
     if (!stopCreatingEnemies && ++frameCounter % 2000 == 0)
@@ -158,6 +157,12 @@ void ObjectController::attractAToB(b2Body &bodyA, b2Body &bodyB)
     float strength = (-1.0f * bodyA.GetMass() * bodyB.GetMass()) / (distance * distance);
     force.operator*=(strength);
     bodyA.ApplyForce(force, bodyA.GetWorldCenter(), true);
+}
+
+void ObjectController::stepBox2DWorld()
+{
+    // All body positions within world get updates after calling Step()
+    world->Step(timeStep, velocityIterations, positionIterations);
 }
 
 GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
