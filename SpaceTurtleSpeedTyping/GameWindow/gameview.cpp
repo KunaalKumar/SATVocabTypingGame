@@ -8,10 +8,10 @@
 
 
 GameView::GameView(QWidget *parent) :
-    ui(new Ui::GameView)
+    ui(new Ui::GameView), lib(720, 800)
 {
     ui->setupUi(this);
-    //lib.startRound();
+    lib.startRound();
     hitIdx = 0;
     fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
     textVector.push_front("Hello");

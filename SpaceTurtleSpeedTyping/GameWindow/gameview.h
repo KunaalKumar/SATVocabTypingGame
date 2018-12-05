@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <SFML/Graphics.hpp>
 #include <QMediaPlayer>
-//#include <../GameLib/gamelib.>
+#include "gamelib.h"
 
 namespace Ui {
 class GameView;
@@ -29,7 +29,7 @@ private slots:
 
 private:
     Ui::GameView *ui;
-    //GameLib lib = GameLib(720,800);
+    GameLib lib;
     int hitIdx;
     // Create a new render-texture
     sf::RenderTexture texture;

@@ -11,6 +11,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = GameWindow
 TEMPLATE = app
 
+DEPENDPATH += . ../GameLib/
+INCLUDEPATH += ../GameLib/
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -27,11 +30,13 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         gamewindow.cpp \
-        gameview.cpp
+        gameview.cpp \
+        ../GameLib/*.cpp
 
 HEADERS += \
         gamewindow.h \
-        gameview.h
+        gameview.h \
+        ../GameLib/*.h
 
 FORMS += \
         gamewindow.ui \
