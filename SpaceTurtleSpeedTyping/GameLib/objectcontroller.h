@@ -59,6 +59,29 @@ public:
      * @param bodyB
      */
     void attractAToB(b2Body &bodyA, b2Body &bodyB);
+
+    /**
+     * @brief stepBox2DWorld - increments box2d world and checks for collisions
+     */
+    void stepBox2DWorld();
+
+    /**
+     * @brief initBox2DWorld - initializes b2World and fixtures
+     */
+    void initBox2DWorld();
+
+    /**
+     * @brief b2MakeNewEnemy - Adds new enemy body into b2World and returns a pointer to it
+     * @param round - number of current round
+     * @return
+     */
+    GameObjects::Enemy *b2MakeNewEnemy(int round);
+
+    /**
+     * @brief b2MakeNewPlayer - Adds new player body into b2World and returns a pointer to it
+     * @return
+     */
+    GameObjects::Player *b2MakeNewPlayer();
 };
 
 #endif // OBJECTCONTROLLER_H
