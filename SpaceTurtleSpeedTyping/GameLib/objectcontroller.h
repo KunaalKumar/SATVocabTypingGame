@@ -51,6 +51,8 @@ public:
 
     // Box2D instances
     b2World *world;
+    // World gravity
+    b2Vec2 *gravity;
     // Enemy Body Definition
     b2BodyDef enemyBodyDef;
     // Player Body Definition

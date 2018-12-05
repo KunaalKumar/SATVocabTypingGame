@@ -6,9 +6,9 @@
 ObjectController::ObjectController()
 {
     // TODO: Generate all enemy images
+    initBox2DWorld();
     createPlayer();
     stopCreatingEnemies = true;
-    initBox2DWorld();
 }
 
 ObjectController::~ObjectController()
@@ -163,8 +163,8 @@ bool ObjectController::isEndGame()
 void ObjectController::initBox2DWorld() {
     // TODO: Generate all enemy images
     // TODO: make gravity an instance variable
-    b2Vec2 gravity(0.0f, -1.0f);
-    world = new b2World(gravity);
+    gravity = new b2Vec2(0.0f, -1.0f);
+    world = new b2World(*gravity);
 
     // Initializing body defs
     enemyBodyDef.type = b2_dynamicBody;
@@ -181,7 +181,7 @@ void ObjectController::attractAToB(b2Body &bodyA, b2Body &bodyB)
     b2Vec2 force = posA - posB;
     float distance = force.Length();
     force.Normalize();
-    float strength = (-1.0f * bodyA.GetMass() * bodyB.GetMass()) / (distance * distance);
+    float strength = (gravity->y * bodyA.GetMass() * bodyB.GetMass()) / (distance * distance);
     force.operator*=(strength);
     bodyA.ApplyForce(force, bodyA.GetWorldCenter(), true);
 }

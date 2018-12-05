@@ -31,7 +31,8 @@ SOURCES += \
     stats.cpp \
     loadwords.cpp \
     explosion.cpp \
-    gamelib_global.cpp
+    gamelib_global.cpp \
+    main.cpp
 
 HEADERS += \
         gamelib.h \
@@ -66,3 +67,6 @@ INCLUDEPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 DEPENDPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 
 macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/osx/libBox2D.a
+
+SUBDIRS += \
+    Test.pro
