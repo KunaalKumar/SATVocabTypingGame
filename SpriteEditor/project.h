@@ -50,6 +50,8 @@ public:
     void save(QString filename);
     void load(QString filename);
     void exportGIF(QString filename);
+    void saveCurrentFrame(QString filename);
+    void loadImage(QString filename);
 
 public slots:
     void updateImage();
@@ -77,6 +79,9 @@ private:
 
     void setColorLabelColor(QColor color);
     void setNewFrameSize(int frameSize);
+
+    using regionMap = std::map<QString, std::vector<Global::Coordinate>>;
+    regionMap findImageRegions(QImage* Image);
 
 };
 

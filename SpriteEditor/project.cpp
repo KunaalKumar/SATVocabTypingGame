@@ -7,8 +7,7 @@
  */
 
 #include "project.h"
-#include<3rdParty/qtgifimage/src/gifimage/qgifimage.h>
-
+#include <3rdParty/qtgifimage/src/gifimage/qgifimage.h>
 
 Project::Project(int frameSize):
     framePixelSize(frameSize)
@@ -269,11 +268,83 @@ void Project::exportGIF(QString filename)
          gif.addFrame(currentImage.scaled(windowSize,windowSize), QPoint(0, 0));
      }
 
-     gif.save(filename);
+    gif.save(filename);
+}
+
+void Project::saveCurrentFrame(QString filename)
+{
+    regionMap regions = findImageRegions(frames[currentFrame]);
+
+    if ( ! filename.contains(".qis")) {filename = filename.append(".qis");}
+    QFile saveFile(filename);
+    saveFile.open((QIODevice::WriteOnly | QIODevice::Text));
+    QTextStream writer(&saveFile);
+
+    writer << framePixelSize << '\n';
+    writer << regions.size() << '\n';
+    for (auto it = regions.begin(); it != regions.end(); it++)
+    {
+        writer << it->second.size() << " ";
+        writer << it->first << " ";
+        for (Global::Coordinate c : it->second)
+        {
+            writer << c.x << "," << c.y << " ";
+        }
+        writer << '\n';
+    }
+    saveFile.close();
+}
+
+void Project::loadImage(QString filename)
+{
+    QFile loadFile(filename);
+    loadFile.open((QIODevice::ReadOnly | QIODevice::Text));
+    QTextStream reader(&loadFile);
+
+    frames[currentFrame]->fill(Qt::transparent);
+
+    int imageSize;
+    reader >> imageSize;
+
+    int regionsCount;
+    reader >> regionsCount;
+    for (int i = 0; i < regionsCount; i++)
+    {
+        int pixelsInRegion;
+        reader >> pixelsInRegion;
+        QString colorString;
+        reader >> colorString;
+        QColor color(colorString);
+
+        for (int j = 0; j < pixelsInRegion; j++)
+        {
+            QString coordPair;
+            reader >> coordPair;
+            Global::Coordinate c(coordPair);
+            frames[currentFrame]->setPixelColor(c.x, c.y, color);
+        }
+    }
+    setCurrentFrame(currentFrame);
 }
 
 void Project::setNewFrameSize(int frameSize)
 {
     framePixelSize = frameSize;
     canvas->setNewFrameSize(frameSize);
+}
+
+Project::regionMap Project::findImageRegions(QImage* image)
+{
+    regionMap regions;
+    for (int y = 0; y < framePixelSize; y++)
+    {
+        for (int x = 0; x < framePixelSize; x++)
+        {
+            if (image->pixelColor(x, y) != Qt::transparent)
+            {
+                regions[image->pixelColor(x,y).name()].push_back(Global::Coordinate(x,y));
+            }
+        }
+    }
+    return regions;
 }

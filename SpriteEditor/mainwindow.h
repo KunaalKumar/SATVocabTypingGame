@@ -58,6 +58,10 @@ private slots:
 
     void on_eraserSizeSpinBox_valueChanged(int value);
 
+    void on_actionSave_Current_QImage_triggered();
+
+    void on_actionLoad_Image_triggered();
+
 private:
     Ui::MainWindow* ui;
     Project* project;

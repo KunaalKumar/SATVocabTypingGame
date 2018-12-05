@@ -166,6 +166,12 @@ void MainWindow::on_actionExport_triggered()
     project->exportGIF(filename);
 }
 
+void MainWindow::on_actionSave_Current_QImage_triggered()
+{
+    QString filename = QFileDialog::getSaveFileName(this, "Save File", QDir::homePath(), "*.qis");
+    project->saveCurrentFrame(filename);
+}
+
 void MainWindow::on_frameTableWidget_cellClicked(int row, int column)
 {
     if (column == 0)
@@ -186,4 +192,10 @@ void MainWindow::on_brushSizeSpinBox_valueChanged(int value)
 void MainWindow::on_eraserSizeSpinBox_valueChanged(int value)
 {
     project->handleEraserSizeChanged(value);
+}
+
+void MainWindow::on_actionLoad_Image_triggered()
+{
+    QString filename = QFileDialog::getOpenFileName(this, "Load Image", QDir::homePath(), "*.qis");
+    project->loadImage(filename);
 }
