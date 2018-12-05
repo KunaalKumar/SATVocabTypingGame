@@ -1,21 +1,40 @@
 #ifndef ENEMYSPRITEGENERATOR_H
 #define ENEMYSPRITEGENERATOR_H
 
-#include "shipstructures.h"
+#include "spritestructures.h"
+#include <QDir>
+
 
 class SpriteGenerator
 {
 public:
     SpriteGenerator();
-    QImage generatreNewSprite(ShipSize ss);
+    SpriteGenerator(QString filepath,
+                    QString ssFolder = "smallSprites",
+                    QString msFolder = "mediumSprites",
+                    QString lsFolder = "largeSprites",
+                    QString vlsFolder = "veryLargeSprites");
+
+    QImage generatreNewSprite(SpriteSize ss);
+
 private:
-    std::vector<ShipStructure> smallShips;
-    std::vector<ShipStructure> mediumShips;
-    std::vector<ShipStructure> largeShips;
-    std::vector<ShipStructure> hugeShips;
-    QImage setAllRegionColors(ShipStructure);
-    void setRegionColor(CoordinateList region, ShipStructure& ss, QColor color);
-    void getSpriteStructures();
+    std::vector<SpriteStructure> smallSprites;
+    std::vector<SpriteStructure> mediumSprites;
+    std::vector<SpriteStructure> largeSprites;
+    std::vector<SpriteStructure> veryLargeSprites;
+
+    QString structureFolderPath;
+    QString smallSpritesFolder;
+    QString mediumSpritesFolder;
+    QString largeSpritesFolder;
+    QString veryLargeSpritesFolder;
+
+    QImage setAllRegionColors(SpriteStructure);
+    void setRegionColor(CoordinateList region, SpriteStructure& ss, QColor color);
+
+    void getAllSpriteStructures();
+    std::vector<SpriteStructure> getSpriteStructuresFromFolder(QString folderPath);
+    SpriteStructure getSpriteStructureFromFile(QString filePath);
 };
 
 #endif // ENEMYSPRITEGENERATOR_H

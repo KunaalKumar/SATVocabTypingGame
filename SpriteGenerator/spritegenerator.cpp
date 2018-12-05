@@ -1,27 +1,40 @@
 #include "spritegenerator.h"
+#include <QFile>
+#include <QDirIterator>
+#include <QTextStream>
 
 
 SpriteGenerator::SpriteGenerator()
 {
-    getSpriteStructures();
+    SpriteGenerator("SpriteStructures/");
 }
 
-QImage SpriteGenerator::generatreNewSprite(ShipSize ss)
+SpriteGenerator::SpriteGenerator(QString folderPath, QString ssFolder, QString msFolder, QString lsFolder, QString vlsFolder)
+    : structureFolderPath(folderPath),
+      smallSpritesFolder(ssFolder),
+      mediumSpritesFolder(msFolder),
+      largeSpritesFolder(lsFolder),
+      veryLargeSpritesFolder(vlsFolder)
 {
-    ShipStructure shipStructure;
+    getAllSpriteStructures();
+}
+
+QImage SpriteGenerator::generatreNewSprite(SpriteSize ss)
+{
+    SpriteStructure shipStructure;
     switch (ss)
     {
-    case ShipSize::small:
-        shipStructure = smallShips[rand() % smallShips.size()];
+    case SpriteSize::small:
+        shipStructure = smallSprites[rand() % smallSprites.size()];
         break;
-    case ShipSize::medium:
-        shipStructure = mediumShips[rand() % mediumShips.size()];
+    case SpriteSize::medium:
+        shipStructure = mediumSprites[rand() % mediumSprites.size()];
         break;
-    case ShipSize::large:
-        shipStructure = largeShips[rand() % largeShips.size()];
+    case SpriteSize::large:
+        shipStructure = largeSprites[rand() % largeSprites.size()];
         break;
-    case ShipSize::huge:
-        shipStructure = hugeShips[rand() % hugeShips.size()];
+    case SpriteSize::veryLarge:
+        shipStructure = veryLargeSprites[rand() % veryLargeSprites.size()];
         break;
     }
 
@@ -29,7 +42,7 @@ QImage SpriteGenerator::generatreNewSprite(ShipSize ss)
 }
 
 
-QImage SpriteGenerator::setAllRegionColors(ShipStructure shipStructure)
+QImage SpriteGenerator::setAllRegionColors(SpriteStructure shipStructure)
 {
     for (CoordinateList region : shipStructure.regions)
     {
@@ -44,16 +57,67 @@ QImage SpriteGenerator::setAllRegionColors(ShipStructure shipStructure)
     return shipStructure.image;
 }
 
-void SpriteGenerator::setRegionColor(CoordinateList region, ShipStructure& ss, QColor color)
+void SpriteGenerator::setRegionColor(CoordinateList region, SpriteStructure& ss, QColor color)
 {
-    for (Cooridante coordinate : region)
+    for (Coordinate coordinate : region)
     {
         ss.image.setPixelColor(coordinate.x, coordinate.y, color);
     }
 
 }
 
-void SpriteGenerator::getSpriteStructures()
+void SpriteGenerator::getAllSpriteStructures()
 {
-    //
+    smallSprites = getSpriteStructuresFromFolder(structureFolderPath + smallSpritesFolder);
+    mediumSprites = getSpriteStructuresFromFolder(structureFolderPath + mediumSpritesFolder);
+    largeSprites = getSpriteStructuresFromFolder(structureFolderPath + largeSpritesFolder);
+    veryLargeSprites = getSpriteStructuresFromFolder(structureFolderPath + veryLargeSpritesFolder);
 }
+
+std::vector<SpriteStructure> SpriteGenerator::getSpriteStructuresFromFolder(QString folderPath)
+{
+    std::vector<SpriteStructure> structures;
+
+    QDirIterator dirIter(folderPath);
+    while(dirIter.hasNext())
+    {
+        QString nextFilePath = dirIter.next();
+        structures.push_back(getSpriteStructureFromFile(nextFilePath));
+    }
+
+    return structures;
+}
+
+SpriteStructure SpriteGenerator::getSpriteStructureFromFile(QString filePath)
+{
+    std::vector<CoordinateList> regions;
+
+    QFile loadFile(filePath);
+    loadFile.open((QIODevice::ReadOnly | QIODevice::Text));
+    QTextStream reader(&loadFile);
+
+    int imageSize;
+    reader >> imageSize;
+
+    int regionsCount;
+    reader >> regionsCount;
+    for (int i = 0; i < regionsCount; i++)
+    {
+        int pixelsInRegion;
+        reader >> pixelsInRegion;
+        QString colorString;
+        reader >> colorString;
+
+        CoordinateList region;
+        for (int j = 0; j < pixelsInRegion; j++)
+        {
+            QString coordPair;
+            reader >> coordPair;
+            Coordinate c(coordPair);
+            region.push_back(c);
+        }
+        regions.push_back(region);
+    }
+    return SpriteStructure(static_cast<SpriteSize>(imageSize), regions);
+}
+

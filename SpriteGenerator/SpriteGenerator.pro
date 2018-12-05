@@ -23,8 +23,8 @@ SOURCES += \
     spritegenerator.cpp
 
 HEADERS += \
-    shipstructures.h \
-    spritegenerator.h
+    spritegenerator.h \
+    spritestructures.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
