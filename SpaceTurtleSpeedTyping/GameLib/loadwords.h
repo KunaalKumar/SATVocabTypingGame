@@ -10,7 +10,6 @@
 class LoadWords
 {
     public:
-        LoadWords();
         static void importWords();
         static void createRoundWords(int round);
         // returns "" if end of round

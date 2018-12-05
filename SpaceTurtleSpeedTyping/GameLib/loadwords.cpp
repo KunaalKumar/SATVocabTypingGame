@@ -1,10 +1,5 @@
 #include "loadwords.h"
 
-
-LoadWords::LoadWords()
-{
-}
-
 std::map<int, std::vector<std::string>> LoadWords::allWords;
 std::vector<std::string> LoadWords::roundWords;
 int LoadWords::nextWordIndex;
