@@ -6,6 +6,7 @@
 ObjectController::ObjectController()
 {
     // TODO: Generate all enemy images
+    createPlayer();
     stopCreatingEnemies = true;
     initBox2DWorld();
 }

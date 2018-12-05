@@ -19,12 +19,7 @@ public:
     ObjectController();
     ~ObjectController();
 
-    void createPlayer();
     void createRoundOfEnemies(int round);
-    void createEnemy(int round);
-    void createExplosion();
-    // call after letterTyped
-    void createProjectile();
 
     using hitEnemy = bool;
     hitEnemy letterTyped(char letter);
@@ -38,6 +33,11 @@ public:
     bool isEndGame();
 
  private:
+    void createPlayer();
+    void createEnemy(int round);
+    void createProjectile();
+    void createExplosion();
+
     // shoot closest enemy with starting letter = letter
     void findNewTargetedEnemy(char letter);
 
