@@ -1,6 +1,11 @@
 #ifndef STATS_H
 #define STATS_H
 
+//#include "player.h"
+#include <fstream>
+#include <string>
+#include <vector>
+#include <QDebug>
 #include <string>
 #include <map>
 
@@ -18,18 +23,23 @@ class Stats
         void addTotalKill();
         int getTotalKill();
 
+        // todo: streak of letters(If it is wrong go back to 0)
+        int getKillStreak();
+        // todo: load stats text file 3 highest scores
+        bool highScore(bool isGameDone, int score);
+
         const std::map<std::string, double>& getAllStats();
 
-
-        // todo: streak
-        // todo: load stats
 
     private:
         int round;
         int totalTypeCount;
         int correctTypeCount;
         int totalKillCount;
+        int killStreak;
         std::map<std::string, double> statsMap;
+        int getScore();
+
 };
 
 #endif // STATS_H

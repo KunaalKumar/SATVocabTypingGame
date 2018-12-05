@@ -10,6 +10,9 @@ namespace GameObjects
     class Player : public GameObject
     {
         public:
+            Player(unsigned int health, posTuple pos);
+            Player();
+            void removeLife();
             Player(posTuple pos, b2Body &body);
 
             int getHealth();
