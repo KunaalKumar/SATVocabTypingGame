@@ -35,7 +35,7 @@ HEADERS += \
 
 FORMS += \
         gamewindow.ui \
-    gameview.ui
+        gameview.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -61,6 +61,8 @@ unix:!macx: LIBS += -lsfml-network
 unix:!macx: LIBS += -lsfml-window
 unix:!macx: LIBS += -lsfml-system
 
+INCLUDEPATH += $$PWD/../GameLib
+DEPENDPATH += $$PWD/../GameLib
 INCLUDEPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 DEPENDPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 
@@ -70,8 +72,8 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdPartyLibraries/Box2D
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/win32/ -lBox2D
 else:unix:!macx: LIBS += -L$$PWD/../3rdPartyLibraries/Box2D/lib/linux/ -lBox2D
 
-INCLUDEPATH += $$PWD/../3rdPartyLibraries/SFML/include
-DEPENDPATH += $$PWD/../3rdPartyLibraries/SFML/include
+macx: INCLUDEPATH += $$PWD/../3rdPartyLibraries/SFML/include
+macx: DEPENDPATH += $$PWD/../3rdPartyLibraries/SFML/include
 
 win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/libBox2D.a
 else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/libBox2D.a
