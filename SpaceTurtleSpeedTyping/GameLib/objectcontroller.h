@@ -22,24 +22,25 @@ public:
     void createPlayer();
     void createRoundOfEnemies(int round);
     void createEnemy(int round);
-
+    void createExplosion();
     // call after letterTyped
     void createProjectile();
+
     using hitEnemy = bool;
     hitEnemy letterTyped(char letter);
 
-    void createExplosion();
-
     std::vector<GameObjects::GameObject *>& getObjects();
 
-    // Updates all object positions in currentEnemeies
+    // Updates all object positions in objectsOnScreen
     void updateObjectPositions();
-
     bool isEnemyKilled();
     bool isRoundEnd();
     bool isEndGame();
 
  private:
+    // shoot closest enemy with starting letter = letter
+    void findNewTargetedEnemy(char letter);
+
     GameObjects::Player *player;
     GameObjects::TargetedEnemy *targetedEnemy;
     GameObjects::Explosion *explosion;

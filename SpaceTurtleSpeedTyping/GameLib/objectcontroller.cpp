@@ -93,6 +93,7 @@ void ObjectController::createProjectile()
         if (targetedEnemy->wasDestroyed())
         {
             explosion = new GameObjects::Explosion(*targetedEnemy);
+            delete targetedEnemy;
             targetedEnemy = nullptr;
         }
     }
@@ -106,26 +107,7 @@ bool ObjectController::letterTyped(char letter)
 {
     if (targetedEnemy == nullptr)
     {
-        // shoot closest enemy with starting letter = letter
-        double lowestDistance = DBL_MAX;
-        for (unsigned int i = 0; i < objectsOnScreen.size(); i++)
-        {
-            if (objectsOnScreen[i]->isOfType(GameObjects::Type::enemy))
-            {
-                GameObjects::Enemy enemy = *(static_cast<GameObjects::Enemy *>(objectsOnScreen[i]));
-                if (enemy.startsWith(letter))
-                {
-                    double distance = enemy.distanceTo(player->getPos());
-
-                    if (distance < lowestDistance)
-                    {
-                        lowestDistance = distance;
-                        targetedEnemy = new GameObjects::TargetedEnemy(enemy, i);
-                        objectsOnScreen[i] = targetedEnemy;
-                    }
-                }
-            }
-        }
+        findNewTargetedEnemy(letter);
         if (targetedEnemy != nullptr)
         {
             targetedEnemy->shoot(letter);
@@ -135,6 +117,29 @@ bool ObjectController::letterTyped(char letter)
     else
     {
         return targetedEnemy->shoot(letter);
+    }
+}
+
+void ObjectController::findNewTargetedEnemy(char letter)
+{
+    double lowestDistance = DBL_MAX;
+    for (unsigned int i = 0; i < objectsOnScreen.size(); i++)
+    {
+        if (objectsOnScreen[i]->isOfType(GameObjects::Type::enemy))
+        {
+            GameObjects::Enemy enemy = *(static_cast<GameObjects::Enemy *>(objectsOnScreen[i]));
+            if (enemy.startsWith(letter))
+            {
+                double distance = enemy.distanceTo(player->getPos());
+
+                if (distance < lowestDistance)
+                {
+                    lowestDistance = distance;
+                    targetedEnemy = new GameObjects::TargetedEnemy(enemy, i);
+                    objectsOnScreen[i] = targetedEnemy;
+                }
+            }
+        }
     }
 }
 
@@ -148,11 +153,19 @@ void ObjectController::updateObjectPositions()
     // All body positions within world get updates after calling Step()
     world->Step(timeStep, velocityIterations, positionIterations);
 
-    // TO FIX: Currently creating enemies every 2 seconds
-    if (!stopCreatingEnemies && ++frameCounter % 2000 == 0)
+    // TO FIX: Currently creating enemies every 5 seconds
+    if (!stopCreatingEnemies && ++frameCounter == 5000)
     {
         // TO FIX: Currently round is constant 1
         createEnemy(1);
+        frameCounter = 0;
+    }
+
+    if (explosion != nullptr && explosion->getNumOfFrames() == 1000)
+    {
+        objectsOnScreen.erase(objectsOnScreen.begin() + explosion->getVectorIndex());
+        delete explosion;
+        explosion = nullptr;
     }
 }
 
