@@ -10,9 +10,11 @@ namespace GameObjects
     class Projectile : public GameObject
     {
         public:
-            Projectile(posTuple pos, b2Body &body);
+            Projectile(posTuple pos, b2Body &projectileBody, b2Body &targetBody);
         private:
-            //
+            posTuple pos;
+            b2Body &projectileBody;
+            b2Body &targetBody;
     };
 
 }

@@ -190,6 +190,12 @@ void ObjectController::stepBox2DWorld()
 {
     // All body positions within world get updates after calling Step()
     world->Step(timeStep, velocityIterations, positionIterations);
+
+    for(b2Contact *contact = world->GetContactList(); contact; contact = contact->GetNext()) {
+        // TODO: Check for:
+        //                  1) projectile contact with enemy body
+        //                  2) enemy contact with player body
+    }
 }
 
 GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
@@ -211,7 +217,11 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
     enemyBody->CreateFixture(&boxFixtureDef);
 
     // TODO: 1) Add image
-    return new GameObjects::Enemy(round, word, boxSize, QImage(), {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
+    GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, boxSize, QImage(), {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
+
+    enemyBody->SetUserData(enemy);
+
+    return enemy;
 }
 
 GameObjects::Player *ObjectController::b2MakeNewPlayer()
@@ -229,5 +239,9 @@ GameObjects::Player *ObjectController::b2MakeNewPlayer()
 
     playerBody->CreateFixture(&boxFixtureDef);
 
-    return new GameObjects::Player({playerBodyDef.position.x, playerBodyDef.position.y}, *playerBody);
+    GameObjects::Player *player = new GameObjects::Player({playerBodyDef.position.x, playerBodyDef.position.y}, *playerBody);
+
+    playerBody->SetUserData(player);
+
+    return player;
 }
