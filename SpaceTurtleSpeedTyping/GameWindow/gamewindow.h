@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QDebug>
 #include <SFML/Graphics.hpp>
+#include <gameview.h>
 
 namespace Ui {
 class GameWindow;
@@ -26,13 +27,11 @@ private slots:
     // Press the button will take the user to game page.
     void on_gameStartButton_clicked();
 
-    // End Game button action in game page. Similar logic to
-    // game start button action
-    void on_endGameButton_clicked();
-
     void on_optionButton_clicked();
 
     void on_tutorialButton_clicked();
+
+    void moveHome();
 
 private:
 
@@ -40,7 +39,10 @@ private:
     // by using stackedWidge's function - setCurrentIndex(index), we have a way
     // to navigate between these 2 pages.
     Ui::GameWindow *ui;
+    GameView gameView;
     sf::RenderTexture texture;
+
+    void createGameScreen();
 };
 
 #endif // GAMEWINDOW_H

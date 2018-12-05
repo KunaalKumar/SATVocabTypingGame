@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>720</width>
-    <height>1280</height>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,17 +17,17 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>-20</y>
-      <width>721</width>
-      <height>1201</height>
+      <x>0</x>
+      <y>0</y>
+      <width>720</width>
+      <height>1280</height>
      </rect>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>250</x>
         <y>280</y>
         <width>171</width>
         <height>34</height>
@@ -36,11 +36,14 @@
       <property name="text">
        <string>Start Screen</string>
       </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
      </widget>
      <widget class="QGroupBox" name="menuBox">
       <property name="geometry">
        <rect>
-        <x>220</x>
+        <x>250</x>
         <y>340</y>
         <width>165</width>
         <height>241</height>
@@ -96,55 +99,8 @@
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_2">
-     <widget class="QLabel" name="label_2">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>240</y>
-        <width>181</width>
-        <height>34</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Game Screen</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="endGameButton">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>410</y>
-        <width>170</width>
-        <height>48</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>End Game</string>
-      </property>
-     </widget>
-    </widget>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>720</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

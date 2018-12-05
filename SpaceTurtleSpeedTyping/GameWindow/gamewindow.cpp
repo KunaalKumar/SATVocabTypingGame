@@ -13,8 +13,8 @@ GameWindow::GameWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // Testing purpose for SFML
-    texture.clear();
+    ui->stackedWidget->insertWidget(1, &gameView);
+    connect(&gameView, SIGNAL(homeClicked()), this, SLOT(moveHome()));
 
 }
 
@@ -25,9 +25,7 @@ GameWindow::~GameWindow()
 
 void GameWindow::keyPressEvent(QKeyEvent *event)
 {
-    // Only inside of the game screen we take keyboard inputs
-    if (ui->stackedWidget->currentIndex() == 1)
-        qDebug() << " Key Pressed: " << (char)event->key();
+
 }
 
 void GameWindow::on_gameStartButton_clicked()
@@ -35,15 +33,21 @@ void GameWindow::on_gameStartButton_clicked()
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-void GameWindow::on_endGameButton_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(0);
-}
-
 void GameWindow::on_tutorialButton_clicked()
 {
     qDebug() << "tutorial button pressed";
     QMessageBox::StandardButton box = QMessageBox::information(this, "Tutorial", "This is toturial",                                                              QMessageBox::Ok, QMessageBox::NoButton);
+}
+
+void GameWindow::moveHome()
+{
+    qDebug()<< "End game pressed!";
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void GameWindow::createGameScreen()
+{
+
 }
 
 void GameWindow::on_optionButton_clicked()
