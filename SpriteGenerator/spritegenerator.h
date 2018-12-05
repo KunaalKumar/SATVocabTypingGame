@@ -3,11 +3,11 @@
 
 #include "shipstructures.h"
 
-class EnemySpriteGenerator
+class SpriteGenerator
 {
 public:
-    EnemySpriteGenerator();
-    QImage generateNewEnemy(ShipSize ss);
+    SpriteGenerator();
+    QImage generatreNewSprite(ShipSize ss);
 private:
     std::vector<ShipStructure> smallShips;
     std::vector<ShipStructure> mediumShips;
@@ -15,6 +15,7 @@ private:
     std::vector<ShipStructure> hugeShips;
     QImage setAllRegionColors(ShipStructure);
     void setRegionColor(CoordinateList region, ShipStructure& ss, QColor color);
+    void getSpriteStructures();
 };
 
 #endif // ENEMYSPRITEGENERATOR_H

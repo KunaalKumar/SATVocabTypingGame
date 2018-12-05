@@ -1,15 +1,12 @@
-#include "enemyspritegenerator.h"
+#include "spritegenerator.h"
 
 
-EnemySpriteGenerator::EnemySpriteGenerator()
+SpriteGenerator::SpriteGenerator()
 {
-    smallShips = generateSmallShips();
-    mediumShips = generateMediumShips();
-    largeShips = generateLargeShips();
-    hugeShips = generateHugeShips();
+    getSpriteStructures();
 }
 
-QImage EnemySpriteGenerator::generateNewEnemy(ShipSize ss)
+QImage SpriteGenerator::generatreNewSprite(ShipSize ss)
 {
     ShipStructure shipStructure;
     switch (ss)
@@ -32,7 +29,7 @@ QImage EnemySpriteGenerator::generateNewEnemy(ShipSize ss)
 }
 
 
-QImage EnemySpriteGenerator::setAllRegionColors(ShipStructure shipStructure)
+QImage SpriteGenerator::setAllRegionColors(ShipStructure shipStructure)
 {
     for (CoordinateList region : shipStructure.regions)
     {
@@ -47,11 +44,16 @@ QImage EnemySpriteGenerator::setAllRegionColors(ShipStructure shipStructure)
     return shipStructure.image;
 }
 
-void EnemySpriteGenerator::setRegionColor(CoordinateList region, ShipStructure& ss, QColor color)
+void SpriteGenerator::setRegionColor(CoordinateList region, ShipStructure& ss, QColor color)
 {
     for (Cooridante coordinate : region)
     {
         ss.image.setPixelColor(coordinate.x, coordinate.y, color);
     }
 
+}
+
+void SpriteGenerator::getSpriteStructures()
+{
+    //
 }
