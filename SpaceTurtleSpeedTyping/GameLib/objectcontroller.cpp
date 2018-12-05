@@ -16,12 +16,15 @@ ObjectController::ObjectController()
 
     playerBodyDef.type = b2_staticBody;
     playerBodyDef.angle = 0;
+
+    stopCreatingEnemies = true;
 }
 
 ObjectController::~ObjectController()
 {
     delete targetedEnemy;
     delete player;
+    delete explosion;
     delete world;
 }
 
@@ -40,14 +43,14 @@ void ObjectController::createPlayer()
 
     playerBody->CreateFixture(&boxFixtureDef);
 
-    GameObjects::Player *player = new GameObjects::Player({playerBodyDef.position.x, playerBodyDef.position.y}, *playerBody);
+    player = new GameObjects::Player({playerBodyDef.position.x, playerBodyDef.position.y}, *playerBody);
     objectsOnScreen.push_back(player);
-
 }
 
 void ObjectController::createRoundOfEnemies(int round)
 {
     LoadWords::createRoundWords(round);
+    stopCreatingEnemies = false;
 }
 
 void ObjectController::createEnemy(int round)
@@ -66,7 +69,7 @@ void ObjectController::createEnemy(int round)
     enemyBody->CreateFixture(&boxFixtureDef);
 
     // TODO: 1) Add image
-    GameObjects::Enemy *enemy = new GameObjects::Enemy(round, LoadWords::getWord(), QImage(), {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
+    GameObjects::Enemy *enemy = new GameObjects::Enemy(round, LoadWords::getWord(), 0, QImage(), {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
     if (enemy->getWord() != "")
     {
         objectsOnScreen.push_back(enemy);
@@ -89,8 +92,8 @@ void ObjectController::createProjectile()
 
         if (targetedEnemy->wasDestroyed())
         {
+            explosion = new GameObjects::Explosion(*targetedEnemy);
             targetedEnemy = nullptr;
-            // TODO: create explosion
         }
     }
 
@@ -135,6 +138,11 @@ bool ObjectController::letterTyped(char letter)
     }
 }
 
+void ObjectController::createExplosion()
+{
+    objectsOnScreen[explosion->getVectorIndex()] = explosion;
+}
+
 void ObjectController::updateObjectPositions()
 {
     // All body positions within world get updates after calling Step()
@@ -148,6 +156,11 @@ void ObjectController::updateObjectPositions()
     }
 }
 
+std::vector<GameObjects::GameObject *>& ObjectController::getObjects()
+{
+    return objectsOnScreen;
+}
+
 bool ObjectController::isEnemyKilled()
 {
     return targetedEnemy == nullptr;
@@ -155,7 +168,6 @@ bool ObjectController::isEnemyKilled()
 
 bool ObjectController::isRoundEnd()
 {
-
     return targetedEnemy == nullptr && objectsOnScreen.size() == 1;
 }
 

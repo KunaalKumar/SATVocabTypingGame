@@ -3,17 +3,11 @@
 
 namespace GameObjects {
 
-    TargetedEnemy::TargetedEnemy(Enemy enemy, unsigned int vectorIndex) : Enemy(enemy)
-    {
-    //    image =
-        currentLetterPos = 0;
-        this->vectorIndex = vectorIndex;
-    }
-
-    Enemy::Enemy(int speed, std::string word, QImage image, GameObjects::posTuple pos, b2Body &body):
+    Enemy::Enemy(int speed, std::string word, int enemyImageWidth, QImage image, GameObjects::posTuple pos, b2Body &body):
         GameObject (pos, body)
     {
         this->word = word;
+        this->enemyImageWidth = enemyImageWidth;
         type = Type::enemy;
         this->speed = (float)speed - (word.length() - 1);
         this->image = image;
@@ -36,6 +30,15 @@ namespace GameObjects {
         return letter == word[0];
     }
 
+// Targeted Enemy
+
+    TargetedEnemy::TargetedEnemy(Enemy enemy, unsigned int vectorIndex) : Enemy(enemy)
+    {
+    //    image =
+        currentLetterPos = 0;
+        this->vectorIndex = vectorIndex;
+    }
+
     bool TargetedEnemy::shoot(char letter)
     {
         if (letter == word[currentLetterPos])
@@ -46,7 +49,7 @@ namespace GameObjects {
         return false;
     }
 
-    bool TargetedEnemy::getVectorIndex()
+    unsigned int TargetedEnemy::getVectorIndex()
     {
         return vectorIndex;
     }

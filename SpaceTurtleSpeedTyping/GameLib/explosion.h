@@ -2,15 +2,22 @@
 #define EXPLOSION_H
 
 #include "gameobjects.h"
+#include "enemy.h"
 #include <Box2D/Box2D.h>
 
 namespace GameObjects
 {
 
-    class explosion : protected GameObject
+    class Explosion : public GameObject
     {
     public:
-        explosion(posTuple pos, b2Body &body);
+        Explosion(GameObjects::TargetedEnemy& enemy);
+        posTuple getPos();
+        unsigned int getNumOfFrames();
+        unsigned int getVectorIndex();
+    private:
+        unsigned int vectorIndex;
+        unsigned int numOfFrames;
     };
 
 }

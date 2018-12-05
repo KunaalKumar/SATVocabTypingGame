@@ -6,6 +6,7 @@
 #include "player.h"
 #include "projectile.h"
 #include "loadwords.h"
+#include "explosion.h"
 #include <Box2D/Box2D.h>
 
 #include <string>
@@ -27,6 +28,10 @@ public:
     using hitEnemy = bool;
     hitEnemy letterTyped(char letter);
 
+    void createExplosion();
+
+    std::vector<GameObjects::GameObject *>& getObjects();
+
     // Updates all object positions in currentEnemeies
     void updateObjectPositions();
 
@@ -37,6 +42,7 @@ public:
  private:
     GameObjects::Player *player;
     GameObjects::TargetedEnemy *targetedEnemy;
+    GameObjects::Explosion *explosion;
     std::vector<GameObjects::GameObject*> objectsOnScreen;
 
     int frameCounter;

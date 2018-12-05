@@ -13,7 +13,7 @@ namespace GameObjects
     class Enemy : public GameObject
     {
         public:
-            Enemy(int speed, std::string word, QImage image, GameObjects::posTuple pos, b2Body &body);
+            Enemy(int speed, std::string word, int enemyImageWidth, QImage image, GameObjects::posTuple pos, b2Body &body);
 
             std::string getWord();
             double distanceTo(GameObjects::posTuple);
@@ -22,6 +22,7 @@ namespace GameObjects
         protected:
             std::string word;
             float speed;
+            int enemyImageWidth;
     };
 
     class TargetedEnemy : public Enemy
@@ -32,8 +33,7 @@ namespace GameObjects
             using hitPlayer = bool;
             hitPlayer shoot(char letter);
 
-            bool getVectorIndex();
-
+            unsigned int getVectorIndex();
             bool wasDestroyed();
         private:
             unsigned int currentLetterPos;

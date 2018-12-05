@@ -3,9 +3,22 @@
 
 namespace GameObjects
 {
-    explosion::explosion(posTuple pos, b2Body &body) : GameObject (pos, body)
+    Explosion::Explosion(GameObjects::TargetedEnemy& enemy) : GameObject (enemy.getPos())
     {
         type = Type::explosion;
+        vectorIndex = enemy.getVectorIndex();
+        numOfFrames = 0;
+//        this->image =
     }
+
+    posTuple Explosion::getPos()
+    {
+        numOfFrames++;
+        return {posX, posY};
+    }
+
+    unsigned int Explosion::getNumOfFrames() { return numOfFrames; }
+
+    unsigned int Explosion::getVectorIndex() { return vectorIndex; }
 
 }

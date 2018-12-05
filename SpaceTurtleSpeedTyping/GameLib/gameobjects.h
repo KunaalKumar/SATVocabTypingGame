@@ -25,12 +25,24 @@ namespace GameObjects
     class GameObject
     {
         public:
+            GameObject(posTuple pos)
+            {
+                this->posX = std::get<0>(pos);
+                this->posY = std::get<1>(pos);
+                this->body = nullptr;
+            }
+
             GameObject(posTuple pos, b2Body &body)
             {
                 this->posX = std::get<0>(pos);
                 this->posY = std::get<1>(pos);
                 this->body = &body;
             }
+
+//            ~GameObject()
+//            {
+
+//            }
 
             posTuple getPos()
             {
@@ -43,7 +55,7 @@ namespace GameObjects
 
             bool isOfType(Type other) { return type == other; }
 
-            b2Body& getBody() {return *body;}
+            b2Body& getBody() { return *body; }
 
         private:
             // Sets the values of the x,y positions to the latest b2Body positions
