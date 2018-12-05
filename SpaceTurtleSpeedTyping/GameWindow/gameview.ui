@@ -7,7 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>720</width>
+<<<<<<< HEAD
     <height>800</height>
+=======
+    <height>1280</height>
+>>>>>>> f1bc9ddbd41769cfaca98eff99df88a2c06f5408
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,6 +23,7 @@
      <x>0</x>
      <y>0</y>
      <width>720</width>
+<<<<<<< HEAD
      <height>800</height>
     </rect>
    </property>
@@ -46,6 +51,40 @@
      </property>
     </widget>
    </widget>
+=======
+     <height>1280</height>
+    </rect>
+   </property>
+   <widget class="QWidget" name="page">
+    <widget class="QPushButton" name="endGameButton">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>30</y>
+       <width>211</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>End Game</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>210</y>
+       <width>211</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page_2"/>
+>>>>>>> f1bc9ddbd41769cfaca98eff99df88a2c06f5408
   </widget>
  </widget>
  <resources/>

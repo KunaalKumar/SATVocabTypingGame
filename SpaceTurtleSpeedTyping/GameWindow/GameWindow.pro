@@ -4,8 +4,13 @@
 #
 #-------------------------------------------------
 
+<<<<<<< HEAD
 QT       += core gui \
             multimedia
+=======
+QT       += core gui
+
+>>>>>>> f1bc9ddbd41769cfaca98eff99df88a2c06f5408
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = GameWindow

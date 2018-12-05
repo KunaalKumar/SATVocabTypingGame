@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <QMediaPlayer>
 
+
 namespace Ui {
 class GameView;
 }
@@ -44,6 +45,7 @@ private:
     void renderTexture();
     void fire(float x1, float y1, float x2, float y2);
     void endGame();
+
 };
 
 #endif // GAMEVIEW_H

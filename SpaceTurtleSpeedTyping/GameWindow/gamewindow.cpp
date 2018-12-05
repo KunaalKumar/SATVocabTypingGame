@@ -13,7 +13,7 @@ GameWindow::GameWindow(QWidget *parent) :
     ui(new Ui::GameWindow)
 {
     ui->setupUi(this);
-    setFocusProxy(&gameView);
+
     ui->stackedWidget->insertWidget(1, &gameView);
     connect(&gameView, SIGNAL(homeClicked()), this, SLOT(moveHome()));
 
@@ -26,9 +26,7 @@ GameWindow::~GameWindow()
 
 void GameWindow::keyPressEvent(QKeyEvent *event)
 {
-//    // Only inside of the game screen we take keyboard inputs
-//    if (ui->stackedWidget->currentIndex() == 1)
-//        qDebug() << " Key Pressed: " << (char)event->key();
+
 }
 
 void GameWindow::on_gameStartButton_clicked()

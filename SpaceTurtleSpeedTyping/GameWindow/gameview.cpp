@@ -6,10 +6,12 @@
 #include <QKeyEvent>
 #include <QtGui>
 
+
 GameView::GameView(QWidget *parent) :
     ui(new Ui::GameView)
 {
     ui->setupUi(this);
+
     hitIdx = 0;
     fireSound.setMedia(QUrl("qrc:/src/gun.wav"));
     textVector.push_front("Hello");
@@ -47,10 +49,7 @@ GameView::~GameView()
 
 
 
-void GameView::on_endGameButton_clicked()
-{
 
-}
 
 void GameView::renderTexture() {
     texture.clear(sf::Color::Black);
@@ -93,7 +92,8 @@ void GameView::renderTexture() {
     sf::Image irt = rt.copyToImage();
     const uint8_t *pp = irt.getPixelsPtr();
 
-    QImage qi(pp, 720, 800, QImage::Format_ARGB32);
+
+    QImage qi(pp, 328, 600, QImage::Format_ARGB32);
     qi = qi.rgbSwapped();
 
     ui->label->setPixmap(QPixmap::fromImage(qi));
@@ -134,3 +134,4 @@ void GameView::endGame()
     qDebug()<< "End game signaled!";
     emit homeClicked();
 }
+
