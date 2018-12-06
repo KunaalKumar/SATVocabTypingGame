@@ -10,7 +10,8 @@ namespace GameObjects {
         this->boxWidth = boxWidth;
         type = Type::enemy;
         this->speed = (float)speed - (word.length() - 1);
-        this->image = image;
+
+        this->image = image.scaled(boxWidth, boxWidth);
     }
 
     std::string Enemy::getWord()

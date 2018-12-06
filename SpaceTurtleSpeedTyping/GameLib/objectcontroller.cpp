@@ -73,7 +73,7 @@ void ObjectController::findNewTargetedEnemy(char letter)
     double lowestDistance = DBL_MAX;
     for (unsigned int i = 0; i < objectsOnScreen.size(); i++)
     {
-        if (objectsOnScreen[i]->isOfType(GameObjects::Type::enemy))
+        if (objectsOnScreen[i]->getType() == GameObjects::Type::enemy)
         {
             GameObjects::Enemy enemy = *(static_cast<GameObjects::Enemy *>(objectsOnScreen[i]));
             double distance;
@@ -219,6 +219,8 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
     enemyBody->CreateFixture(&boxFixtureDef);
 
     // TODO: 1) Add image
+    QImage image(32, 32, QImage::Format_ARGB32);
+    image.fill(Qt::red);
     GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, boxSize, QImage(), {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
 
     enemyBody->SetUserData(enemy);
