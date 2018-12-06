@@ -67,6 +67,10 @@ GameView::~GameView()
 }
 
 void GameView::renderTexture() {
+    lib.updateFrame();
+
+    sprite.setPosition(    std::get<0>(libObjcts[1]->getPos()),    std::get<1>(libObjcts[1]->getPos()));
+
     texture.clear(sf::Color::Black);
     texture.draw(sprite);  // sprite is a sf::Sprite
 
