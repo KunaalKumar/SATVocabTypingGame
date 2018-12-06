@@ -12,6 +12,15 @@ GameView::GameView(QWidget *parent) :
 {
     ui->setupUi(this);
     lib.startRound();
+    lib.updateFrame();
+    libObjcts = lib.getGameObject();
+
+    for (auto *obj : libObjcts)
+    {
+        //if (obj->isOfType())
+    }
+
+
     hitIdx = 0;
     fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
     textVector.push_front("hello");
