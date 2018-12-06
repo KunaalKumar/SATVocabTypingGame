@@ -179,31 +179,34 @@ void ObjectController::initSpriteGenerator()
 void ObjectController::initBox2DWorld() {
     // TODO: Generate all enemy images
     // TODO: make gravity an instance variable
-    gravity = new b2Vec2(0.0f, -1.0f);
+    gravity = new b2Vec2(0, -100);
     world = new b2World(*gravity);
 
     // Initializing body defs
     enemyBodyDef.type = b2_dynamicBody;
-    enemyBodyDef.angle = 0;
 
     playerBodyDef.type = b2_staticBody;
-    playerBodyDef.angle = 0;
 }
 
-void ObjectController::attractBToA(b2Body &bodyA, b2Body &bodyB)
+b2Vec2 ObjectController::attractBToA(b2Body &bodyA, b2Body &bodyB)
 {
     b2Vec2 posA = bodyA.GetWorldCenter();
     b2Vec2 posB = bodyB.GetWorldCenter();
     b2Vec2 force = posA - posB;
     float distance = force.Length();
     force.Normalize();
-    float strength = (gravity->y * bodyA.GetMass() * bodyB.GetMass()) / (distance * distance);
+    float strength = (gravity->y * bodyA.GetMass() * bodyA.GetGravityScale() * 10000) / (distance * distance);
     force.operator*=(strength);
-    bodyA.ApplyForce(force, bodyA.GetWorldCenter(), true);
+    return force;
 }
 
 void ObjectController::stepBox2DWorld()
 {
+
+    for(int i = 0; i < objectsOnScreen.size(); i++) {
+       objectsOnScreen[i]->getBody().ApplyLinearImpulseToCenter(attractBToA(objectsOnScreen[i]->getBody(), player->getBody()), true);
+   }
+
     // All body positions within world get updates after calling Step()
     world->Step(timeStep, velocityIterations, positionIterations);
 
@@ -239,7 +242,9 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
 
     enemyBody->SetUserData(enemy);
 
-    attractBToA(*enemyBody, player->getBody());
+    // TODO: Make scale factor dynamic depending on enemy word length
+    // Controls the speed of the enemy via proxy
+    enemyBody->SetGravityScale(0.12);
 
     return enemy;
 }
