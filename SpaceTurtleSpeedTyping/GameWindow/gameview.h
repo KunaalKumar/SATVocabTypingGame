@@ -11,11 +11,14 @@ namespace Ui {
 class GameView;
 }
 
+
+
 class GameView : public QWidget
 {
     Q_OBJECT
 
 public:
+
     explicit GameView(QWidget *parent = nullptr);
     ~GameView();
 
@@ -45,6 +48,9 @@ private:
     QTimer *timer;
     int count, firedms; // firedms determines the hit strike animation duration
     bool fired;
+    std::tuple<float, float> coord;
+    float pXpos;
+    float pYpos;
     int x_pos;
     int word_count_in_screen = 5;
     int word_showed;
