@@ -2,6 +2,7 @@
 #include <QFile>
 #include <QDirIterator>
 #include <QTextStream>
+#include <QException>
 
 
 SpriteGenerator::SpriteGenerator()
@@ -25,22 +26,43 @@ QImage SpriteGenerator::generatreNewSprite(SpriteSize ss)
     switch (ss)
     {
     case SpriteSize::small:
-        shipStructure = smallSprites[rand() % smallSprites.size()];
+        if (smallSprites.size() > 0)
+        {
+            shipStructure = smallSprites[rand() % smallSprites.size()];
+        }
+        else {throw "No small sprite structures exist!";}
         break;
+
     case SpriteSize::medium:
-        shipStructure = mediumSprites[rand() % mediumSprites.size()];
+        if (mediumSprites.size() > 0)
+        {
+            shipStructure = mediumSprites[rand() % mediumSprites.size()];
+        }
+        else {throw "No medium sprite structures exist!";}
         break;
+
     case SpriteSize::large:
-        shipStructure = largeSprites[rand() % largeSprites.size()];
+        if (largeSprites.size() > 0)
+        {
+            shipStructure = largeSprites[rand() % largeSprites.size()];
+        }
+        else {throw "No large sprite strucutres exist!";}
         break;
+
     case SpriteSize::veryLarge:
-        shipStructure = veryLargeSprites[rand() % veryLargeSprites.size()];
+        if (veryLargeSprites.size() > 0)
+        {
+            shipStructure = veryLargeSprites[rand() % veryLargeSprites.size()];
+        }
+        else {throw "No very large sprite strucutres exists!";}
         break;
+
+    default:
+        throw "Sprite size given to generateNewSprite was invalid!";
     }
 
     return setAllRegionColors(shipStructure);
 }
-
 
 QImage SpriteGenerator::setAllRegionColors(SpriteStructure shipStructure)
 {
@@ -82,7 +104,10 @@ std::vector<SpriteStructure> SpriteGenerator::getSpriteStructuresFromFolder(QStr
     while(dirIter.hasNext())
     {
         QString nextFilePath = dirIter.next();
-        structures.push_back(getSpriteStructureFromFile(nextFilePath));
+        if (nextFilePath.contains(".qis"))
+        {
+            structures.push_back(getSpriteStructureFromFile(nextFilePath));
+        }
     }
 
     return structures;
