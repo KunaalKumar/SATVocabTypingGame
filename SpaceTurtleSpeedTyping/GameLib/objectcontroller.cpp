@@ -188,8 +188,12 @@ void ObjectController::attractAToB(b2Body &bodyA, b2Body &bodyB)
 
 void ObjectController::stepBox2DWorld()
 {
+    qInfo() << "\nBefore step ";
+    printPlayerPos();
     // All body positions within world get updates after calling Step()
     world->Step(timeStep, velocityIterations, positionIterations);
+    qInfo() << "\nAfter step ";
+    printPlayerPos();
 
     for(b2Contact *contact = world->GetContactList(); contact; contact = contact->GetNext()) {
         // TODO: Check for:
@@ -244,4 +248,9 @@ GameObjects::Player *ObjectController::b2MakeNewPlayer()
     playerBody->SetUserData(player);
 
     return player;
+}
+
+void ObjectController::printPlayerPos()
+{
+    qInfo() << "Player pos --> " << std::get<0>(player->getPos()) << ", " << std::get<1>(player->getPos());
 }

@@ -12,6 +12,7 @@
 #include <string>
 #include <float.h>
 #include <vector>
+#include <QtDebug>
 
 class ObjectController
 {
@@ -91,6 +92,10 @@ public:
      * @return
      */
     GameObjects::Player *b2MakeNewPlayer();
+
+    // DEBUG METHODS
+
+    void printPlayerPos();
 };
 
 #endif // OBJECTCONTROLLER_H
