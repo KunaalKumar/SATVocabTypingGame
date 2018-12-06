@@ -26,13 +26,22 @@ GameView::GameView(QWidget *parent) :
     QUrl("qrc:/lib/gamelib.h");
 
     texture.create(720, 800);
-    sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
+
+    // For running and debugging on mac
+    if(QSysInfo::productType() == "osx") {
+        sprite_texture.loadFromFile("../../../../src/Images/cute_turtle.png");
+        font.loadFromFile("../../../../src/Fonts/PTZ56F.ttf");
+    }
+    else {
+        sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
+        font.loadFromFile("../src/Fonts/PTZ56F.ttf");
+    }
+
     sprite_texture.setSmooth(true);
     // Create the sprite
     sprite.setTexture(sprite_texture);
     sprite.setPosition(328,700);
 
-    font.loadFromFile("../src/Fonts/PTZ56F.ttf");
     text.setFont(font);
     text.setCharacterSize(18);
     text.setString(textVector.takeFirst());
