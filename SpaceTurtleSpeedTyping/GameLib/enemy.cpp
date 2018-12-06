@@ -1,5 +1,5 @@
 #include "enemy.h"
-
+#include <QDebug>
 
 namespace GameObjects {
 

@@ -25,6 +25,7 @@ const std::map<std::string, double>& GameLib::getStats()
 void GameLib::startRound()
 {
     statistic.addRound();
+    oc.createRoundOfEnemies(statistic.getRound());
     oc.updateObjectPositions();
 }
 

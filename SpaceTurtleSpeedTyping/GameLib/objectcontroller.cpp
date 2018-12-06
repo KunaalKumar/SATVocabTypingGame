@@ -2,16 +2,18 @@
 #include <stdlib.h>
 #include <QImage>
 
-
 ObjectController::ObjectController(int windowSizeX, int windowSizeY)
 {
     this->windowSizeX = windowSizeX;
     this->windowSizeY = windowSizeY;
 
+    frameCounter = 0;
+
+    LoadWords::importWords();
     initSpriteGenerator();
     initBox2DWorld();
     createPlayer();
-    stopCreatingEnemies = true;
+    stopCreatingEnemies = false;
 
     explosion = nullptr;
     targetedEnemy = nullptr;
@@ -40,7 +42,6 @@ void ObjectController::createRoundOfEnemies(int round)
 void ObjectController::createEnemy(int round)
 {
     GameObjects::Enemy *enemy = b2MakeNewEnemy(round);
-
     if (enemy->getWord() != "")
     {
         objectsOnScreen.push_back(enemy);
@@ -126,9 +127,8 @@ void ObjectController::removeExplosion()
 void ObjectController::updateObjectPositions()
 {
     stepBox2DWorld();
-
     // TO FIX: Currently creating enemies every 5 seconds
-    if (!stopCreatingEnemies && ++frameCounter == 5000)
+    if (!stopCreatingEnemies && ++frameCounter == 100)
     {
         // TO FIX: Currently round is constant 1
         createEnemy(1);
@@ -220,9 +220,9 @@ void ObjectController::stepBox2DWorld()
 GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
 {
     std::string word = LoadWords::getWord();
+
     int boxSize = GameObjects::Enemy::getSize(word.size());
     QImage sprite = sg.generatreNewSprite(SpriteSize::small);
-
     // Set starting position dynamically when creating enemy objects based on window size
     enemyBodyDef.position.Set((rand() % (int)windowSizeX*2) - windowSizeX, windowSizeY);
 
@@ -239,7 +239,6 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
 //    QImage image(32, 32, QImage::Format_ARGB32);
 //    image.fill(Qt::red);
     GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, boxSize, sprite, {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
-
     enemyBody->SetUserData(enemy);
 
     // TODO: Make scale factor dynamic depending on enemy word length
