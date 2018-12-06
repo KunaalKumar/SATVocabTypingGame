@@ -34,7 +34,6 @@ private slots:
 private:
     Ui::GameView *ui;
     GameLib lib = GameLib(720, 800);
-    std::vector<GameObjects::GameObject *> libObjcts;
 
     int hitIdx;
     // Create a new render-texture
@@ -48,7 +47,6 @@ private:
     QTimer *timer;
     int count, firedms; // firedms determines the hit strike animation duration
     bool fired;
-    std::tuple<float, float> coord;
     float pXpos;
     float pYpos;
     int x_pos;
@@ -56,6 +54,8 @@ private:
     int word_showed;
 
     void renderTexture();
+    // Initialize all game objects information (position, words..etc)
+    void initGameObjects(std::vector<GameObjects::GameObject *>);
     void fire(float x1, float y1, float x2, float y2);
     void endGame();
 
