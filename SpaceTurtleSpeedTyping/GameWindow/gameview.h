@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <QMediaPlayer>
 #include "gamelib.h"
+#include "gameobjects.h"
 
 namespace Ui {
 class GameView;
@@ -29,7 +30,9 @@ private slots:
 
 private:
     Ui::GameView *ui;
-    GameLib lib;
+    GameLib lib = GameLib(720, 800);
+    std::vector<GameObjects::GameObject *> libObjcts;
+
     int hitIdx;
     // Create a new render-texture
     sf::RenderTexture texture;
@@ -42,6 +45,9 @@ private:
     QTimer *timer;
     int count, firedms; // firedms determines the hit strike animation duration
     bool fired;
+    int x_pos;
+    int word_count_in_screen = 5;
+    int word_showed;
 
     void renderTexture();
     void fire(float x1, float y1, float x2, float y2);
