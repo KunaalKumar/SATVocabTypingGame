@@ -7,9 +7,11 @@
 #include "projectile.h"
 #include "loadwords.h"
 #include "explosion.h"
-//#include "spritegenerator.h"
+
+#include "spritegenerator.h"
 #include <Box2D/Box2D.h>
 
+#include <QDir>
 #include <string>
 #include <float.h>
 #include <vector>
@@ -55,7 +57,9 @@ public:
     int frameCounter;
     bool stopCreatingEnemies;
 
-    //SpriteGenerator sg;
+    SpriteGenerator sg;
+
+    void initSpriteGenerator();
 
     // Box2D instances
     b2World *world;
