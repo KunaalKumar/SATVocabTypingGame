@@ -59,7 +59,7 @@ class GAMELIBSHARED_EXPORT GameLib
     private:
         std::vector<GameObjects::GameObject> gameObjects;
         Stats statistic;
-        ObjectController oc;
+        ObjectController *oc;
 };
 
 #endif // GAMELIB_H
