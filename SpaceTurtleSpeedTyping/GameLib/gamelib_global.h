@@ -9,7 +9,4 @@
 #  define GAMELIBSHARED_EXPORT Q_DECL_IMPORT
 #endif
 
-extern float windowSizeX;
-extern float windowSizeY;
-
 #endif // GAMELIB_GLOBAL_H
