@@ -68,6 +68,26 @@ void ObjectController::createProjectile()
 //    objectsOnScreen.push_back(projectile);
 }
 
+void ObjectController::findNewTargetedEnemy(char letter)
+{
+    double lowestDistance = DBL_MAX;
+    for (unsigned int i = 0; i < objectsOnScreen.size(); i++)
+    {
+        if (objectsOnScreen[i]->isOfType(GameObjects::Type::enemy))
+        {
+            GameObjects::Enemy enemy = *(static_cast<GameObjects::Enemy *>(objectsOnScreen[i]));
+            double distance;
+
+            if (enemy.startsWith(letter) && (distance = enemy.distanceTo(player->getPos())) < lowestDistance)
+            {
+                lowestDistance = distance;
+                targetedEnemy = new GameObjects::TargetedEnemy(enemy, i);
+                objectsOnScreen[i] = targetedEnemy;
+            }
+        }
+    }
+}
+
 bool ObjectController::letterTyped(char letter)
 {
     if (targetedEnemy == nullptr)
@@ -85,32 +105,16 @@ bool ObjectController::letterTyped(char letter)
     }
 }
 
-void ObjectController::findNewTargetedEnemy(char letter)
-{
-    double lowestDistance = DBL_MAX;
-    for (unsigned int i = 0; i < objectsOnScreen.size(); i++)
-    {
-        if (objectsOnScreen[i]->isOfType(GameObjects::Type::enemy))
-        {
-            GameObjects::Enemy enemy = *(static_cast<GameObjects::Enemy *>(objectsOnScreen[i]));
-            if (enemy.startsWith(letter))
-            {
-                double distance = enemy.distanceTo(player->getPos());
-
-                if (distance < lowestDistance)
-                {
-                    lowestDistance = distance;
-                    targetedEnemy = new GameObjects::TargetedEnemy(enemy, i);
-                    objectsOnScreen[i] = targetedEnemy;
-                }
-            }
-        }
-    }
-}
-
 void ObjectController::createExplosion()
 {
     objectsOnScreen[explosion->getVectorIndex()] = explosion;
+}
+
+void ObjectController::removeExplosion()
+{
+    objectsOnScreen.erase(objectsOnScreen.begin() + explosion->getVectorIndex());
+    delete explosion;
+    explosion = nullptr;
 }
 
 void ObjectController::updateObjectPositions()
@@ -127,9 +131,7 @@ void ObjectController::updateObjectPositions()
 
     if (explosion != nullptr && explosion->getNumOfFrames() == 1000)
     {
-        objectsOnScreen.erase(objectsOnScreen.begin() + explosion->getVectorIndex());
-        delete explosion;
-        explosion = nullptr;
+        removeExplosion();
     }
 }
 
