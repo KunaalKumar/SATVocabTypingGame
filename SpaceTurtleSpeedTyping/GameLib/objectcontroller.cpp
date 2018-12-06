@@ -31,7 +31,7 @@ ObjectController::~ObjectController()
 void ObjectController::createPlayer()
 {
     player = b2MakeNewPlayer();
-    objectsOnScreen.push_back(player);
+//    objectsOnScreen.push_back(player);
 }
 
 void ObjectController::createRoundOfEnemies(int round)
@@ -175,7 +175,7 @@ bool ObjectController::isEndGame()
 void ObjectController::initBox2DWorld() {
     // TODO: Generate all enemy images
     // TODO: make gravity an instance variable
-    gravity = new b2Vec2(0.0f, -10.0f);
+    gravity = new b2Vec2(0.0f, -100.0f);
     world = new b2World(*gravity);
 
     // Initializing body defs
@@ -190,9 +190,9 @@ b2Vec2 ObjectController::attractBToA(b2Body &bodyA, b2Body &bodyB)
     b2Vec2 force = posA - posB;
     float distance = force.Length();
     force.Normalize();
-    float strength = (gravity->y * bodyA.GetMass() * 10) / (distance * distance);
+    float strength = (gravity->y * bodyA.GetMass() * 10000) / (distance * distance);
     qInfo() << "STRENGTH " << strength;
-    force.operator*=(strength*10);
+    force.operator*=(strength);
     return force;
 }
 
@@ -247,7 +247,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
 GameObjects::Player *ObjectController::b2MakeNewPlayer()
 {
     // Player position - 10% up from the bottom and in the middle of the screen
-    playerBodyDef.position.Set((windowSizeX/2), 0);
+    playerBodyDef.position.Set((windowSizeX/2), -(0.9*windowSizeY));
 
     b2Body *playerBody = world->CreateBody(&playerBodyDef);
     b2PolygonShape boxShape;
@@ -269,5 +269,5 @@ GameObjects::Player *ObjectController::b2MakeNewPlayer()
 void ObjectController::printPlayerPos()
 {
 //    qInfo() << "Player pos --> " << std::get<0>(player->getPos()) << ", " << std::get<1>(player->getPos());
-    qInfo() << "Enemy pos --> " << std::get<0>(objectsOnScreen[1]->getPos()) << ", " << std::get<1>(objectsOnScreen[1]->getPos());
+    qInfo() << "Enemy pos --> " << std::get<0>(objectsOnScreen[0]->getPos()) << ", " << std::get<1>(objectsOnScreen[0]->getPos());
 }
