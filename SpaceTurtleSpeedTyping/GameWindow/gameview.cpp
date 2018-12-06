@@ -21,10 +21,6 @@ GameView::GameView(QWidget *parent) :
     textVector.push_front("body");
     textVector.push_front("speaking");
 
-   // &GameLib::getGameObject;
-   // textVector.push_back()
-    QUrl("qrc:/lib/gamelib.h");
-
     texture.create(720, 800);
 
     // For running and debugging on mac
