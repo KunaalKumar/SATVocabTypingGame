@@ -3,8 +3,11 @@
 #include <QImage>
 
 
-ObjectController::ObjectController()
+ObjectController::ObjectController(int windowSizeX, int windowSizeY)
 {
+    this->windowSizeX = windowSizeX;
+    this->windowSizeY = windowSizeY;
+
     // TODO: Generate all enemy images
     initBox2DWorld();
     createPlayer();
