@@ -8,7 +8,7 @@ namespace GameObjects
         type = Type::explosion;
         vectorIndex = enemy.getVectorIndex();
         numOfFrames = 0;
-//        this->image =
+        this->image = QImage("../src/Images/cute_turtle.png");
     }
 
     posTuple Explosion::getPos()

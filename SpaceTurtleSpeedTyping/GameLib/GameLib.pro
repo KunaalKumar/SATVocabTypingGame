@@ -31,7 +31,6 @@ SOURCES += \
     stats.cpp \
     loadwords.cpp \
     explosion.cpp \
-    gamelib_global.cpp
 
 HEADERS += \
         gamelib.h \
@@ -43,7 +42,6 @@ HEADERS += \
     objectcontroller.h \
     loadwords.h \
     explosion.h \
-    gamelib_global.h
 
 unix {
     target.path = /usr/lib

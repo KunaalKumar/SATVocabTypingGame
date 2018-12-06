@@ -13,6 +13,9 @@ ObjectController::ObjectController(int windowSizeX, int windowSizeY)
     createPlayer();
     stopCreatingEnemies = true;
 
+    explosion = nullptr;
+    targetedEnemy = nullptr;
+
 //    QDir relativeDir(QDir::currentPath());
 //    relativeDir.cdUp();
 //    relativeDir.cd("SpriteStructures/");
