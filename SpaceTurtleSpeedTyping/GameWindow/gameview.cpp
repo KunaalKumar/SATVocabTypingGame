@@ -8,19 +8,22 @@
 
 
 GameView::GameView(QWidget *parent) :
-    ui(new Ui::GameView), lib(720, 800)
+    ui(new Ui::GameView)
 {
     ui->setupUi(this);
     lib.startRound();
     hitIdx = 0;
     fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
-    textVector.push_front("Hello");
-    textVector.push_front("Hello");
-    textVector.push_front("Hello");
-    textVector.push_front("Hello");
-    textVector.push_front("Hello");
-    textVector.push_front("Hello");
-    textVector.push_front("Hello");
+    textVector.push_front("hello");
+    textVector.push_front("this");
+    textVector.push_front("is");
+    textVector.push_front("some");
+    textVector.push_front("body");
+    textVector.push_front("speaking");
+
+   // &GameLib::getGameObject;
+   // textVector.push_back()
+    QUrl("qrc:/lib/gamelib.h");
 
     texture.create(720, 800);
     sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
@@ -32,14 +35,16 @@ GameView::GameView(QWidget *parent) :
     font.loadFromFile("../src/Fonts/PTZ56F.ttf");
     text.setFont(font);
     text.setCharacterSize(18);
-    text.setString("hello");
+    text.setString(textVector.takeFirst());
     text.setFillColor(sf::Color::White);
+    x_pos = rand() % 720;
+
     count = 0;
     firedms = 0;
     fired = false;
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &GameView::renderTexture);
-    timer->start(100);
+    timer->start(10);
 }
 
 GameView::~GameView()
@@ -51,28 +56,25 @@ void GameView::renderTexture() {
     texture.clear(sf::Color::Black);
     texture.draw(sprite);  // sprite is a sf::Sprite
 
-//    for (int i = 0; i < textVector.size(); i++)
-//    {
-//        text.setString(textVector.at(i));
-//        if (i == 0)
-//            text.setPosition(15, count++);
-//        else
-//        {
+    //if player pressed all letter of current word, start next one
+    if(text.getString().getSize() == 0)
+    {
+        count = 0;
+        text.setString(textVector.takeFirst());
+        x_pos = rand() % 720;
 
-//            text.setPosition(i * 100, count++);
-//        }
-//        if (count > 600) count = 0;
-//        texture.draw(text);    // text is a sf::Text
-//    }
+    }
 
-    text.setPosition(100, count++);
+
+    //change initial position by a random number
+    text.setPosition(x_pos, count++);
     texture.draw(text);
 
     if (fired)
     {
         if (firedms++<6)
         {
-            fire(328, 700, text.getPosition().x, text.getPosition().y);
+            fire(328, 700, text.getPosition().x, text.getPosition().y + 20);
         }
         else
         {
@@ -97,10 +99,10 @@ void GameView::renderTexture() {
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {
-    char ch = (char)(event->key()+32);
+    char ch = static_cast<char>(event->key()+32);
+
     if (!text.getString().find(ch))
     {
-
         fire(328, 700, text.getPosition().x, text.getPosition().y);
         text.setString(text.getString().substring(1));
     }
@@ -130,4 +132,3 @@ void GameView::endGame()
     qDebug()<< "End game signaled!";
     emit homeClicked();
 }
-
