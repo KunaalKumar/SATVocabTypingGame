@@ -184,7 +184,7 @@ void ObjectController::initBox2DWorld() {
     playerBodyDef.angle = 0;
 }
 
-void ObjectController::attractAToB(b2Body &bodyA, b2Body &bodyB)
+void ObjectController::attractBToA(b2Body &bodyA, b2Body &bodyB)
 {
     b2Vec2 posA = bodyA.GetWorldCenter();
     b2Vec2 posB = bodyB.GetWorldCenter();
@@ -232,6 +232,8 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
     GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, boxSize, QImage(), {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
 
     enemyBody->SetUserData(enemy);
+
+    attractBToA(*enemyBody, player->getBody());
 
     return enemy;
 }

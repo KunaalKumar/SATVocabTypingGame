@@ -71,11 +71,11 @@ public:
     int32 positionIterations = 3;
 
     /**
-     * @brief attractAToB - attracts body B to body A
+     * @brief attractBToA - attracts body B to body A
      * @param bodyA
      * @param bodyB
      */
-    void attractAToB(b2Body &bodyA, b2Body &bodyB);
+    void attractBToA(b2Body &bodyA, b2Body &bodyB);
 
     /**
      * @brief stepBox2DWorld - increments box2d world and checks for collisions
