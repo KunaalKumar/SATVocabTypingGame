@@ -5,9 +5,12 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    sg("/home/nathan/source/A8-an-educational-app-f18-Purple-Picnic-Turtles-2.0/SpriteGenerator/SpriteStructures/")
+    ui(new Ui::MainWindow)
 {
+    QDir relativeDir(QDir::currentPath());
+    relativeDir.cdUp();
+    relativeDir.cd("SpriteStructures/");
+    sg = SpriteGenerator(relativeDir.path() + '/');
     ui->setupUi(this);
 }
 

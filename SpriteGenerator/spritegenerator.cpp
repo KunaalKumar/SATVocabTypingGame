@@ -4,11 +4,7 @@
 #include <QTextStream>
 #include <QException>
 
-
-SpriteGenerator::SpriteGenerator()
-{
-    SpriteGenerator("SpriteStructures/");
-}
+SpriteGenerator::SpriteGenerator() {}
 
 SpriteGenerator::SpriteGenerator(QString folderPath, QString ssFolder, QString msFolder, QString lsFolder, QString vlsFolder)
     : structureFolderPath(folderPath),
@@ -66,6 +62,7 @@ QImage SpriteGenerator::generatreNewSprite(SpriteSize ss)
 
 QImage SpriteGenerator::setAllRegionColors(SpriteStructure shipStructure)
 {
+    shipStructure.image.fill(Qt::transparent);
     for (CoordinateList region : shipStructure.regions)
     {
         int red = rand() % 255;

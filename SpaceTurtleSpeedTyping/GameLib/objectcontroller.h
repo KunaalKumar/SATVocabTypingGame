@@ -47,6 +47,8 @@ public:
     GameObjects::Explosion *explosion;
     std::vector<GameObjects::GameObject*> objectsOnScreen;
 
+    void removeExplosion();
+
     int frameCounter;
     bool stopCreatingEnemies;
 

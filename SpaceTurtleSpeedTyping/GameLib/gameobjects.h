@@ -53,7 +53,7 @@ namespace GameObjects
 
             QImage getImage() { return image; }
 
-            bool isOfType(Type other) { return type == other; }
+            Type getType() { return type; }
 
             b2Body& getBody() { return *body; }
 
