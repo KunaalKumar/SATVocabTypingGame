@@ -10,7 +10,7 @@
 #include <map>
 
 
-class GAMELIBSHARED_EXPORT GameLib
+class GameLib
 {
 
     public:

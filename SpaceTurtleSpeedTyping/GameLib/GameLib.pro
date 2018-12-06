@@ -31,7 +31,6 @@ SOURCES += \
     stats.cpp \
     loadwords.cpp \
     explosion.cpp \
-    gamelib_global.cpp
 
 HEADERS += \
         gamelib.h \
@@ -43,7 +42,6 @@ HEADERS += \
     objectcontroller.h \
     loadwords.h \
     explosion.h \
-    gamelib_global.h
 
 unix {
     target.path = /usr/lib
@@ -66,3 +64,11 @@ INCLUDEPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 DEPENDPATH += $$PWD/../3rdPartyLibraries/Box2D/include
 
 macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/osx/libBox2D.a
+
+unix|win32: LIBS += -L$$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/ -lSpriteGenerator
+
+INCLUDEPATH += $$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/include
+DEPENDPATH += $$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/SpriteGenerator.lib
+else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/libSpriteGenerator.a

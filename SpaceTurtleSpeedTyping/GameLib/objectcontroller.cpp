@@ -8,16 +8,14 @@ ObjectController::ObjectController(int windowSizeX, int windowSizeY)
     this->windowSizeX = windowSizeX;
     this->windowSizeY = windowSizeY;
 
-    // TODO: Generate all enemy images
+    initSpriteGenerator();
     initBox2DWorld();
     createPlayer();
     createEnemy(1);
     stopCreatingEnemies = true;
 
-//    QDir relativeDir(QDir::currentPath());
-//    relativeDir.cdUp();
-//    relativeDir.cd("SpriteStructures/");
-//    sg = SpriteGenerator(relativeDir.path() + '/');
+    explosion = nullptr;
+    targetedEnemy = nullptr;
 }
 
 ObjectController::~ObjectController()
@@ -165,6 +163,14 @@ bool ObjectController::isEndGame()
     return player->getHealth() == 0;
 }
 
+void ObjectController::initSpriteGenerator()
+{
+    QDir relativeDir(QDir::currentPath());
+    relativeDir.cdUp();
+    relativeDir.cd("SpriteStructures/");
+    sg = SpriteGenerator(relativeDir.path() + '/');
+}
+
 //__________             ________  ________      _________ __          _____  _____
 //\______   \ _______  __\_____  \ \______ \    /   _____//  |_ __ ___/ ____\/ ____\
 // |    |  _//  _ \  \/  //  ____/  |    |  \   \_____  \\   __\  |  \   __\\   __\
@@ -220,6 +226,8 @@ void ObjectController::stepBox2DWorld()
 GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
 {
     std::string word = LoadWords::getWord();
+    int boxSize = GameObjects::Enemy::getSize(word.size());
+    QImage sprite = sg.generatreNewSprite(SpriteSize::small);
 
     // Set starting position dynamically when creating enemy objects based on window size
     enemyBodyDef.position.Set(600,0);
@@ -233,11 +241,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
     boxFixtureDef.density = 1;
 
     enemyBody->CreateFixture(&boxFixtureDef);
-
-    // TODO: 1) Add image
-    QImage image(32, 32, QImage::Format_ARGB32);
-    image.fill(Qt::red);
-    GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, 1, image, {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
+    GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, boxSize, sprite, {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
 
     enemyBody->SetUserData(enemy);
 

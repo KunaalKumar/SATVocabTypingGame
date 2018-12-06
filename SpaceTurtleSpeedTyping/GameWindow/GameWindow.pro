@@ -85,3 +85,11 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../3rdParty
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/Box2D.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/Box2D.lib
 else:unix:!macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/linux/libBox2D.a
+
+unix|win32: LIBS += -L$$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/ -lSpriteGenerator
+
+INCLUDEPATH += $$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/include
+DEPENDPATH += $$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/SpriteGenerator.lib
+else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/libSpriteGenerator.a
