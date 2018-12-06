@@ -175,7 +175,7 @@ bool ObjectController::isEndGame()
 void ObjectController::initBox2DWorld() {
     // TODO: Generate all enemy images
     // TODO: make gravity an instance variable
-    gravity = new b2Vec2(0.0f, -100.0f);
+    gravity = new b2Vec2(0, -100);
     world = new b2World(*gravity);
 
     // Initializing body defs
@@ -190,7 +190,7 @@ b2Vec2 ObjectController::attractBToA(b2Body &bodyA, b2Body &bodyB)
     b2Vec2 force = posA - posB;
     float distance = force.Length();
     force.Normalize();
-    float strength = (gravity->y * bodyA.GetMass() * 10000) / (distance * distance);
+    float strength = (gravity->y * bodyA.GetMass() * bodyA.GetGravityScale() * 10000) / (distance * distance);
     qInfo() << "STRENGTH " << strength;
     force.operator*=(strength);
     return force;
@@ -240,6 +240,9 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
     GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, 1, image, {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
 
     enemyBody->SetUserData(enemy);
+
+    // Controls the speed of the enemy via proxy
+    enemyBody->SetGravityScale(0.12);
 
     return enemy;
 }
