@@ -13,20 +13,7 @@ GameView::GameView(QWidget *parent) :
     ui->setupUi(this);
     lib.startRound();
     lib.updateFrame();
-    libObjcts = lib.getGameObject();
-
-    for (auto *obj : libObjcts)
-    {
-        // use obj to determine what type of obj it is and
-        // update their pos, image...etc
-        if (obj->getTypeString() == "player")
-        {
-            pXpos = std::get<0>(obj->getPos());
-            pYpos = std::get<1>(obj->getPos());
-        }
-
-    }
-
+    initGameObjects(lib.getGameObject());
 
     hitIdx = 0;
     fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
@@ -116,6 +103,21 @@ void GameView::renderTexture() {
     qi = qi.rgbSwapped();
 
     ui->label->setPixmap(QPixmap::fromImage(qi));
+}
+
+void GameView::initGameObjects(std::vector<GameObjects::GameObject *> v)
+{
+    for (auto *obj : v)
+    {
+        // use obj to determine what type of obj it is and
+        // update their pos, image...etc
+        if (obj->getTypeString() == "player")
+        {
+            pXpos = std::get<0>(obj->getPos());
+            pYpos = std::get<1>(obj->getPos());
+        }
+
+    }
 }
 
 void GameView::keyPressEvent(QKeyEvent *event)
