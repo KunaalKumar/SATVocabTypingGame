@@ -9,6 +9,11 @@ ObjectController::ObjectController()
     initBox2DWorld();
     createPlayer();
     stopCreatingEnemies = true;
+
+//    QDir relativeDir(QDir::currentPath());
+//    relativeDir.cdUp();
+//    relativeDir.cd("SpriteStructures/");
+//    sg = SpriteGenerator(relativeDir.path() + '/');
 }
 
 ObjectController::~ObjectController()
@@ -73,7 +78,7 @@ void ObjectController::findNewTargetedEnemy(char letter)
     double lowestDistance = DBL_MAX;
     for (unsigned int i = 0; i < objectsOnScreen.size(); i++)
     {
-        if (objectsOnScreen[i]->getType() == GameObjects::Type::enemy)
+        if (objectsOnScreen[i]->isOfType(GameObjects::Type::enemy))
         {
             GameObjects::Enemy enemy = *(static_cast<GameObjects::Enemy *>(objectsOnScreen[i]));
             double distance;

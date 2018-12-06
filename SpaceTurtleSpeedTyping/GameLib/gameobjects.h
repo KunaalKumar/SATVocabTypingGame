@@ -21,7 +21,6 @@ namespace GameObjects
         explosion
     };
 
-
     class GameObject
     {
         public:
@@ -53,7 +52,19 @@ namespace GameObjects
 
             QImage getImage() { return image; }
 
-            Type getType() { return type; }
+            bool isOfType(Type other) { return other == type; }
+
+            std::string getTypeString()
+            {
+                switch (type)
+                {
+                    case Type::projectile    : return "projectile";
+                    case Type::enemy         : return "enemy";
+                    case Type::targetedEnemy : return "targeted enemy";
+                    case Type::player        : return "player";
+                    case Type::explosion     : return "explosion";
+                }
+            }
 
             b2Body& getBody() { return *body; }
 
