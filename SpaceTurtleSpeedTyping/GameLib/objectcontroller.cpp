@@ -135,7 +135,7 @@ void ObjectController::updateObjectPositions()
     if (!stopCreatingEnemies && ++frameCounter == 5000)
     {
         // TO FIX: Currently round is constant 1
-        createEnemy(1);
+//        createEnemy(1);
         frameCounter = 0;
     }
 
@@ -180,30 +180,32 @@ void ObjectController::initBox2DWorld() {
 
     // Initializing body defs
     enemyBodyDef.type = b2_dynamicBody;
-    enemyBodyDef.angle = 0;
-
     playerBodyDef.type = b2_staticBody;
-    playerBodyDef.angle = 0;
 }
 
-void ObjectController::attractBToA(b2Body &bodyA, b2Body &bodyB)
+b2Vec2 ObjectController::attractBToA(b2Body &bodyA, b2Body &bodyB)
 {
     b2Vec2 posA = bodyA.GetWorldCenter();
     b2Vec2 posB = bodyB.GetWorldCenter();
     b2Vec2 force = posA - posB;
     float distance = force.Length();
     force.Normalize();
-    float strength = (gravity->y * bodyA.GetMass() * bodyB.GetMass()) / (distance * distance);
-    force.operator*=(strength);
-    bodyB.ApplyLinearImpulse(force, bodyB.GetWorldCenter(), true);
+    float strength = (gravity->y * bodyA.GetMass() * 10) / (distance * distance);
+    qInfo() << "STRENGTH " << strength;
+    force.operator*=(strength*10);
+    return force;
 }
 
 void ObjectController::stepBox2DWorld()
 {
     qInfo() << "\nBefore step ";
     printPlayerPos();
+
+    for(int i = 0; i < objectsOnScreen.size(); i++) {
+        objectsOnScreen[i]->getBody().ApplyLinearImpulseToCenter(attractBToA(objectsOnScreen[i]->getBody(), player->getBody()), true);
+    }
+
     // All body positions within world get updates after calling Step()
-    attractBToA(objectsOnScreen[1]->getBody(), player->getBody());
     world->Step(timeStep, velocityIterations, positionIterations);
     qInfo() << "\nAfter step ";
     printPlayerPos();
@@ -218,25 +220,24 @@ void ObjectController::stepBox2DWorld()
 GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
 {
     std::string word = LoadWords::getWord();
-    int boxSize = GameObjects::Enemy::getSize(word.size());
 
     // Set starting position dynamically when creating enemy objects based on window size
-    enemyBodyDef.position.Set(0,0);
+    enemyBodyDef.position.Set(600,0);
 
     b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
     b2PolygonShape boxShape;
-    boxShape.SetAsBox(boxSize, boxSize);
+    boxShape.SetAsBox(10, 10);
 
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
-    boxFixtureDef.density = 10;
+    boxFixtureDef.density = 1;
 
     enemyBody->CreateFixture(&boxFixtureDef);
 
     // TODO: 1) Add image
     QImage image(32, 32, QImage::Format_ARGB32);
     image.fill(Qt::red);
-    GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, boxSize, image, {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
+    GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, 1, image, {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
 
     enemyBody->SetUserData(enemy);
 
@@ -246,11 +247,11 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
 GameObjects::Player *ObjectController::b2MakeNewPlayer()
 {
     // Player position - 10% up from the bottom and in the middle of the screen
-    playerBodyDef.position.Set((windowSizeX/2), -(0.9*windowSizeY));
+    playerBodyDef.position.Set((windowSizeX/2), 0);
 
     b2Body *playerBody = world->CreateBody(&playerBodyDef);
     b2PolygonShape boxShape;
-    boxShape.SetAsBox(32, 32);
+    boxShape.SetAsBox(1, 1);
 
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
@@ -267,6 +268,6 @@ GameObjects::Player *ObjectController::b2MakeNewPlayer()
 
 void ObjectController::printPlayerPos()
 {
-    qInfo() << "Player pos --> " << std::get<0>(player->getPos()) << ", " << std::get<1>(player->getPos());
+//    qInfo() << "Player pos --> " << std::get<0>(player->getPos()) << ", " << std::get<1>(player->getPos());
     qInfo() << "Enemy pos --> " << std::get<0>(objectsOnScreen[1]->getPos()) << ", " << std::get<1>(objectsOnScreen[1]->getPos());
 }

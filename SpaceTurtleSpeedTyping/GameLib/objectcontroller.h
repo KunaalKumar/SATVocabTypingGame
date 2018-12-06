@@ -75,8 +75,9 @@ public:
      * @brief attractBToA - attracts body B to body A
      * @param bodyA
      * @param bodyB
+     * @return - vector to apply
      */
-    void attractBToA(b2Body &bodyA, b2Body &bodyB);
+    b2Vec2 attractBToA(b2Body &bodyA, b2Body &bodyB);
 
     /**
      * @brief stepBox2DWorld - increments box2d world and checks for collisions
