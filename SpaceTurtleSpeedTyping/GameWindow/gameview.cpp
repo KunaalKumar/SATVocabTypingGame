@@ -17,7 +17,14 @@ GameView::GameView(QWidget *parent) :
 
     for (auto *obj : libObjcts)
     {
-        //if (obj->isOfType())
+        // use obj to determine what type of obj it is and
+        // update their pos, image...etc
+        if (obj->getTypeString() == "player")
+        {
+            pXpos = std::get<0>(obj->getPos());
+            pYpos = std::get<1>(obj->getPos());
+        }
+
     }
 
 
@@ -45,7 +52,7 @@ GameView::GameView(QWidget *parent) :
     sprite_texture.setSmooth(true);
     // Create the sprite
     sprite.setTexture(sprite_texture);
-    sprite.setPosition(328,700);
+    sprite.setPosition(pXpos,pYpos);
 
     text.setFont(font);
     text.setCharacterSize(18);
@@ -88,7 +95,7 @@ void GameView::renderTexture() {
     {
         if (firedms++<6)
         {
-            fire(328, 700, text.getPosition().x, text.getPosition().y + 20);
+            fire(pXpos, pYpos, text.getPosition().x, text.getPosition().y + 20);
         }
         else
         {
@@ -117,7 +124,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
 
     if (!text.getString().find(ch))
     {
-        fire(328, 700, text.getPosition().x, text.getPosition().y);
+        fire(pXpos, pYpos, text.getPosition().x, text.getPosition().y);
         text.setString(text.getString().substring(1));
     }
 
