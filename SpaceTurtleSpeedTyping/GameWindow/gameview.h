@@ -39,9 +39,7 @@ private:
     // Create a new render-texture
     sf::RenderTexture texture;
     sf::Texture sprite_texture;
-    sf::Sprite sprite;
     sf::Font font;
-    sf::Text text;
     QMediaPlayer fireSound;
     QVector<std::string> textVector;
     QTimer *timer;
@@ -55,7 +53,7 @@ private:
 
     void renderTexture();
     // Initialize all game objects information (position, words..etc)
-    void initGameObjects(std::vector<GameObjects::GameObject *>);
+    void refreshGameObjects(std::vector<GameObjects::GameObject *>);
     void fire(float x1, float y1, float x2, float y2);
     void endGame();
 

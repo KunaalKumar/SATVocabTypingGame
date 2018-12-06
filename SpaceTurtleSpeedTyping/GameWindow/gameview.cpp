@@ -12,47 +12,13 @@ GameView::GameView(QWidget *parent) :
 {
     ui->setupUi(this);
     lib.startRound();
-    lib.updateFrame();
-    initGameObjects(lib.getGameObject());
-
-    hitIdx = 0;
-    fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
-    textVector.push_front("hello");
-    textVector.push_front("this");
-    textVector.push_front("is");
-    textVector.push_front("some");
-    textVector.push_front("body");
-    textVector.push_front("speaking");
-
     texture.create(720, 800);
+    fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
 
-    // For running and debugging on mac
-    if(QSysInfo::productType() == "osx") {
-        sprite_texture.loadFromFile("../../../../src/Images/cute_turtle.png");
-        font.loadFromFile("../../../../src/Fonts/PTZ56F.ttf");
-    }
-    else {
-        sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
-        font.loadFromFile("../src/Fonts/PTZ56F.ttf");
-    }
 
-    sprite_texture.setSmooth(true);
-    // Create the sprite
-    sprite.setTexture(sprite_texture);
-    sprite.setPosition(pXpos,pYpos);
-
-    text.setFont(font);
-    text.setCharacterSize(18);
-    text.setString(textVector.takeFirst());
-    text.setFillColor(sf::Color::White);
-    x_pos = rand() % 720;
-
-    count = 0;
-    firedms = 0;
-    fired = false;
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &GameView::renderTexture);
-    timer->start(10);
+    timer->start(1);
 }
 
 GameView::~GameView()
@@ -62,34 +28,9 @@ GameView::~GameView()
 
 void GameView::renderTexture() {
     texture.clear(sf::Color::Black);
-    texture.draw(sprite);  // sprite is a sf::Sprite
 
-    //if player pressed all letter of current word, start next one
-    if(text.getString().getSize() == 0)
-    {
-        count = 0;
-        text.setString(textVector.takeFirst());
-        x_pos = rand() % 720;
+    refreshGameObjects(lib.getGameObject());
 
-    }
-
-
-    //change initial position by a random number
-    text.setPosition(x_pos, count++);
-    texture.draw(text);
-
-    if (fired)
-    {
-        if (firedms++<6)
-        {
-            fire(pXpos, pYpos, text.getPosition().x, text.getPosition().y + 20);
-        }
-        else
-        {
-            fired = false;
-            firedms = 0;
-        }
-    }
     // We're done drawing to the texture
     texture.display();
 
@@ -97,39 +38,68 @@ void GameView::renderTexture() {
     sf::Texture rt = texture.getTexture();
     sf::Image irt = rt.copyToImage();
     const uint8_t *pp = irt.getPixelsPtr();
-
-
     QImage qi(pp, 720, 800, QImage::Format_ARGB32);
     qi = qi.rgbSwapped();
 
     ui->label->setPixmap(QPixmap::fromImage(qi));
+
 }
 
-void GameView::initGameObjects(std::vector<GameObjects::GameObject *> v)
+void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 {
+    lib.updateFrame();
+    sf::Sprite sprite;
     for (auto *obj : v)
     {
+        std::string type = obj->getTypeString();
         // use obj to determine what type of obj it is and
         // update their pos, image...etc
-        if (obj->getTypeString() == "player")
+        sprite_texture.setSmooth(true);
+        if (type == "player")
         {
-            pXpos = std::get<0>(obj->getPos());
-            pYpos = std::get<1>(obj->getPos());
+            // For running and debugging on mac
+            if(QSysInfo::productType() == "osx")
+            {
+                sprite_texture.loadFromFile("../../../../src/Images/cute_turtle.png");
+                //font.loadFromFile("../../../../src/Fonts/PTZ56F.ttf");
+            }
+            else
+            {
+                sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
+                //font.loadFromFile("../src/Fonts/PTZ56F.ttf");
+            }
+            sprite_texture.setSmooth(true);
+            sprite.setTexture(sprite_texture);
+            sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            texture.draw(sprite);
+        }
+        else if (type == "enemy")
+        {
+            GameObjects::Enemy *enemy = (GameObjects::Enemy *) obj;
+            sf::Text text;
+            text.setFont(font);
+            text.setCharacterSize(18);
+            text.setString(enemy->getWord());
+            text.setFillColor(sf::Color::White);
+            if(QSysInfo::productType() == "osx")
+            {
+                font.loadFromFile("../../../../src/Fonts/PTZ56F.ttf");
+            }
+            else
+            {
+                font.loadFromFile("../src/Fonts/PTZ56F.ttf");
+            }
+            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            texture.draw(text);
         }
 
     }
 }
 
+
 void GameView::keyPressEvent(QKeyEvent *event)
 {
     char ch = static_cast<char>(event->key()+32);
-
-    if (!text.getString().find(ch))
-    {
-        fire(pXpos, pYpos, text.getPosition().x, text.getPosition().y);
-        text.setString(text.getString().substring(1));
-    }
-
 
     if (event->key() == Qt::Key_Escape)
     {
