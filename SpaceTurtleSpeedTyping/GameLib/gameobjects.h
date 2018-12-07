@@ -5,6 +5,7 @@
 #include <tuple>
 #include <string>
 #include <Box2D/Box2D.h>
+#include <QDebug>
 
 namespace GameObjects
 {
@@ -23,11 +24,14 @@ namespace GameObjects
     class GameObject
     {
         public:
+        static int ID;
             GameObject(posTuple pos)
             {
                 this->posX = std::get<0>(pos);
                 this->posY = std::get<1>(pos);
                 this->body = nullptr;
+                ID++;
+                qInfo() << "ID is " << ID;
             }
 
             GameObject(posTuple pos, b2Body &body)
@@ -35,6 +39,8 @@ namespace GameObjects
                 this->posX = std::get<0>(pos);
                 this->posY = std::get<1>(pos);
                 this->body = &body;
+                ID++;
+                qInfo() << "ID is " << ID;
             }
 
 //            ~GameObject()

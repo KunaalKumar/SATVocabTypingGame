@@ -2,6 +2,7 @@
 #include "gameobjects.h"
 #include "loadwords.h"
 
+int GameObjects::GameObject::ID = 0;
 
 GameLib::GameLib(int x, int y):oc(x, y)
 {
