@@ -10,7 +10,7 @@ ObjectController::ObjectController(int windowSizeX, int windowSizeY)
     frameCounter = 0;
 
     LoadWords::importWords();
-    initSpriteGenerator();
+    //GameObjects::Enemy::initSpriteGenerator();
     initBox2DWorld();
     createPlayer();
     stopCreatingEnemies = false;
@@ -35,6 +35,7 @@ void ObjectController::createPlayer()
 
 void ObjectController::createRoundOfEnemies(int round)
 {
+    //GameObjects::Enemy::createImagePaths();
     LoadWords::createRoundWords(round);
     stopCreatingEnemies = false;
 }
@@ -161,14 +162,6 @@ bool ObjectController::isEndGame()
     return player->getHealth() == 0;
 }
 
-void ObjectController::initSpriteGenerator()
-{
-    QDir relativeDir(QDir::currentPath());
-    relativeDir.cdUp();
-    relativeDir.cd("SpriteStructures/");
-    sg = SpriteGenerator(relativeDir.path() + '/');
-}
-
 //__________             ________  ________      _________ __          _____  _____
 //\______   \ _______  __\_____  \ \______ \    /   _____//  |_ __ ___/ ____\/ ____\
 // |    |  _//  _ \  \/  //  ____/  |    |  \   \_____  \\   __\  |  \   __\\   __\
@@ -222,8 +215,6 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
     std::string word = LoadWords::getWord();
 
     int boxSize = GameObjects::Enemy::getSize(word.size());
-    //QImage sprite = sg.generatreNewSprite(SpriteSize::small);
-    // Set starting position dynamically when creating enemy objects based on window size
     enemyBodyDef.position.Set((rand() % (int)windowSizeX*2) - windowSizeX, windowSizeY);
 
     b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
@@ -236,7 +227,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
 
     enemyBody->CreateFixture(&boxFixtureDef);
 
-    GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, boxSize, "../src/Images/cute_turtle.png", {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
+    GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, boxSize, {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
     enemyBody->SetUserData(enemy);
 
     // TODO: Make scale factor dynamic depending on enemy word length

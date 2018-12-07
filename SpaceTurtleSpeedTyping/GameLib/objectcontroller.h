@@ -8,10 +8,8 @@
 #include "loadwords.h"
 #include "explosion.h"
 
-#include "spritegenerator.h"
 #include <Box2D/Box2D.h>
 
-#include <QDir>
 #include <string>
 #include <float.h>
 #include <vector>
@@ -47,19 +45,15 @@ public:
     // shoot closest enemy with starting letter = letter
     void findNewTargetedEnemy(char letter);
 
+    void removeExplosion();
+
     GameObjects::Player *player;
     GameObjects::TargetedEnemy *targetedEnemy;
     GameObjects::Explosion *explosion;
     std::vector<GameObjects::GameObject*> objectsOnScreen;
 
-    void removeExplosion();
-
     int frameCounter;
     bool stopCreatingEnemies;
-
-    SpriteGenerator sg;
-
-    void initSpriteGenerator();
 
     // Box2D instances
     b2World *world;

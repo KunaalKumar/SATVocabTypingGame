@@ -4,6 +4,9 @@
 #include "loadwords.h"
 #include "gameobjects.h"
 
+#include "spritegenerator.h"
+
+#include <QDir>
 #include <math.h>
 #include <string>
 
@@ -13,13 +16,19 @@ namespace GameObjects
     class Enemy : public GameObject
     {
         public:
-            Enemy(int speed, std::string word, int boxWidth, std::string imagePath, GameObjects::posTuple pos, b2Body &body);
+            Enemy(int speed, std::string word, int boxWidth, GameObjects::posTuple pos, b2Body &body);
 
             std::string getWord();
             double distanceTo(GameObjects::posTuple);
             bool startsWith(char letter);
 
             static int getSize(int wordLength);
+            static void createImagePaths();
+            static void initSpriteGenerator();
+
+            static std::vector<std::string> imagePaths;
+            static unsigned int imagePathIndex;
+            static SpriteGenerator sg;
 
         protected:
             std::string word;
@@ -36,6 +45,8 @@ namespace GameObjects
             hitPlayer shoot(char letter);
 
             unsigned int getVectorIndex();
+            unsigned int getCurrentLetterPos();
+            void resetWord();
             bool wasDestroyed();
         private:
             unsigned int currentLetterPos;
