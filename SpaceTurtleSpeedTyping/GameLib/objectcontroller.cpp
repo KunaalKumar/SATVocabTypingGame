@@ -67,14 +67,19 @@ void ObjectController::createProjectile()
         if (targetedEnemy->wasDestroyed())
         {
             explosion = new GameObjects::Explosion(*targetedEnemy);
-            //delete targetedEnemy;
+            // Remove this once BOX2D is finished
+            // createExplosion();
+            objectsOnScreen.erase(objectsOnScreen.begin() + targetedEnemy->getVectorIndex());
+
+
+            delete targetedEnemy;
             targetedEnemy = nullptr;
         }
     }
 
     // TODO: Box2D
-//    GameObjects::Projectile projectile = new GameObjects::Projectile({0,0}, );
-//    objectsOnScreen.push_back(projectile);
+    //    GameObjects::Projectile projectile = new GameObjects::Projectile({0,0}, );
+    //    objectsOnScreen.push_back(projectile);
 }
 
 void ObjectController::findNewTargetedEnemy(char letter)
@@ -205,8 +210,8 @@ void ObjectController::stepBox2DWorld()
 {
 
     for(int i = 0; i < objectsOnScreen.size(); i++) {
-       objectsOnScreen[i]->getBody().ApplyLinearImpulseToCenter(attractBToA(objectsOnScreen[i]->getBody(), player->getBody()), true);
-   }
+        objectsOnScreen[i]->getBody().ApplyLinearImpulseToCenter(attractBToA(objectsOnScreen[i]->getBody(), player->getBody()), true);
+    }
 
     // All body positions within world get updates after calling Step()
     world->Step(timeStep, velocityIterations, positionIterations);
