@@ -108,6 +108,13 @@ public:
      * @return
      */
     GameObjects::Player *b2MakeNewPlayer();
+
+    /**
+     * @brief b2MakeNewProjectile - Adds new projectile body into b2World
+     * @param targetBody - target to hit
+     * @return - projectile object
+     */
+    GameObjects::Projectile *b2MakeNewProjectile(b2Body &targetBody);
 };
 
 #endif // OBJECTCONTROLLER_H

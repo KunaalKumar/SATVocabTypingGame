@@ -295,7 +295,7 @@ GameObjects::Player *ObjectController::b2MakeNewPlayer()
 
     b2Body *playerBody = world->CreateBody(&playerBodyDef);
     b2PolygonShape boxShape;
-    boxShape.SetAsBox(32, 32);
+    boxShape.SetAsBox(16, 16);
 
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
@@ -308,4 +308,25 @@ GameObjects::Player *ObjectController::b2MakeNewPlayer()
     playerBody->SetUserData(player);
 
     return player;
+}
+
+GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body &targetBody)
+{
+    playerBodyDef.position.Set(std::get<0>(player->getPos()),std::get<1>(player->getPos()));
+
+    b2Body *projectileBody = world->CreateBody(&playerBodyDef);
+    b2PolygonShape boxShape;
+    boxShape.SetAsBox(1,1);
+
+    b2FixtureDef boxFixtureDef;
+    boxFixtureDef.shape = &boxShape;
+    boxFixtureDef.density = 1;
+//    Projectile(posTuple pos, b2Body &projectileBody, b2Body &targetBody);
+    GameObjects::Projectile *projectile = new GameObjects::Projectile({playerBodyDef.position.x, playerBodyDef.position.y},
+                                                                      *projectileBody, targetBody);
+    projectileBody->SetUserData(projectile);
+
+    projectileBody->SetGravityScale(100);
+
+    return projectile;
 }
