@@ -221,7 +221,7 @@ void ObjectController::createImagePaths()
 void ObjectController::initBox2DWorld() {
     // TODO: Generate all enemy images
     // TODO: make gravity an instance variable
-    gravity = new b2Vec2(0, -1000000);
+    gravity = new b2Vec2(0, -100);
     world = new b2World(*gravity);
 
     // Initializing body defs
