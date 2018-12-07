@@ -13,8 +13,6 @@ GameView::GameView(QWidget *parent) :
     ui->setupUi(this);
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &GameView::renderTexture);
-
-
 }
 
 GameView::~GameView()
@@ -25,7 +23,6 @@ GameView::~GameView()
 
 void GameView::renderTexture() {
     texture.clear(sf::Color::Black);
-
     refreshGameObjects(lib->getGameObject());
 
     // We're done drawing to the texture

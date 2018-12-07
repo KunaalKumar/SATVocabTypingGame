@@ -86,10 +86,13 @@ else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/..
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/win32/Box2D.lib
 else:unix:!macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/Box2D/lib/linux/libBox2D.a
 
-unix|win32: LIBS += -L$$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/ -lSpriteGenerator
+unix:!macx: LIBS += -L$$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/linux/ -lSpriteGenerator
 
 INCLUDEPATH += $$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/include
 DEPENDPATH += $$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/include
 
-win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/SpriteGenerator.lib
-else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/libSpriteGenerator.a
+unix:!macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/linux/libSpriteGenerator.a
+
+macx: LIBS += -L$$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/osx/ -lSpriteGenerator
+
+macx: PRE_TARGETDEPS += $$PWD/../3rdPartyLibraries/SpriteGeneratorBuild/osx/libSpriteGenerator.a
