@@ -42,14 +42,14 @@ void GameView::renderTexture() {
 void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 {
     lib->updateFrame();
-
+    //qDebug() << "V size: " << v.size();
     for (auto *obj : v)
     {
-        std::string type = obj->getTypeString();
+        //std::string type = obj->getTypeString();
         // use obj to determine what type of obj it is and
         // update their pos, image...etc
         sprite_texture.setSmooth(true);
-        if (type == "player")
+        if (obj->isOfType(GameObjects::Type::player))
         {
             sf::Sprite sprite;
             sf::Sprite heart;
@@ -79,7 +79,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             texture.draw(heart);
 
         }
-        else if (type == "enemy")
+        else if (obj->isOfType(GameObjects::Type::enemy))
         {
             GameObjects::Enemy* enemy = (GameObjects::Enemy*) obj;
             //qDebug()<< "enemy made";
@@ -102,16 +102,16 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
-            sprite.scale(4.f,4.f);
+            sprite.scale(6.f,6.f);
             //sprite.setColor(sf::Color::Red);
             texture.draw(sprite);
-            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+32);
+            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+48);
             texture.draw(text);
         }
-        else if (type =="target")
+        else if (obj->isOfType(GameObjects::Type::targetedEnemy))
         {
-            GameObjects::TargetedEnemy* target = (GameObjects::TargetedEnemy*) obj;
             qDebug() <<"targeted!";
+            GameObjects::TargetedEnemy* target = (GameObjects::TargetedEnemy*) obj;
             sf::Text text;
             text.setFont(font);
             text.setCharacterSize(18);

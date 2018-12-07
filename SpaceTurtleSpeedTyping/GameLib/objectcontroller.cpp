@@ -94,7 +94,7 @@ void ObjectController::findNewTargetedEnemy(char letter)
 
             if (enemy.startsWith(letter) && (distance = enemy.distanceTo(player->getPos())) < lowestDistance)
             {
-                qDebug() << "target added";
+
                 lowestDistance = distance;
                 targetedEnemy = new GameObjects::TargetedEnemy(enemy, i);
                 objectsOnScreen[i] = targetedEnemy;
