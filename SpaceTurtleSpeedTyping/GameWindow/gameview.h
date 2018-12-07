@@ -29,16 +29,18 @@ signals:
     void homeClicked();
 
 private slots:
-
+    void startGame();
 
 private:
     Ui::GameView *ui;
-    GameLib lib = GameLib(720, 800);
-
+    GameLib *lib;
     int hitIdx;
     // Create a new render-texture
     sf::RenderTexture texture;
-    sf::Texture sprite_texture;
+
+    sf::Texture sprite_texture;  //turtle
+    sf::Texture sprite_heart; //heart
+
     sf::Font font;
     QMediaPlayer fireSound;
     QVector<std::string> textVector;

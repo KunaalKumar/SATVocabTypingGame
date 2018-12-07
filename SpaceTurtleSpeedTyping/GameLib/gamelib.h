@@ -55,8 +55,7 @@ class GameLib
 
         /* >>>>>>>>>> Load <<<<<<<<<< */
         void setNewDictionary(std::string dictionary);
-
-    private:
+private:
         std::vector<GameObjects::GameObject> gameObjects;
         Stats statistic;
         ObjectController oc;

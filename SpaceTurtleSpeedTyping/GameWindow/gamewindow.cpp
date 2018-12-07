@@ -15,7 +15,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     ui->stackedWidget->insertWidget(1, &gameView);
     connect(&gameView, SIGNAL(homeClicked()), this, SLOT(moveHome()));
-
+    connect(this, SIGNAL(signalGameStart()), &gameView, SLOT(startGame()));
 }
 
 GameWindow::~GameWindow()
@@ -30,6 +30,7 @@ void GameWindow::keyPressEvent(QKeyEvent *event)
 
 void GameWindow::on_gameStartButton_clicked()
 {
+    emit signalGameStart();
     ui->stackedWidget->setCurrentIndex(1);
 }
 
