@@ -128,7 +128,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
             texture.draw(text);
         }
-        else
+        else if (type =="projectile")
         {
             sf::Sprite sprite;
             // For running and debugging on mac
@@ -146,6 +146,26 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            texture.draw(sprite);
+        }
+        else
+        {
+            sf::Sprite sprite;
+            // For running and debugging on mac
+            if(QSysInfo::productType() == "osx")
+            {
+                sprite_texture.loadFromFile("../../../../src/Images/cute_turtle.png");
+            }
+            else
+            {
+                sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
+
+            }
+            sprite_texture.setSmooth(true);
+            sprite_heart.setSmooth(true);
+
+            sprite.setTexture(sprite_texture);
+            sprite.setPosition(std::get<0>(obj->getPos(false)), std::get<1>(obj->getPos(false)));
             texture.draw(sprite);
         }
 

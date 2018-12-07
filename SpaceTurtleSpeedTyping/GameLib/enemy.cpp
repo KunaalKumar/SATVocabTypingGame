@@ -47,11 +47,10 @@ namespace GameObjects {
 
 // Targeted Enemy
 
-    TargetedEnemy::TargetedEnemy(Enemy enemy, unsigned int vectorIndex) : Enemy(enemy)
+    TargetedEnemy::TargetedEnemy(Enemy enemy) : Enemy(enemy)
     {
-    //    image =
+        type = GameObjects::Type::targetedEnemy;
         currentLetterPos = 0;
-        this->vectorIndex = vectorIndex;
     }
 
     bool TargetedEnemy::shoot(char letter)
@@ -62,11 +61,6 @@ namespace GameObjects {
             return true;
         }
         return false;
-    }
-
-    unsigned int TargetedEnemy::getVectorIndex()
-    {
-        return vectorIndex;
     }
 
     unsigned int TargetedEnemy::getCurrentLetterPos()

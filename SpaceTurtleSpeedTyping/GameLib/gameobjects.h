@@ -42,9 +42,12 @@ namespace GameObjects
 
 //            }
 
-            posTuple getPos()
+            posTuple getPos(bool update = true)
             {
-                updatePos();
+                if (update == true)
+                {
+                   updatePos();
+                }
                 // TODO: Convert using window size to QtWindow coordinates
                 return {posX, posY};
             }
@@ -63,6 +66,7 @@ namespace GameObjects
                     case Type::player        : return "player";
                     case Type::explosion     : return "explosion";
                 }
+                return "";
             }
 
             b2Body& getBody() { return *body; }
@@ -81,6 +85,7 @@ namespace GameObjects
             Type type;
             std::string imagePath;
             b2Body *body;
+
     };
 
 }

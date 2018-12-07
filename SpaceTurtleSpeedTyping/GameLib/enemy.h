@@ -23,30 +23,27 @@ namespace GameObjects
             bool startsWith(char letter);
 
             static int getSize(int wordLength);
-            static void createImagePaths();
-            static void initSpriteGenerator();
 
         protected:
             std::string word;
             float speed;
             int boxWidth;
+
     };
 
     class TargetedEnemy : public Enemy
     {
         public:
-            TargetedEnemy(Enemy enemy, unsigned int vectorIndex);
+            TargetedEnemy(Enemy enemy);
 
             using hitPlayer = bool;
             hitPlayer shoot(char letter);
 
-            unsigned int getVectorIndex();
             unsigned int getCurrentLetterPos();
             void resetWord();
             bool wasDestroyed();
         private:
             unsigned int currentLetterPos;
-            unsigned int vectorIndex;
 
     };
 

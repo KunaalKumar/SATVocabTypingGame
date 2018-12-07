@@ -3,10 +3,9 @@
 
 namespace GameObjects
 {
-    Explosion::Explosion(GameObjects::TargetedEnemy& enemy) : GameObject (enemy.getPos())
+    Explosion::Explosion(GameObjects::TargetedEnemy& enemy) : GameObject (enemy.getPos(false))
     {
         type = Type::explosion;
-        vectorIndex = enemy.getVectorIndex();
         numOfFrames = 0;
         this->imagePath = "../src/Images/cute_turtle.png";
     }
@@ -19,6 +18,5 @@ namespace GameObjects
 
     unsigned int Explosion::getNumOfFrames() { return numOfFrames; }
 
-    unsigned int Explosion::getVectorIndex() { return vectorIndex; }
 
 }

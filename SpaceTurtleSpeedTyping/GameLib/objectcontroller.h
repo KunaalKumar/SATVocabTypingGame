@@ -39,13 +39,15 @@ public:
 
     void createPlayer();
     void createEnemy(int round);
-    void createProjectile();
+    void createProjectile(bool hitEnemy);
     void createExplosion();
 
     // shoot closest enemy with starting letter = letter
     void findNewTargetedEnemy(char letter);
 
     void removeExplosion();
+
+    unsigned int findIndexOfType(GameObjects::Type type);
 
     GameObjects::Player *player;
     GameObjects::TargetedEnemy *targetedEnemy;
@@ -114,7 +116,7 @@ public:
      * @param targetBody - target to hit
      * @return - projectile object
      */
-    GameObjects::Projectile *b2MakeNewProjectile(b2Body &targetBody);
+    GameObjects::Projectile *b2MakeNewProjectile(b2Body *targetBody);
 };
 
 #endif // OBJECTCONTROLLER_H

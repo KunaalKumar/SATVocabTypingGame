@@ -14,9 +14,7 @@ namespace GameObjects
         Explosion(GameObjects::TargetedEnemy& enemy);
         posTuple getPos();
         unsigned int getNumOfFrames();
-        unsigned int getVectorIndex();
     private:
-        unsigned int vectorIndex;
         unsigned int numOfFrames;
     };
 

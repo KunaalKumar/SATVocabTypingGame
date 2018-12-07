@@ -55,30 +55,27 @@ void ObjectController::createEnemy(int round)
     }
 }
 
-void ObjectController::createProjectile()
+void ObjectController::createProjectile(bool hitEnemy)
 {
-    if (targetedEnemy == nullptr)
+
+    if (!hitEnemy)
     {
-        // miss
+        objectsOnScreen.push_back(b2MakeNewProjectile(nullptr));
     }
     else
     {
-        // hit
+        objectsOnScreen.push_back(b2MakeNewProjectile(&targetedEnemy->getBody()));
 
         if (targetedEnemy->wasDestroyed())
         {
             explosion = new GameObjects::Explosion(*targetedEnemy);
-            // Remove this once BOX2D is finished
-            //createExplosion();
-            objectsOnScreen.erase(objectsOnScreen.begin() + targetedEnemy->getVectorIndex());
+
+            createExplosion();
+
             delete targetedEnemy;
             targetedEnemy = nullptr;
         }
     }
-
-    // TODO: Box2D
-    //    GameObjects::Projectile projectile = new GameObjects::Projectile({0,0}, );
-    //    objectsOnScreen.push_back(projectile);
 }
 
 void ObjectController::findNewTargetedEnemy(char letter)
@@ -94,7 +91,7 @@ void ObjectController::findNewTargetedEnemy(char letter)
             if (enemy.startsWith(letter) && (distance = enemy.distanceTo(player->getPos())) < lowestDistance)
             {
                 lowestDistance = distance;
-                targetedEnemy = new GameObjects::TargetedEnemy(enemy, i);
+                targetedEnemy = new GameObjects::TargetedEnemy(enemy);
                 objectsOnScreen[i] = targetedEnemy;
             }
         }
@@ -103,34 +100,40 @@ void ObjectController::findNewTargetedEnemy(char letter)
 
 bool ObjectController::letterTyped(char letter)
 {
-    if (targetedEnemy == nullptr)
+    bool noTargetedEnemy = targetedEnemy == nullptr;
+    if (noTargetedEnemy)
     {
         findNewTargetedEnemy(letter);
-        if (targetedEnemy != nullptr)
-        {
 
-            targetedEnemy->shoot(letter);
+        bool hit = false;
+        bool foundTargetEnemy = targetedEnemy != nullptr;
+        if (foundTargetEnemy)
+        {
+            hit = targetedEnemy->shoot(letter);
         }
-        createProjectile();
+
+        createProjectile(hit);
         return targetedEnemy == nullptr;
     }
     else
     {
         bool temp = targetedEnemy->shoot(letter);
-        createProjectile();
-
+        createProjectile(true);
         return temp;
     }
 }
 
 void ObjectController::createExplosion()
 {
-    objectsOnScreen[explosion->getVectorIndex()] = explosion;
+    unsigned int index = findIndexOfType(GameObjects::Type::targetedEnemy);
+    objectsOnScreen.erase(objectsOnScreen.begin() + index);
+    objectsOnScreen.push_back(explosion);
 }
 
 void ObjectController::removeExplosion()
 {
-    objectsOnScreen.erase(objectsOnScreen.begin() + explosion->getVectorIndex());
+    unsigned int index = findIndexOfType(GameObjects::Type::explosion);
+    objectsOnScreen.erase(objectsOnScreen.begin() + index);
     delete explosion;
     explosion = nullptr;
 }
@@ -138,19 +141,34 @@ void ObjectController::removeExplosion()
 void ObjectController::updateObjectPositions()
 {
     stepBox2DWorld();
-    // TO FIX: Currently creating enemies every 5 seconds
+
+    // Create Enemy Timer
     if (!stopCreatingEnemies && ++frameCounter == 100)
     {
         // TO FIX: Currently round is constant 1
         createEnemy(1);
         frameCounter = 0;
-
     }
 
+    // End of Explosion Timer
     if (explosion != nullptr && explosion->getNumOfFrames() == 1000)
     {
         removeExplosion();
     }
+}
+
+unsigned int ObjectController::findIndexOfType(GameObjects::Type type)
+{
+    unsigned int index = 0;
+    for (GameObjects::GameObject *object : objectsOnScreen)
+    {
+        if (object->isOfType(type))
+        {
+            break;
+        }
+        index++;
+    }
+
 }
 
 const std::vector<GameObjects::GameObject *>& ObjectController::getObjects()
@@ -172,6 +190,8 @@ bool ObjectController::isEndGame()
 {
     return player->getHealth() == 0;
 }
+
+
 
 // SPRITE_GENERATOR_STUFF
 
@@ -323,7 +343,7 @@ GameObjects::Player *ObjectController::b2MakeNewPlayer()
     return player;
 }
 
-GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body &targetBody)
+GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body *targetBody)
 {
     playerBodyDef.position.Set(std::get<0>(player->getPos()),std::get<1>(player->getPos()));
 
@@ -334,8 +354,11 @@ GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body &targetBod
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
     boxFixtureDef.density = 1;
-    GameObjects::Projectile *projectile = new GameObjects::Projectile({playerBodyDef.position.x, playerBodyDef.position.y},
-                                                                      *projectileBody, &targetBody);
+
+    GameObjects::Projectile *projectile;
+
+    projectile = new GameObjects::Projectile({playerBodyDef.position.x, playerBodyDef.position.y},
+                                                                          *projectileBody, targetBody);
     projectileBody->SetUserData(projectile);
 
     projectileBody->SetGravityScale(100);
