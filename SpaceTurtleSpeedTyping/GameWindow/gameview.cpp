@@ -127,7 +127,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
             texture.draw(text);
         }
-        else if (type =="projectile")
+        else if (obj->isOfType(GameObjects::Type::projectile))
         {
             sf::Sprite sprite;
             // For running and debugging on mac
