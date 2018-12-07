@@ -248,7 +248,22 @@ void ObjectController::stepBox2DWorld()
 {
 
     for(int i = 0; i < objectsOnScreen.size(); i++) {
-        objectsOnScreen[i]->getBody().ApplyLinearImpulseToCenter(attractBToA(objectsOnScreen[i]->getBody(), player->getBody()), true);
+        if(objectsOnScreen[i]->getTypeString() == "enemy") {
+              objectsOnScreen[i]->getBody().ApplyLinearImpulseToCenter(
+                          attractBToA(objectsOnScreen[i]->getBody(),
+                                      player->getBody()), true);
+        }
+        else if (objectsOnScreen[i]->getTypeString() == "projectile") {
+             GameObjects::Projectile projectile = *(static_cast<GameObjects::Projectile *>(objectsOnScreen[i]));
+             if(projectile.getTargetBody() != nullptr) {
+                 projectile.getBody().ApplyLinearImpulseToCenter(
+                             attractBToA(projectile.getBody(),
+                                         *projectile.getTargetBody()), true);
+             }
+             else {
+                  // TODO :: apply miss impulse
+             }
+        }
     }
 
     // All body positions within world get updates after calling Step()
@@ -270,7 +285,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round, std::string word
 
     b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
     b2PolygonShape boxShape;
-    boxShape.SetAsBox(boxSize, boxSize);
+    boxShape.SetAsBox(1, 1);
 
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
@@ -321,9 +336,8 @@ GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body &targetBod
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
     boxFixtureDef.density = 1;
-//    Projectile(posTuple pos, b2Body &projectileBody, b2Body &targetBody);
     GameObjects::Projectile *projectile = new GameObjects::Projectile({playerBodyDef.position.x, playerBodyDef.position.y},
-                                                                      *projectileBody, targetBody);
+                                                                      *projectileBody, &targetBody);
     projectileBody->SetUserData(projectile);
 
     projectileBody->SetGravityScale(100);
