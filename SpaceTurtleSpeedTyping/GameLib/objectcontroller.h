@@ -101,7 +101,7 @@ public:
      * @param round - number of current round
      * @return
      */
-    GameObjects::Enemy *b2MakeNewEnemy(int round);
+    GameObjects::Enemy *b2MakeNewEnemy(int round, std::string word);
 
     /**
      * @brief b2MakeNewPlayer - Adds new player body into b2World and returns a pointer to it
