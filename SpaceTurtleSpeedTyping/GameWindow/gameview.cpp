@@ -11,23 +11,22 @@ GameView::GameView(QWidget *parent) :
     ui(new Ui::GameView)
 {
     ui->setupUi(this);
-    lib.startRound();
-    texture.create(720, 800);
-    fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &GameView::renderTexture);
-    timer->start(1);
+
+
 }
 
 GameView::~GameView()
 {
     delete ui;
+    delete lib;
 }
 
 void GameView::renderTexture() {
     texture.clear(sf::Color::Black);
 
-    refreshGameObjects(lib.getGameObject());
+    refreshGameObjects(lib->getGameObject());
 
     // We're done drawing to the texture
     texture.display();
@@ -45,7 +44,7 @@ void GameView::renderTexture() {
 
 void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 {
-    lib.updateFrame();
+    lib->updateFrame();
     sf::Sprite sprite;
     for (auto *obj : v)
     {
@@ -100,10 +99,20 @@ void GameView::keyPressEvent(QKeyEvent *event)
 {
     char ch = static_cast<char>(event->key()+32);
 
+
     if (event->key() == Qt::Key_Escape)
     {
         endGame();
     }
+}
+
+void GameView::startGame()
+{
+    lib = new GameLib(720, 800);
+    lib->startRound();
+    texture.create(720, 800);
+    fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
+    timer->start(1);
 }
 
 void GameView::fire(float x1, float y1, float x2, float y2)
@@ -121,6 +130,6 @@ void GameView::fire(float x1, float y1, float x2, float y2)
 
 void GameView::endGame()
 {
-    qDebug()<< "End game signaled!";
+    timer->stop();
     emit homeClicked();
 }
