@@ -43,9 +43,10 @@ void ObjectController::createRoundOfEnemies(int round)
 
 void ObjectController::createEnemy(int round)
 {
-    GameObjects::Enemy *enemy = b2MakeNewEnemy(round);
-    if (enemy->getWord() != "")
+    std::string word = LoadWords::getWord();
+    if (word != "")
     {
+        GameObjects::Enemy *enemy = b2MakeNewEnemy(round, word);
         objectsOnScreen.push_back(enemy);
     }
     else
@@ -68,7 +69,7 @@ void ObjectController::createProjectile()
         {
             explosion = new GameObjects::Explosion(*targetedEnemy);
             // Remove this once BOX2D is finished
-            // createExplosion();
+            //createExplosion();
             objectsOnScreen.erase(objectsOnScreen.begin() + targetedEnemy->getVectorIndex());
             delete targetedEnemy;
             targetedEnemy = nullptr;
@@ -102,8 +103,6 @@ void ObjectController::findNewTargetedEnemy(char letter)
 
 bool ObjectController::letterTyped(char letter)
 {
-
-
     if (targetedEnemy == nullptr)
     {
         findNewTargetedEnemy(letter);
@@ -145,6 +144,7 @@ void ObjectController::updateObjectPositions()
         // TO FIX: Currently round is constant 1
         createEnemy(1);
         frameCounter = 0;
+
     }
 
     if (explosion != nullptr && explosion->getNumOfFrames() == 1000)
@@ -259,10 +259,8 @@ void ObjectController::stepBox2DWorld()
     }
 }
 
-GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
+GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round, std::string word)
 {
-    std::string word = LoadWords::getWord();
-
     std::string imagePath = imagePaths.at(enemyImagePathIndex++);
 
     int boxSize = GameObjects::Enemy::getSize(word.size());
