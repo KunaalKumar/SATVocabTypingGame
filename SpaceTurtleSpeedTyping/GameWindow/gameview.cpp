@@ -152,7 +152,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 void GameView::keyPressEvent(QKeyEvent *event)
 {
     char ch = static_cast<char>(event->key()+32);
-    qDebug() << "Typed: " << ch;
+
     lib->letterTyped(ch);
 
     if (event->key() == Qt::Key_Escape)

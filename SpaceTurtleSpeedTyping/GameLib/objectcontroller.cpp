@@ -70,8 +70,6 @@ void ObjectController::createProjectile()
             // Remove this once BOX2D is finished
             // createExplosion();
             objectsOnScreen.erase(objectsOnScreen.begin() + targetedEnemy->getVectorIndex());
-
-
             delete targetedEnemy;
             targetedEnemy = nullptr;
         }

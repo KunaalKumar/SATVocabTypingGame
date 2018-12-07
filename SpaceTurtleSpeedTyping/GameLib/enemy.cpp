@@ -74,7 +74,6 @@ namespace GameObjects {
         if (letter == word[currentLetterPos])
         {
             currentLetterPos++;
-            qDebug() << letter << "hit!";
             return true;
         }
         return false;
