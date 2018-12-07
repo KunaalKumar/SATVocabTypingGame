@@ -48,10 +48,11 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 
     for (auto *obj : v)
     {
-        if(!spriteList.count(obj->ID)) {
+        if(spriteList.count(obj->ID) == 1) {
             std::string type = obj->getTypeString();
             if (type == "player")
             {
+                                qInfo() << "Type is " << QString::fromStdString(obj->getTypeString());
                 // use obj to determine what type of obj it is and
                 // update their pos, image...etc
                 sprite_texture.setSmooth(true);
@@ -87,7 +88,6 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             }
             else if (type == "enemy")
             {
-                qInfo() << "Type is " << QString::fromStdString(obj->getTypeString());
                 GameObjects::Enemy* enemy = (GameObjects::Enemy*) obj;
                 sf::Text text;
                 text.setFont(font);
@@ -108,7 +108,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             }
         }
         else {
-            spriteList[obj->ID].setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            spriteList[obj->ID].move(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
         }
 
     }
