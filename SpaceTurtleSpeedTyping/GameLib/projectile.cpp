@@ -8,6 +8,7 @@ namespace GameObjects
         targetBody(targetBody)
     {
         type = Type::projectile;
+
     }
 
 }
