@@ -224,7 +224,10 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
     int boxSize = GameObjects::Enemy::getSize(word.size());
     //QImage sprite = sg.generatreNewSprite(SpriteSize::small);
     // Set starting position dynamically when creating enemy objects based on window size
-    enemyBodyDef.position.Set((rand() % (int)windowSizeX), windowSizeY);
+    //enemyBodyDef.position.Set((rand() % (int)windowSizeX), windowSizeY);
+
+    enemyBodyDef.position.Set((rand() % (int)windowSizeX*2), 0);
+
 
     b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
     b2PolygonShape boxShape;
@@ -235,7 +238,8 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
     boxFixtureDef.density = 1;
 
     enemyBody->CreateFixture(&boxFixtureDef);
-
+    QImage image(32, 32, QImage::Format_ARGB32);
+    image.fill(Qt::red);
     GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, boxSize, "../src/Images/cute_turtle.png", {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
     enemyBody->SetUserData(enemy);
 
