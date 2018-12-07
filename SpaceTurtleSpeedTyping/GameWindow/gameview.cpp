@@ -42,29 +42,29 @@ void GameView::renderTexture() {
 void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 {
     lib->updateFrame();
-
+    //qDebug() << "V size: " << v.size();
     for (auto *obj : v)
     {
-        std::string type = obj->getTypeString();
+        //std::string type = obj->getTypeString();
         // use obj to determine what type of obj it is and
         // update their pos, image...etc
         sprite_texture.setSmooth(true);
-        if (type == "player")
+        if (obj->isOfType(GameObjects::Type::player))
         {
             sf::Sprite sprite;
-            sf::Sprite heart;
+
             // For running and debugging on mac
             if(QSysInfo::productType() == "osx")
             {
                 sprite_texture.loadFromFile("../../../../src/Images/cute_turtle.png");
-                sprite_heart.loadFromFile("../../../../src/Images/full_heart.png");
+                //sprite_heart.loadFromFile("../../../../src/Images/full_heart.png");
 
                 //font.loadFromFile("../../../../src/Fonts/PTZ56F.ttf");
             }
             else
             {
                 sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
-                sprite_heart.loadFromFile("../src/Images/full_heart.png");
+                //sprite_heart.loadFromFile("../src/Images/full_heart.png");
                 //font.loadFromFile("../src/Fonts/PTZ56F.ttf");
             }
             sprite_texture.setSmooth(true);
@@ -74,12 +74,10 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
             texture.draw(sprite);
 
-            heart.setTexture(sprite_heart);
-            heart.setPosition(50, 50);
-            texture.draw(heart);
+            updatePlayerHealth(obj);
 
         }
-        else if (type == "enemy")
+        else if (obj->isOfType(GameObjects::Type::enemy))
         {
             GameObjects::Enemy* enemy = (GameObjects::Enemy*) obj;
             //qDebug()<< "enemy made";
@@ -102,19 +100,20 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            sprite.scale(6.f,6.f);
+            //sprite.setColor(sf::Color::Red);
             texture.draw(sprite);
-            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+48);
             texture.draw(text);
         }
-        else if (type =="targeted enemy")
+        else if (obj->isOfType(GameObjects::Type::targetedEnemy))
         {
+            qDebug() <<"targeted!";
             GameObjects::TargetedEnemy* target = (GameObjects::TargetedEnemy*) obj;
-
             sf::Text text;
             text.setFont(font);
             text.setCharacterSize(18);
             std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size()-1);
-            std::cout << "target text: " << targetText << std::endl;
             text.setString(targetText);
             text.setFillColor(sf::Color::White);
             if(QSysInfo::productType() == "osx")
@@ -172,6 +171,21 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
     }
 }
 
+void GameView::updatePlayerHealth(GameObjects::GameObject * obj)
+{
+    GameObjects::Player *player = (GameObjects::Player *) obj;
+
+    for (unsigned int i = 0; i < player->getHealth(); i++)
+    {
+        sf::Sprite heart;
+        sprite_heart.loadFromFile("../src/Images/full_heart.png");
+        heart.setTexture(sprite_heart);
+        sprite_heart.setSmooth(true);
+        heart.setTexture(sprite_heart);
+        heart.setPosition(50 + 20+i*30, 50);
+        texture.draw(heart);
+    }
+}
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {

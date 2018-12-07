@@ -3,6 +3,7 @@
 #include <QImageWriter>
 #include <QImage>
 #include <QString>
+#include <QDebug>
 
 ObjectController::ObjectController(int windowSizeX, int windowSizeY)
 {
@@ -90,9 +91,11 @@ void ObjectController::findNewTargetedEnemy(char letter)
 
             if (enemy.startsWith(letter) && (distance = enemy.distanceTo(player->getPos())) < lowestDistance)
             {
+
                 lowestDistance = distance;
                 targetedEnemy = new GameObjects::TargetedEnemy(enemy);
                 objectsOnScreen[i] = targetedEnemy;
+                qDebug() << "target added";
             }
         }
     }
@@ -212,7 +215,7 @@ void ObjectController::createImagePaths()
         QImage sprite = sg.generatreNewSprite(SpriteSize::small);
         sprite.scaled(32, 32);
 
-        std::string path = "../src/Images/ss" + std::to_string(++imageCounter) + ".png";
+        std::string path = "../src/GImages/ss" + std::to_string(++imageCounter) + ".png";
         QString string = QString::fromStdString(path);
         QImageWriter writer(string, "png");
 
