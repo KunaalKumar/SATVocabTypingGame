@@ -224,7 +224,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
     int boxSize = GameObjects::Enemy::getSize(word.size());
     //QImage sprite = sg.generatreNewSprite(SpriteSize::small);
     // Set starting position dynamically when creating enemy objects based on window size
-    enemyBodyDef.position.Set((rand() % (int)windowSizeX*2) - windowSizeX, windowSizeY);
+    enemyBodyDef.position.Set((rand() % (int)windowSizeX), windowSizeY);
 
     b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
     b2PolygonShape boxShape;
