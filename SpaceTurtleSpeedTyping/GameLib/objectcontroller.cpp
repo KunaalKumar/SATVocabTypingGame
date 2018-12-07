@@ -215,7 +215,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
     std::string word = LoadWords::getWord();
 
     int boxSize = GameObjects::Enemy::getSize(word.size());
-    enemyBodyDef.position.Set((rand() % (int)windowSizeX*2) - windowSizeX, windowSizeY);
+    enemyBodyDef.position.Set((rand() % (int)windowSizeX), 0);
 
     b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
     b2PolygonShape boxShape;

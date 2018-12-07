@@ -11,25 +11,22 @@ GameView::GameView(QWidget *parent) :
     ui(new Ui::GameView)
 {
     ui->setupUi(this);
-    lib.startRound();
-    texture.create(720, 800);
-    fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
-
-
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &GameView::renderTexture);
-    timer->start(1);
+
+
 }
 
 GameView::~GameView()
 {
     delete ui;
+    delete lib;
 }
 
 void GameView::renderTexture() {
     texture.clear(sf::Color::Black);
 
-    refreshGameObjects(lib.getGameObject());
+    refreshGameObjects(lib->getGameObject());
 
     // We're done drawing to the texture
     texture.display();
@@ -47,8 +44,9 @@ void GameView::renderTexture() {
 
 void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 {
-    lib.updateFrame();
+    lib->updateFrame();
     sf::Sprite sprite;
+    sf::Sprite heart;
     for (auto *obj : v)
     {
         std::string type = obj->getTypeString();
@@ -61,21 +59,32 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             if(QSysInfo::productType() == "osx")
             {
                 sprite_texture.loadFromFile("../../../../src/Images/cute_turtle.png");
+                sprite_heart.loadFromFile("../../../../src/Images/full_heart.png");
+
                 //font.loadFromFile("../../../../src/Fonts/PTZ56F.ttf");
             }
             else
             {
                 sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
+                 sprite_heart.loadFromFile("../src/Images/full_heart.png");
                 //font.loadFromFile("../src/Fonts/PTZ56F.ttf");
             }
             sprite_texture.setSmooth(true);
+            sprite_heart.setSmooth(true);
+
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
             texture.draw(sprite);
+
+            heart.setTexture(sprite_heart);
+            heart.setPosition(50, 50);
+            texture.draw(heart);
+
         }
         else if (type == "enemy")
         {
-            GameObjects::Enemy *enemy = (GameObjects::Enemy *) obj;
+            GameObjects::Enemy* enemy = (GameObjects::Enemy*) obj;
+            //qDebug()<< "enemy made";
             sf::Text text;
             text.setFont(font);
             text.setCharacterSize(18);
@@ -101,10 +110,20 @@ void GameView::keyPressEvent(QKeyEvent *event)
 {
     char ch = static_cast<char>(event->key()+32);
 
+
     if (event->key() == Qt::Key_Escape)
     {
         endGame();
     }
+}
+
+void GameView::startGame()
+{
+    lib = new GameLib(720, 800);
+    lib->startRound();
+    texture.create(720, 800);
+    fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
+    timer->start(1);
 }
 
 void GameView::fire(float x1, float y1, float x2, float y2)
@@ -122,6 +141,6 @@ void GameView::fire(float x1, float y1, float x2, float y2)
 
 void GameView::endGame()
 {
-    qDebug()<< "End game signaled!";
+    timer->stop();
     emit homeClicked();
 }
