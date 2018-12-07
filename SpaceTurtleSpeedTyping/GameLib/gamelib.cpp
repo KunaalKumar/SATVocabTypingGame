@@ -44,7 +44,7 @@ void GameLib::updateFrame()
     oc.updateObjectPositions();
 }
 
-void GameLib::letterTyped(char letter)
+bool GameLib::letterTyped(char letter)
 {
     if (oc.letterTyped(letter))
     {
@@ -52,11 +52,13 @@ void GameLib::letterTyped(char letter)
         if(oc.isEnemyKilled()) {
             statistic.addTotalKill();
         }
+        return true;
     }
     else
     {
         statistic.addTypeCount(false);
     }
+    return false;
 }
 
 void GameLib::setNewDictionary(std::string dictionary)

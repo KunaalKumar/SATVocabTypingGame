@@ -51,7 +51,7 @@ class GameLib
         void leaveGame();
 
         /* When user input, use this API */
-        void letterTyped(char letter);
+        bool letterTyped(char letter);
 
         /* >>>>>>>>>> Load <<<<<<<<<< */
         void setNewDictionary(std::string dictionary);

@@ -86,6 +86,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         {
             GameObjects::Enemy* enemy = (GameObjects::Enemy*) obj;
             //qDebug()<< "enemy made";
+            sf::Sprite sprite;
             sf::Text text;
             text.setFont(font);
             text.setCharacterSize(18);
@@ -93,19 +94,25 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             text.setFillColor(sf::Color::White);
             if(QSysInfo::productType() == "osx")
             {
+                sprite_texture.loadFromFile(obj->getImage());
                 font.loadFromFile("../../../../src/Fonts/PTZ56F.ttf");
             }
             else
             {
+                sprite_texture.loadFromFile(obj->getImage());
                 font.loadFromFile("../src/Fonts/PTZ56F.ttf");
             }
+            sprite_texture.setSmooth(true);
+            sprite.setTexture(sprite_texture);
+            sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            texture.draw(sprite);
             text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
             texture.draw(text);
         }
         else if (type =="targeted enemy")
         {
-
             GameObjects::TargetedEnemy* target = (GameObjects::TargetedEnemy*) obj;
+
             sf::Text text;
             text.setFont(font);
             text.setCharacterSize(18);
@@ -153,8 +160,8 @@ void GameView::keyPressEvent(QKeyEvent *event)
 {
     char ch = static_cast<char>(event->key()+32);
 
-    lib->letterTyped(ch);
-
+    if (lib->letterTyped(ch))
+        //fireSound.play();
     if (event->key() == Qt::Key_Escape)
     {
         endGame();
