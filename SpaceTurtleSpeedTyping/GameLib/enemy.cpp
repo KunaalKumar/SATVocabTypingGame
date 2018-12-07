@@ -81,7 +81,7 @@ namespace GameObjects {
 
     bool TargetedEnemy::wasDestroyed()
     {
-        return currentLetterPos == word.length() - 1;
+        return currentLetterPos == word.length();
     }
 
 }

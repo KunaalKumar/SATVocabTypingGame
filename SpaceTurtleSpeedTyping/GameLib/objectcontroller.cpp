@@ -67,14 +67,17 @@ void ObjectController::createProjectile()
         if (targetedEnemy->wasDestroyed())
         {
             explosion = new GameObjects::Explosion(*targetedEnemy);
+            // Remove this once BOX2D is finished
+            // createExplosion();
+            objectsOnScreen.erase(objectsOnScreen.begin() + targetedEnemy->getVectorIndex());
             delete targetedEnemy;
             targetedEnemy = nullptr;
         }
     }
 
     // TODO: Box2D
-//    GameObjects::Projectile projectile = new GameObjects::Projectile({0,0}, );
-//    objectsOnScreen.push_back(projectile);
+    //    GameObjects::Projectile projectile = new GameObjects::Projectile({0,0}, );
+    //    objectsOnScreen.push_back(projectile);
 }
 
 void ObjectController::findNewTargetedEnemy(char letter)
@@ -99,18 +102,25 @@ void ObjectController::findNewTargetedEnemy(char letter)
 
 bool ObjectController::letterTyped(char letter)
 {
+
+
     if (targetedEnemy == nullptr)
     {
         findNewTargetedEnemy(letter);
         if (targetedEnemy != nullptr)
         {
+
             targetedEnemy->shoot(letter);
         }
+        createProjectile();
         return targetedEnemy == nullptr;
     }
     else
     {
-        return targetedEnemy->shoot(letter);
+        bool temp = targetedEnemy->shoot(letter);
+        createProjectile();
+
+        return temp;
     }
 }
 
@@ -235,8 +245,8 @@ void ObjectController::stepBox2DWorld()
 {
 
     for(int i = 0; i < objectsOnScreen.size(); i++) {
-       objectsOnScreen[i]->getBody().ApplyLinearImpulseToCenter(attractBToA(objectsOnScreen[i]->getBody(), player->getBody()), true);
-   }
+        objectsOnScreen[i]->getBody().ApplyLinearImpulseToCenter(attractBToA(objectsOnScreen[i]->getBody(), player->getBody()), true);
+    }
 
     // All body positions within world get updates after calling Step()
     world->Step(timeStep, velocityIterations, positionIterations);
@@ -272,7 +282,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
 
     // TODO: Make scale factor dynamic depending on enemy word length
     // Controls the speed of the enemy via proxy
-    enemyBody->SetGravityScale(0.12);
+    enemyBody->SetGravityScale(100/boxSize);
 
     return enemy;
 }
