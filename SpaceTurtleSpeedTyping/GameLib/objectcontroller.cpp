@@ -246,7 +246,22 @@ void ObjectController::stepBox2DWorld()
 {
 
     for(int i = 0; i < objectsOnScreen.size(); i++) {
-        objectsOnScreen[i]->getBody().ApplyLinearImpulseToCenter(attractBToA(objectsOnScreen[i]->getBody(), player->getBody()), true);
+        if(objectsOnScreen[i]->getTypeString() == "enemy") {
+              objectsOnScreen[i]->getBody().ApplyLinearImpulseToCenter(
+                          attractBToA(objectsOnScreen[i]->getBody(),
+                                      player->getBody()), true);
+        }
+        else if (objectsOnScreen[i]->getTypeString() == "projectile") {
+             GameObjects::Projectile projectile = *(static_cast<GameObjects::Projectile *>(objectsOnScreen[i]));
+             if(projectile.getTargetBody() != nullptr) {
+                 projectile.getBody().ApplyLinearImpulseToCenter(
+                             attractBToA(projectile.getBody(),
+                                         *projectile.getTargetBody()), true);
+             }
+             else {
+                  // TODO :: apply miss impulse
+             }
+        }
     }
 
     // All body positions within world get updates after calling Step()

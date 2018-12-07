@@ -79,7 +79,7 @@ public:
     int32 positionIterations = 3;
 
     /**
-     * @brief attractBToA - attracts body B to body A
+     * @brief attractBToA - attracts body B to body Agigggg
      * @param bodyA
      * @param bodyB
      * @return - vector to apply
