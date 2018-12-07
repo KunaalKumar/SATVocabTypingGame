@@ -45,8 +45,7 @@ void GameView::renderTexture() {
 void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 {
     lib->updateFrame();
-    sf::Sprite sprite;
-    sf::Sprite heart;
+
     for (auto *obj : v)
     {
         std::string type = obj->getTypeString();
@@ -55,6 +54,8 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         sprite_texture.setSmooth(true);
         if (type == "player")
         {
+            sf::Sprite sprite;
+            sf::Sprite heart;
             // For running and debugging on mac
             if(QSysInfo::productType() == "osx")
             {
@@ -66,7 +67,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             else
             {
                 sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
-                 sprite_heart.loadFromFile("../src/Images/full_heart.png");
+                sprite_heart.loadFromFile("../src/Images/full_heart.png");
                 //font.loadFromFile("../src/Fonts/PTZ56F.ttf");
             }
             sprite_texture.setSmooth(true);
@@ -101,6 +102,48 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
             texture.draw(text);
         }
+        else if (type =="targeted enemy")
+        {
+
+            GameObjects::TargetedEnemy* target = (GameObjects::TargetedEnemy*) obj;
+            sf::Text text;
+            text.setFont(font);
+            text.setCharacterSize(18);
+            std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size()-1);
+            std::cout << "target text: " << targetText << std::endl;
+            text.setString(targetText);
+            text.setFillColor(sf::Color::White);
+            if(QSysInfo::productType() == "osx")
+            {
+                font.loadFromFile("../../../../src/Fonts/PTZ56F.ttf");
+            }
+            else
+            {
+                font.loadFromFile("../src/Fonts/PTZ56F.ttf");
+            }
+            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            texture.draw(text);
+        }
+        else
+        {
+            sf::Sprite sprite;
+            // For running and debugging on mac
+            if(QSysInfo::productType() == "osx")
+            {
+                sprite_texture.loadFromFile("../../../../src/Images/cute_turtle.png");
+            }
+            else
+            {
+                sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
+
+            }
+            sprite_texture.setSmooth(true);
+            sprite_heart.setSmooth(true);
+
+            sprite.setTexture(sprite_texture);
+            sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            texture.draw(sprite);
+        }
 
     }
 }
@@ -109,7 +152,8 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 void GameView::keyPressEvent(QKeyEvent *event)
 {
     char ch = static_cast<char>(event->key()+32);
-
+    qDebug() << "Typed: " << ch;
+    lib->letterTyped(ch);
 
     if (event->key() == Qt::Key_Escape)
     {

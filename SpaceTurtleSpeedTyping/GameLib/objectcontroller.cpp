@@ -1,6 +1,7 @@
 #include "objectcontroller.h"
 #include <stdlib.h>
 #include <QImage>
+#include <QDebug>
 
 ObjectController::ObjectController(int windowSizeX, int windowSizeY)
 {
@@ -66,7 +67,7 @@ void ObjectController::createProjectile()
         if (targetedEnemy->wasDestroyed())
         {
             explosion = new GameObjects::Explosion(*targetedEnemy);
-            delete targetedEnemy;
+            //delete targetedEnemy;
             targetedEnemy = nullptr;
         }
     }
@@ -98,18 +99,25 @@ void ObjectController::findNewTargetedEnemy(char letter)
 
 bool ObjectController::letterTyped(char letter)
 {
+
+
     if (targetedEnemy == nullptr)
     {
         findNewTargetedEnemy(letter);
         if (targetedEnemy != nullptr)
         {
+
             targetedEnemy->shoot(letter);
         }
+        createProjectile();
         return targetedEnemy == nullptr;
     }
     else
     {
-        return targetedEnemy->shoot(letter);
+        bool temp = targetedEnemy->shoot(letter);
+        createProjectile();
+
+        return temp;
     }
 }
 

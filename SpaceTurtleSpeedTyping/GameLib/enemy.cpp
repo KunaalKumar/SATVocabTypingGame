@@ -74,6 +74,7 @@ namespace GameObjects {
         if (letter == word[currentLetterPos])
         {
             currentLetterPos++;
+            qDebug() << letter << "hit!";
             return true;
         }
         return false;
@@ -96,7 +97,7 @@ namespace GameObjects {
 
     bool TargetedEnemy::wasDestroyed()
     {
-        return currentLetterPos == word.length() - 1;
+        return currentLetterPos == word.length();
     }
 
 }
