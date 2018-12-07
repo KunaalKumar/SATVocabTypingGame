@@ -14,8 +14,6 @@ GameView::GameView(QWidget *parent) :
     lib.startRound();
     texture.create(720, 800);
     fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
-
-
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &GameView::renderTexture);
     timer->start(1);
@@ -75,7 +73,8 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         }
         else if (type == "enemy")
         {
-            GameObjects::Enemy *enemy = (GameObjects::Enemy *) obj;
+            GameObjects::Enemy* enemy = (GameObjects::Enemy*) obj;
+            //qDebug()<< "enemy made";
             sf::Text text;
             text.setFont(font);
             text.setCharacterSize(18);
