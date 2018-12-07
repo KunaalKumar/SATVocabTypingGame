@@ -283,7 +283,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round, std::string word
 
     b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
     b2PolygonShape boxShape;
-    boxShape.SetAsBox(boxSize, boxSize);
+    boxShape.SetAsBox(1, 1);
 
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
@@ -334,9 +334,8 @@ GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body &targetBod
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
     boxFixtureDef.density = 1;
-//    Projectile(posTuple pos, b2Body &projectileBody, b2Body &targetBody);
     GameObjects::Projectile *projectile = new GameObjects::Projectile({playerBodyDef.position.x, playerBodyDef.position.y},
-                                                                      *projectileBody, targetBody);
+                                                                      *projectileBody, &targetBody);
     projectileBody->SetUserData(projectile);
 
     projectileBody->SetGravityScale(100);
