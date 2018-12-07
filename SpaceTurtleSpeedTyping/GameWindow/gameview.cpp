@@ -102,19 +102,20 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            sprite.scale(4.f,4.f);
+            //sprite.setColor(sf::Color::Red);
             texture.draw(sprite);
-            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+32);
             texture.draw(text);
         }
-        else if (type =="targeted enemy")
+        else if (type =="target")
         {
             GameObjects::TargetedEnemy* target = (GameObjects::TargetedEnemy*) obj;
-
+            qDebug() <<"targeted!";
             sf::Text text;
             text.setFont(font);
             text.setCharacterSize(18);
             std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size()-1);
-            std::cout << "target text: " << targetText << std::endl;
             text.setString(targetText);
             text.setFillColor(sf::Color::White);
             if(QSysInfo::productType() == "osx")

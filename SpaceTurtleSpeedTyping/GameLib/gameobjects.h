@@ -59,7 +59,7 @@ namespace GameObjects
                 {
                     case Type::projectile    : return "projectile";
                     case Type::enemy         : return "enemy";
-                    case Type::targetedEnemy : return "targeted enemy";
+                    case Type::targetedEnemy : return "target";
                     case Type::player        : return "player";
                     case Type::explosion     : return "explosion";
                 }
