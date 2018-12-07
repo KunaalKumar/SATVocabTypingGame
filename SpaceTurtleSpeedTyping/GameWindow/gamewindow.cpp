@@ -15,7 +15,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     ui->stackedWidget->insertWidget(1, &gameView);
     connect(&gameView, SIGNAL(homeClicked()), this, SLOT(moveHome()));
-
+    connect(this, SIGNAL(signalGameStart()), &gameView, SLOT(startGame()));
 }
 
 GameWindow::~GameWindow()
@@ -30,13 +30,14 @@ void GameWindow::keyPressEvent(QKeyEvent *event)
 
 void GameWindow::on_gameStartButton_clicked()
 {
+    emit signalGameStart();
     ui->stackedWidget->setCurrentIndex(1);
 }
 
 void GameWindow::on_tutorialButton_clicked()
 {
     qDebug() << "tutorial button pressed";
-    QMessageBox::StandardButton box = QMessageBox::information(this, "Tutorial", "This is toturial",                                                              QMessageBox::Ok, QMessageBox::NoButton);
+    QMessageBox::StandardButton box = QMessageBox::information(this, "Tutorial", "This is toturial", QMessageBox::Ok, QMessageBox::NoButton);
 }
 
 void GameWindow::moveHome()
