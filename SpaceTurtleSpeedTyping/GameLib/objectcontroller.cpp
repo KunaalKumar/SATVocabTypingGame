@@ -6,8 +6,8 @@
 
 ObjectController::ObjectController(int windowSizeX, int windowSizeY)
 {
-    this->windowSizeX = windowSizeX;
-    this->windowSizeY = windowSizeY;
+    this->windowSizeX = windowSizeX / 4;
+    this->windowSizeY = windowSizeY / 4;
 
     frameCounter = 0;
     stopCreatingEnemies = false;
@@ -221,7 +221,7 @@ void ObjectController::createImagePaths()
 void ObjectController::initBox2DWorld() {
     // TODO: Generate all enemy images
     // TODO: make gravity an instance variable
-    gravity = new b2Vec2(0, -100);
+    gravity = new b2Vec2(0, -1000000);
     world = new b2World(*gravity);
 
     // Initializing body defs
@@ -281,7 +281,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round, std::string word
 
     // TODO: Make scale factor dynamic depending on enemy word length
     // Controls the speed of the enemy via proxy
-    enemyBody->SetGravityScale(100/boxSize);
+    enemyBody->SetGravityScale(10000);
 
     return enemy;
 }
@@ -293,11 +293,11 @@ GameObjects::Player *ObjectController::b2MakeNewPlayer()
 
     b2Body *playerBody = world->CreateBody(&playerBodyDef);
     b2PolygonShape boxShape;
-    boxShape.SetAsBox(16, 16);
+    boxShape.SetAsBox(0, 0);
 
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
-    boxFixtureDef.density = 1;
+    boxFixtureDef.density = 100000;
 
     playerBody->CreateFixture(&boxFixtureDef);
 
