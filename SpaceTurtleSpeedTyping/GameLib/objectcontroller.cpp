@@ -187,7 +187,7 @@ void ObjectController::initSpriteGenerator()
 void ObjectController::createImagePaths()
 {
     enemyImagePathIndex = 0;
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 20; i++)
     {
         QImage sprite = sg.generatreNewSprite(SpriteSize::small);
 
