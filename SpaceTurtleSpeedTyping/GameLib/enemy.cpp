@@ -3,7 +3,7 @@
 
 namespace GameObjects {
 
-    Enemy::Enemy(int speed, std::string word, int boxWidth, GameObjects::posTuple pos, b2Body &body):
+    Enemy::Enemy(int speed, std::string word, std::string imagePath, int boxWidth, GameObjects::posTuple pos, b2Body &body):
         GameObject (pos, body)
     {
         this->word = word;
@@ -11,8 +11,7 @@ namespace GameObjects {
         type = Type::enemy;
         this->speed = (float)speed - (word.length() - 1);
 
-        //this->imagePath = Enemy::imagePaths.at(Enemy::imagePathIndex++);
-        this->imagePath = "../src/Images/cute_turtle.png";
+        this->imagePath = imagePath;
     }
 
     std::string Enemy::getWord()
@@ -44,21 +43,7 @@ namespace GameObjects {
         }
     }
 
-//    void Enemy::initSpriteGenerator()
-//    {
-//        QDir relativeDir(QDir::currentPath());
-//        relativeDir.cdUp();
-//        relativeDir.cd("SpriteStructures/");
-//        Enemy::sg = SpriteGenerator(relativeDir.path() + '/');
-//    }
 
-//    void Enemy::createImagePaths()
-//    {
-//        Enemy::imagePathIndex = 0;
-//        //QImage sprite = sg.generatreNewSprite(SpriteSize::small);
-//        // Set starting position dynamically when creating enemy objects based on window size
-//        //
-//    }
 
 // Targeted Enemy
 

@@ -55,6 +55,16 @@ public:
     int frameCounter;
     bool stopCreatingEnemies;
 
+    // SG Stuff
+    void initSpriteGenerator();
+    void createImagePaths();
+
+    SpriteGenerator sg;
+    std::vector<std::string> imagePaths;
+    unsigned int imageCounter;
+    unsigned int enemyImagePathIndex;
+
+
     // Box2D instances
     b2World *world;
     // World gravity

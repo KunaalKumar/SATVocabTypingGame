@@ -1,6 +1,8 @@
 #include "objectcontroller.h"
 #include <stdlib.h>
+#include <QImageWriter>
 #include <QImage>
+#include <QString>
 
 ObjectController::ObjectController(int windowSizeX, int windowSizeY)
 {
@@ -8,15 +10,14 @@ ObjectController::ObjectController(int windowSizeX, int windowSizeY)
     this->windowSizeY = windowSizeY;
 
     frameCounter = 0;
-
-    LoadWords::importWords();
-    //GameObjects::Enemy::initSpriteGenerator();
-    initBox2DWorld();
-    createPlayer();
     stopCreatingEnemies = false;
-
     explosion = nullptr;
     targetedEnemy = nullptr;
+
+    LoadWords::importWords();
+    initSpriteGenerator();
+    initBox2DWorld();
+    createPlayer();
 }
 
 ObjectController::~ObjectController()
@@ -35,7 +36,7 @@ void ObjectController::createPlayer()
 
 void ObjectController::createRoundOfEnemies(int round)
 {
-    //GameObjects::Enemy::createImagePaths();
+    createImagePaths();
     LoadWords::createRoundWords(round);
     stopCreatingEnemies = false;
 }
@@ -162,6 +163,43 @@ bool ObjectController::isEndGame()
     return player->getHealth() == 0;
 }
 
+// SPRITE_GENERATOR_STUFF
+
+void ObjectController::initSpriteGenerator()
+{
+    QDir relativeDir(QDir::currentPath());
+    relativeDir.cdUp();
+    relativeDir.cd("../SpriteStructures/");
+    sg = SpriteGenerator(relativeDir.path() + '/');
+    imageCounter = 0;
+}
+
+void ObjectController::createImagePaths()
+{
+    enemyImagePathIndex = 0;
+    for (int i = 0; i < 5; i++)
+    {
+        QImage sprite = sg.generatreNewSprite(SpriteSize::small);
+
+        std::string path = "../src/Images/ss" + std::to_string(++imageCounter) + ".png";
+        QString string = QString::fromStdString(path);
+        QImageWriter writer(string, "png");
+
+        if (writer.canWrite())
+        {
+            writer.write(sprite);
+            imagePaths.push_back(path);
+        }
+        else
+        {
+            QImageWriter::ImageWriterError error = writer.error();
+            QString strError = writer.errorString();
+           // qDebug() << "ERROR" << strError;
+        }
+
+    }
+}
+
 //__________             ________  ________      _________ __          _____  _____
 //\______   \ _______  __\_____  \ \______ \    /   _____//  |_ __ ___/ ____\/ ____\
 // |    |  _//  _ \  \/  //  ____/  |    |  \   \_____  \\   __\  |  \   __\\   __\
@@ -214,6 +252,8 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
 {
     std::string word = LoadWords::getWord();
 
+    std::string imagePath = imagePaths.at(enemyImagePathIndex++);
+
     int boxSize = GameObjects::Enemy::getSize(word.size());
     enemyBodyDef.position.Set((rand() % (int)windowSizeX), 0);
 
@@ -227,7 +267,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
 
     enemyBody->CreateFixture(&boxFixtureDef);
 
-    GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, boxSize, {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
+    GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, imagePath, boxSize, {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
     enemyBody->SetUserData(enemy);
 
     // TODO: Make scale factor dynamic depending on enemy word length

@@ -16,7 +16,7 @@ namespace GameObjects
     class Enemy : public GameObject
     {
         public:
-            Enemy(int speed, std::string word, int boxWidth, GameObjects::posTuple pos, b2Body &body);
+            Enemy(int speed, std::string word, std::string imagePath, int boxWidth, GameObjects::posTuple pos, b2Body &body);
 
             std::string getWord();
             double distanceTo(GameObjects::posTuple);
@@ -25,10 +25,6 @@ namespace GameObjects
             static int getSize(int wordLength);
             static void createImagePaths();
             static void initSpriteGenerator();
-
-            static std::vector<std::string> imagePaths;
-            static unsigned int imagePathIndex;
-            static SpriteGenerator sg;
 
         protected:
             std::string word;
