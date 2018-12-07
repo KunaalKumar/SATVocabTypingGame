@@ -47,6 +47,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 {
     lib.updateFrame();
     sf::Sprite sprite;
+    sf::Sprite heart;
     for (auto *obj : v)
     {
         std::string type = obj->getTypeString();
@@ -59,17 +60,27 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             if(QSysInfo::productType() == "osx")
             {
                 sprite_texture.loadFromFile("../../../../src/Images/cute_turtle.png");
+                sprite_heart.loadFromFile("../../../../src/Images/full_heart.png");
+
                 //font.loadFromFile("../../../../src/Fonts/PTZ56F.ttf");
             }
             else
             {
                 sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
+                 sprite_heart.loadFromFile("../src/Images/full_heart.png");
                 //font.loadFromFile("../src/Fonts/PTZ56F.ttf");
             }
             sprite_texture.setSmooth(true);
+            sprite_heart.setSmooth(true);
+
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
             texture.draw(sprite);
+
+            heart.setTexture(sprite_heart);
+            heart.setPosition(50, 50);
+            texture.draw(heart);
+
         }
         else if (type == "enemy")
         {
