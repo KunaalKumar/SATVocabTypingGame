@@ -98,6 +98,7 @@ void ObjectController::findNewTargetedEnemy(char letter)
                 lowestDistance = distance;
                 targetedEnemy = new GameObjects::TargetedEnemy(enemy, i);
                 objectsOnScreen[i] = targetedEnemy;
+                qDebug() << "target added";
             }
         }
     }

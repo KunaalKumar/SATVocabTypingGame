@@ -52,19 +52,19 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         if (obj->isOfType(GameObjects::Type::player))
         {
             sf::Sprite sprite;
-            sf::Sprite heart;
+
             // For running and debugging on mac
             if(QSysInfo::productType() == "osx")
             {
                 sprite_texture.loadFromFile("../../../../src/Images/cute_turtle.png");
-                sprite_heart.loadFromFile("../../../../src/Images/full_heart.png");
+                //sprite_heart.loadFromFile("../../../../src/Images/full_heart.png");
 
                 //font.loadFromFile("../../../../src/Fonts/PTZ56F.ttf");
             }
             else
             {
                 sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
-                sprite_heart.loadFromFile("../src/Images/full_heart.png");
+                //sprite_heart.loadFromFile("../src/Images/full_heart.png");
                 //font.loadFromFile("../src/Fonts/PTZ56F.ttf");
             }
             sprite_texture.setSmooth(true);
@@ -74,9 +74,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
             texture.draw(sprite);
 
-            heart.setTexture(sprite_heart);
-            heart.setPosition(50, 50);
-            texture.draw(heart);
+            updatePlayerHealth(obj);
 
         }
         else if (obj->isOfType(GameObjects::Type::enemy))
@@ -153,6 +151,21 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
     }
 }
 
+void GameView::updatePlayerHealth(GameObjects::GameObject * obj)
+{
+    GameObjects::Player *player = (GameObjects::Player *) obj;
+
+    for (unsigned int i = 0; i < player->getHealth(); i++)
+    {
+        sf::Sprite heart;
+        sprite_heart.loadFromFile("../src/Images/full_heart.png");
+        heart.setTexture(sprite_heart);
+        sprite_heart.setSmooth(true);
+        heart.setTexture(sprite_heart);
+        heart.setPosition(50 + 20+i*30, 50);
+        texture.draw(heart);
+    }
+}
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {
