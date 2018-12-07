@@ -49,7 +49,7 @@ namespace GameObjects
                 return {posX, posY};
             }
 
-            QImage getImage() { return image; }
+            std::string getImage() { return imagePath; }
 
             bool isOfType(Type other) { return other == type; }
 
@@ -79,7 +79,7 @@ namespace GameObjects
             float posX;
             float posY;
             Type type;
-            QImage image;
+            std::string imagePath;
             b2Body *body;
     };
 

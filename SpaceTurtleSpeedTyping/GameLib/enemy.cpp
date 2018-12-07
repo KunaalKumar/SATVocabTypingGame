@@ -3,7 +3,7 @@
 
 namespace GameObjects {
 
-    Enemy::Enemy(int speed, std::string word, int boxWidth, QImage image, GameObjects::posTuple pos, b2Body &body):
+    Enemy::Enemy(int speed, std::string word, int boxWidth, std::string imagePath, GameObjects::posTuple pos, b2Body &body):
         GameObject (pos, body)
     {
         this->word = word;
@@ -11,7 +11,7 @@ namespace GameObjects {
         type = Type::enemy;
         this->speed = (float)speed - (word.length() - 1);
 
-        this->image = image.scaled(boxWidth, boxWidth);
+        this->imagePath = imagePath;
     }
 
     std::string Enemy::getWord()
