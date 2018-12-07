@@ -34,7 +34,6 @@ public:
     bool isEnemyKilled();
     bool isRoundEnd();
     bool isEndGame();
-    void clearVector();
 
  private:
     int windowSizeX;

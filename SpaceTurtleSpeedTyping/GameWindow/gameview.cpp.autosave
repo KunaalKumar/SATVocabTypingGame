@@ -123,6 +123,5 @@ void GameView::endGame()
 {
     qDebug()<< "End game signaled!";
     //TODO:: Code to end game
-    lib.leaveGame();
     emit homeClicked();
 }

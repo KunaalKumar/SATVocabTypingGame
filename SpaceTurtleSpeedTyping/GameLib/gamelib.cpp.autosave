@@ -59,12 +59,6 @@ void GameLib::letterTyped(char letter)
     }
 }
 
-void GameLib::leaveGame(){
-    std::vector<GameObjects::GameObject> gameObjects;
-    Stats statistic;
-    oc.clearVector();
-}
-
 void GameLib::setNewDictionary(std::string dictionary)
 {
 

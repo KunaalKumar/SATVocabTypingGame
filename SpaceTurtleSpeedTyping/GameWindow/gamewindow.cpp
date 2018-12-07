@@ -36,7 +36,7 @@ void GameWindow::on_gameStartButton_clicked()
 void GameWindow::on_tutorialButton_clicked()
 {
     qDebug() << "tutorial button pressed";
-    QMessageBox::StandardButton box = QMessageBox::information(this, "Tutorial", "This is toturial",                                                              QMessageBox::Ok, QMessageBox::NoButton);
+    QMessageBox::StandardButton box = QMessageBox::information(this, "Tutorial", "This is toturial", QMessageBox::Ok, QMessageBox::NoButton);
 }
 
 void GameWindow::moveHome()

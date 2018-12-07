@@ -48,7 +48,6 @@ class GameLib
         bool isEndGame();
 
         void updateFrame();
-        void leaveGame();
 
         /* When user input, use this API */
         void letterTyped(char letter);

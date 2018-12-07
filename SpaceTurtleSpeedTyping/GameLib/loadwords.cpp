@@ -56,40 +56,49 @@ std::string LoadWords::getWord()
     return roundWords.at(nextWordIndex++);
 }
 
-//void sortWordTxtFile()
-//{
-//    std::fstream stream;
-//     stream.open("../GameLib/temp");
-//     std::vector<std::string> words;
-//     if (stream.is_open())
-//     {
-//        std::string line;
-//        int i = 0;
-//        while (!stream.eof())
-//        {
-//            std::getline(stream, line);
-//            if (line.length() > 0)
-//            {
-//                words.push_back(line);
-//            }
-//         }
-//    }
+void sortWordTxtFile(QFile target)
+{
+     std::fstream stream;
+     //stream.open("../GameLib/temp");
 
-//     std::sort(words.begin(), words.end(),
-//           [](const std::string& lhs, const std::string& rhs)
-//            {
-//                return lhs.size() == rhs.size() ? lhs < rhs : lhs.size() < rhs.size();
-//            });
+     std::vector<std::string> words;
+     //Save all words from user file into a vector
+     if (target.open(QIODevice::ReadOnly))
+     {
+        std::string line;
+        QTextStream reader(&target);
+        //int i = 0;
+        while (!reader.atEnd())
+        {
+            line = reader.readLine().toLocal8Bit().constData();
+            if (line.length() > 0)
+            {
+                words.push_back(line);
+            }
+         }
+    }
+    //Sort the vector
+     std::sort(words.begin(), words.end(),
+           [](const std::string& lhs, const std::string& rhs)
+            {
+                return lhs.size() == rhs.size() ? lhs < rhs : lhs.size() < rhs.size();
+            });
 
-//     words.erase( unique( words.begin(), words.end() ), words.end() );
+     words.erase( unique( words.begin(), words.end() ), words.end() );
 
-//     stream.close();
+     //stream.close();
 
-//     stream.open("../GameLib/words");
-//     for (int i = 0; i < words.size(); i++)
-//     {
-//        stream << words.at(i) << std::endl;
-//     }
+     stream.open("../src/dictionary/userWords");
 
-//    stream.close();
-//}
+     //store it into the folder
+     int currentLength = words.at(0).length();
+     for (int i = 0; i < words.size(); i++)
+     {
+         if(currentLength<words.at(i).length()){
+             stream << "" <<std::endl;
+         }
+        stream << words.at(i) << std::endl;
+     }
+
+    stream.close();
+}
