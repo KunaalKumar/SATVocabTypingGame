@@ -53,6 +53,8 @@ private:
     int word_count_in_screen = 5;
     int word_showed;
 
+    std::map<int, sf::Transformable> spriteList;
+
     void renderTexture();
     // Initialize all game objects information (position, words..etc)
     void refreshGameObjects(std::vector<GameObjects::GameObject *>);
