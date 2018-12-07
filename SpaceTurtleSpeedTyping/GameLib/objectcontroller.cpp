@@ -243,7 +243,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round)
 
     // TODO: Make scale factor dynamic depending on enemy word length
     // Controls the speed of the enemy via proxy
-    enemyBody->SetGravityScale(0.12);
+    enemyBody->SetGravityScale(100/boxSize);
 
     return enemy;
 }
