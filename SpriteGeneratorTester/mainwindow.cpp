@@ -86,3 +86,20 @@ void MainWindow::on_veryLargeSpriteButton_clicked()
         qInfo() << msg;
     }
 }
+
+void MainWindow::on_modularSpriteButton_clicked()
+{
+    try
+    {
+    QImage newSprite = sg.generatreNewSprite(SpriteSize::modular);
+    QGraphicsScene* scene = new QGraphicsScene();
+    QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(newSprite).scaled(200,600));
+    scene->addItem(item);
+
+    ui->graphicsView->setScene(scene);
+    }
+    catch (char const* msg)
+    {
+        qInfo() << msg;
+    }
+}

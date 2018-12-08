@@ -27,6 +27,8 @@ private slots:
 
     void on_veryLargeSpriteButton_clicked();
 
+    void on_modularSpriteButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     SpriteGenerator sg;
