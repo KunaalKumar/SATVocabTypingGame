@@ -41,7 +41,7 @@ public:
     void createPlayer();
     void createEnemy();
     void createProjectile(bool hitEnemy);
-    void createPlayerExplosion();
+    void createPlayerExplosion(GameObjects::GameObject *enemyObject);
     void createEnemyExplosion(GameObjects::Projectile *projectileObject);
 
     // shoot closest enemy with starting letter = letter
