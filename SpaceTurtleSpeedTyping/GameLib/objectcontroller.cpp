@@ -500,15 +500,18 @@ void ObjectController::stepBox2DWorld()
                                       *player->getBody(), 1000), true);
         }
         else if (objectsOnScreen[i]->getTypeString() == "projectile") {
-             GameObjects::Projectile projectile = *(GameObjects::Projectile *)(objectsOnScreen[i]);
+             GameObjects::Projectile *projectile = (GameObjects::Projectile *)(objectsOnScreen[i]);
 
-             if(projectile.getTargetBody() != nullptr) {
-                 projectile.getBody()->ApplyLinearImpulseToCenter(
-                             attractBToA(*projectile.getBody(),
-                                         *projectile.getTargetBody(), 10000), true);
+             if(projectile->getTargetBody() != nullptr) {
+                 projectile->getBody()->ApplyLinearImpulseToCenter(
+                             attractBToA(*projectile->getBody(),
+                                         *projectile->getTargetBody(), 10000), true);
+             }
+             else if(projectile->getBody()->GetPosition().y < -windowSizeY){
+                 removeObjectAndDestroyBody(projectile);
              }
              else {
-                  // TODO :: apply miss impulse
+                 projectile->getBody()->ApplyLinearImpulseToCenter(b2Vec2(0,-100), true);
              }
         }
     }
