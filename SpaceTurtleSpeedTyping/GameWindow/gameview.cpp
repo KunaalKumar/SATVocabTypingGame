@@ -136,39 +136,18 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         else if (obj->isOfType(GameObjects::Type::projectile))
         {
             sf::Sprite sprite;
-            // For running and debugging on mac
-            if(QSysInfo::productType() == "osx")
-            {
-                sprite_texture.loadFromFile("../../../../src/Images/cute_turtle.png");
-            }
-            else
-            {
-                sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
-
-            }
+            sprite_texture.loadFromFile("../src/Images/Blue_Projectile.png");
             sprite_texture.setSmooth(true);
-            sprite_heart.setSmooth(true);
-
             sprite.setTexture(sprite_texture);
-            sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            GameObjects::Projectile *projectile = static_cast<GameObjects::Projectile*>(obj);
+            sprite.setPosition(std::get<0>(projectile->getPos()), std::get<1>(projectile->getPos()));
             texture.draw(sprite);
         }
         else
         {
             sf::Sprite sprite;
-            // For running and debugging on mac
-            if(QSysInfo::productType() == "osx")
-            {
-                sprite_texture.loadFromFile("../../../../src/Images/cute_turtle.png");
-            }
-            else
-            {
-                sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
-
-            }
+            sprite_texture.loadFromFile("../src/Images/Explosion.png");
             sprite_texture.setSmooth(true);
-            sprite_heart.setSmooth(true);
-
             sprite.setTexture(sprite_texture);
             GameObjects::Explosion *explosion = static_cast<GameObjects::Explosion*>(obj);
             sprite.setPosition(std::get<0>(explosion->getPos()), std::get<1>(explosion->getPos()));
@@ -200,10 +179,10 @@ void GameView::keyPressEvent(QKeyEvent *event)
 
     if (lib->letterTyped(ch))
         //fireSound.play();
-    if (event->key() == Qt::Key_Escape)
-    {
-        endGame();
-    }
+        if (event->key() == Qt::Key_Escape)
+        {
+            endGame();
+        }
 }
 
 void GameView::startGame()
