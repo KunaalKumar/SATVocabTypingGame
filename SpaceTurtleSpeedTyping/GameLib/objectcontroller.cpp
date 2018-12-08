@@ -125,7 +125,7 @@ bool ObjectController::letterTyped(char letter)
         bool foundTargetEnemy = targetedEnemy != nullptr;
         if (foundTargetEnemy)
         {
-            targetedEnemy->shoot(letter);
+            hit = targetedEnemy->shoot(letter);
         }
 
         createProjectile(hit);
