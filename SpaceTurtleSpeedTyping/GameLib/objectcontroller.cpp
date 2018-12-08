@@ -507,6 +507,7 @@ void ObjectController::stepBox2DWorld()
     // All body positions within world get updates after calling Step()
     world->Step(timeStep, velocityIterations, positionIterations);
 
+    std::vector<GameObjects::GameObject*> toDestroy;
     for(b2Contact *contact = world->GetContactList(); contact; contact = contact->GetNext()) {
         b2Body *bod1 = contact->GetFixtureA()->GetBody();
         b2Body *bod2 = contact->GetFixtureB()->GetBody();
@@ -526,7 +527,7 @@ void ObjectController::stepBox2DWorld()
                     createEnemyExplosion(proj);
                 }
                 else if(proj->getTargetBody() == bod1){
-                    removeObjectAndDestroyBody(proj);
+                    toDestroy.push_back(proj);
                 }
             }
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "player") {
@@ -545,7 +546,7 @@ void ObjectController::stepBox2DWorld()
                     createEnemyExplosion(proj);
                 }
                 else if(proj->getTargetBody() == bod2) {
-                    removeObjectAndDestroyBody(proj);
+                    toDestroy.push_back(proj);
                 }
             }
         }
@@ -557,6 +558,10 @@ void ObjectController::stepBox2DWorld()
                  createPlayerExplosion(static_cast<GameObjects::GameObject*> (bod2->GetUserData()));
             }
         }
+    }
+
+    for(int i = 0; i < toDestroy.size(); i++) {
+        removeObjectAndDestroyBody(toDestroy[i]);
     }
 }
 
