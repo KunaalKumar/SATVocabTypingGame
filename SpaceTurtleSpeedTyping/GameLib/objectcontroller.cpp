@@ -265,13 +265,14 @@ void ObjectController::createEnemyExplosion(GameObjects::Projectile *projectileO
     // Remove old targeted enemy
     int index = findOldTargetedEnemy();
     GameObjects::posTuple oldTargetedEnemyPosition = objectsOnScreen[index]->getPos();
+    qDebug() << "Delete: " << index;
     delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
     // If there is an old enemy explosion, remove it
     removeOldEnemyExplosion();
     enemyExplosion = new GameObjects::Explosion(oldTargetedEnemyPosition);
-    objectsOnScreen[index] = enemyExplosion;
+    objectsOnScreen.push_back(enemyExplosion);
 
     // Remove Projectile that hit enemy
     index = findIndexOfType(GameObjects::Type::projectile, projectileObject);
@@ -345,10 +346,12 @@ int ObjectController::findOldTargetedEnemy()
             if (notNewTargetedEnemy || noTargetedEnemy)
             {
                 index = i;
+                 qDebug() << index;
                 break;
             }
         }
     }
+
     return index;
 }
 
@@ -497,15 +500,18 @@ void ObjectController::stepBox2DWorld()
                                       *player->getBody(), 1000), true);
         }
         else if (objectsOnScreen[i]->getTypeString() == "projectile") {
-             GameObjects::Projectile projectile = *(GameObjects::Projectile *)(objectsOnScreen[i]);
+             GameObjects::Projectile *projectile = (GameObjects::Projectile *)(objectsOnScreen[i]);
 
-             if(projectile.getTargetBody() != nullptr) {
-                 projectile.getBody()->ApplyLinearImpulseToCenter(
-                             attractBToA(*projectile.getBody(),
-                                         *projectile.getTargetBody(), 10000), true);
+             if(projectile->getTargetBody() != nullptr) {
+                 projectile->getBody()->ApplyLinearImpulseToCenter(
+                             attractBToA(*projectile->getBody(),
+                                         *projectile->getTargetBody(), 10000), true);
+             }
+             else if(projectile->getBody()->GetPosition().y < -windowSizeY){
+                 removeObjectAndDestroyBody(projectile);
              }
              else {
-                  // TODO :: apply miss impulse
+                 projectile->getBody()->ApplyLinearImpulseToCenter(b2Vec2(0,-100), true);
              }
         }
     }
