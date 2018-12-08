@@ -375,11 +375,11 @@ void ObjectController::stepBox2DWorld()
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "projectile") {
                 GameObjects::Projectile *proj = static_cast<GameObjects::Projectile*>(bod2->GetUserData());
                 // Explosion at enemy
-                if(proj->getKillShot()) {
+                if(proj->getKillShot() && proj->getTargetBody() == bod1) {
                     qInfo() << "Killing enemy ";
                     createEnemyExplosion(proj);
                 }
-                else {
+                else if(proj->getTargetBody() == bod1){
                     removeObjectAndDestroyBody(proj);
                 }
             }
@@ -394,11 +394,11 @@ void ObjectController::stepBox2DWorld()
             if (static_cast<GameObjects::GameObject*> (bod2->GetUserData())->getTypeString() == "enemy"
                     || static_cast<GameObjects::GameObject*> (bod2->GetUserData())->getTypeString() == "target") {
                 // Explosion at enemy
-                if(proj->getKillShot()) {
+                if(proj->getKillShot() && proj->getTargetBody() == bod2) {
                      qInfo() << "Killing enemy ";
                     createEnemyExplosion(proj);
                 }
-                else {
+                else if(proj->getTargetBody() == bod2) {
                     removeObjectAndDestroyBody(proj);
                 }
             }
