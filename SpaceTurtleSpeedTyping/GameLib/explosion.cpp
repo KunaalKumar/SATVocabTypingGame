@@ -3,7 +3,7 @@
 
 namespace GameObjects
 {
-    Explosion::Explosion(GameObjects::TargetedEnemy& enemy) : GameObject (enemy.getPos(false))
+    Explosion::Explosion(posTuple pos) : GameObject (pos)
     {
         type = Type::explosion;
         numOfFrames = 0;

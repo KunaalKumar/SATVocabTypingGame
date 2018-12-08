@@ -12,7 +12,8 @@ ObjectController::ObjectController(int windowSizeX, int windowSizeY)
 
     frameCounter = 0;
     stopCreatingEnemies = false;
-    explosion = nullptr;
+    playerExplosion = nullptr;
+    enemyExplosion = nullptr;
     targetedEnemy = nullptr;
 
     LoadWords::importWords();
@@ -25,7 +26,8 @@ ObjectController::~ObjectController()
 {
     delete targetedEnemy;
     delete player;
-    delete explosion;
+    delete enemyExplosion;
+    delete playerExplosion;
     delete world;
 }
 
@@ -37,17 +39,18 @@ void ObjectController::createPlayer()
 
 void ObjectController::createRoundOfEnemies(int round)
 {
+    this->round = round;
     createImagePaths();
     LoadWords::createRoundWords(round);
     stopCreatingEnemies = false;
 }
 
-void ObjectController::createEnemy(int round)
+void ObjectController::createEnemy()
 {
     std::string word = LoadWords::getWord();
     if (word != "")
     {
-        GameObjects::Enemy *enemy = b2MakeNewEnemy(round, word);
+        GameObjects::Enemy *enemy = b2MakeNewEnemy(this->round, word);
         objectsOnScreen.push_back(enemy);
     }
     else
@@ -58,7 +61,6 @@ void ObjectController::createEnemy(int round)
 
 void ObjectController::createProjectile(bool hitEnemy)
 {
-
     if (!hitEnemy)
     {
         objectsOnScreen.push_back(b2MakeNewProjectile(nullptr));
@@ -69,11 +71,11 @@ void ObjectController::createProjectile(bool hitEnemy)
 
         if (targetedEnemy->wasDestroyed())
         {
-            explosion = new GameObjects::Explosion(*targetedEnemy);
+            enemyExplosion = new GameObjects::Explosion(targetedEnemy->getPos());
 
-            createExplosion();
+            createEnemyExplosion();
 
-            delete targetedEnemy;
+            //delete targetedEnemy;
             targetedEnemy = nullptr;
         }
     }
@@ -82,6 +84,8 @@ void ObjectController::createProjectile(bool hitEnemy)
 void ObjectController::findNewTargetedEnemy(char letter)
 {
     double lowestDistance = DBL_MAX;
+    int index = 0;
+    GameObjects::TargetedEnemy *tempTarget = nullptr;
     for (unsigned int i = 0; i < objectsOnScreen.size(); i++)
     {
         if (objectsOnScreen[i]->isOfType(GameObjects::Type::enemy))
@@ -91,13 +95,16 @@ void ObjectController::findNewTargetedEnemy(char letter)
 
             if (enemy.startsWith(letter) && (distance = enemy.distanceTo(player->getPos())) < lowestDistance)
             {
-
-                lowestDistance = distance;
-                targetedEnemy = new GameObjects::TargetedEnemy(enemy);
-                objectsOnScreen[i] = targetedEnemy;
-                qDebug() << "target added";
+                tempTarget = new GameObjects::TargetedEnemy(enemy);
+                index = i;
             }
         }
+    }
+
+    if (tempTarget != nullptr)
+    {
+        targetedEnemy = tempTarget;
+        objectsOnScreen[index] = targetedEnemy;
     }
 }
 
@@ -120,25 +127,42 @@ bool ObjectController::letterTyped(char letter)
     }
     else
     {
-        bool temp = targetedEnemy->shoot(letter);
+        bool hit = targetedEnemy->shoot(letter);
         createProjectile(true);
-        return temp;
+        return hit;
     }
 }
 
-void ObjectController::createExplosion()
+void ObjectController::createPlayerExplosion()
 {
-    unsigned int index = findIndexOfType(GameObjects::Type::targetedEnemy);
-    objectsOnScreen.erase(objectsOnScreen.begin() + index);
-    objectsOnScreen.push_back(explosion);
+    playerExplosion = new GameObjects::Explosion(player->getPos());
+    objectsOnScreen.push_back(playerExplosion);
 }
 
-void ObjectController::removeExplosion()
+void ObjectController::removePlayerExplosion()
+{
+    int index = findIndexOfType(GameObjects::Type::explosion, playerExplosion);
+    //delete objectsOnScreen[index];
+    objectsOnScreen.erase(objectsOnScreen.begin() + index);
+    //delete playerExplosion;
+    playerExplosion = nullptr;
+}
+
+void ObjectController::createEnemyExplosion()
+{
+    int index = findIndexOfType(GameObjects::Type::targetedEnemy);
+    //delete objectsOnScreen[index];
+    objectsOnScreen.erase(objectsOnScreen.begin() + index);
+    objectsOnScreen.push_back(enemyExplosion);
+}
+
+void ObjectController::removeEnemyExplosion()
 {
     unsigned int index = findIndexOfType(GameObjects::Type::explosion);
+    //delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
-    delete explosion;
-    explosion = nullptr;
+    //delete enemyExplosion;
+    enemyExplosion = nullptr;
 }
 
 void ObjectController::updateObjectPositions()
@@ -149,29 +173,42 @@ void ObjectController::updateObjectPositions()
     if (!stopCreatingEnemies && ++frameCounter == 100)
     {
         // TO FIX: Currently round is constant 1
-        createEnemy(1);
+        createEnemy();
         frameCounter = 0;
     }
 
-    // End of Explosion Timer
-    if (explosion != nullptr && explosion->getNumOfFrames() == 1000)
+    // End of enemyExplosion Timer
+    if (enemyExplosion != nullptr && enemyExplosion->getNumOfFrames() == 1000)
     {
-        removeExplosion();
+        removeEnemyExplosion();
+    }
+
+    // End of playerExplosion Timer
+    if (playerExplosion != nullptr && playerExplosion->getNumOfFrames() == 500)
+    {
+        removeEnemyExplosion();
     }
 }
 
-unsigned int ObjectController::findIndexOfType(GameObjects::Type type)
+int ObjectController::findIndexOfType(GameObjects::Type type, GameObjects::GameObject *gameObject)
 {
-    unsigned int index = 0;
+    int index = -1;
     for (GameObjects::GameObject *object : objectsOnScreen)
     {
+        index++;
         if (object->isOfType(type))
         {
-            break;
+            if (gameObject != nullptr && gameObject == object)
+            {
+                break;
+            }
+            else if (gameObject == nullptr)
+            {
+                break;
+            }
         }
-        index++;
     }
-
+    return index;
 }
 
 const std::vector<GameObjects::GameObject *>& ObjectController::getObjects()
@@ -269,7 +306,7 @@ void ObjectController::stepBox2DWorld()
 {
 
     for(int i = 0; i < objectsOnScreen.size(); i++) {
-        if(objectsOnScreen[i]->getTypeString() == "enemy") {
+        if(objectsOnScreen[i]->getTypeString() == "enemy" || objectsOnScreen[i]->getTypeString() == "target") {
               objectsOnScreen[i]->getBody().ApplyLinearImpulseToCenter(
                           attractBToA(objectsOnScreen[i]->getBody(),
                                       player->getBody()), true);

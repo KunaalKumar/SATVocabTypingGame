@@ -11,7 +11,7 @@ namespace GameObjects
     class Explosion : public GameObject
     {
     public:
-        Explosion(GameObjects::TargetedEnemy& enemy);
+        Explosion(posTuple pos);
         posTuple getPos();
         unsigned int getNumOfFrames();
     private:
