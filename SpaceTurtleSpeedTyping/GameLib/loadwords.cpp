@@ -37,8 +37,9 @@ void LoadWords::createRoundWords(int round)
 {
     for (int i = 0; i < 20; i++)
     {
-       int wordLength = rand() % round + 3;
-       int wordIndex = rand() % allWords[wordLength].size();
+       srand(time(0));
+       long wordLength = rand() % round + 3;
+       long wordIndex = rand() % allWords[wordLength].size();
 
        std::string word = allWords[wordLength].at(wordIndex);
        roundWords.push_back(word);
