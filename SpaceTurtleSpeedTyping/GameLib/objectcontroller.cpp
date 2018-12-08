@@ -478,34 +478,22 @@ void ObjectController::initBox2DWorld() {
 //    world->SetAllowSleeping(false);
 }
 
-b2Vec2 ObjectController::attractBToA(b2Body &bodyA, b2Body &bodyB, int mass)
-{
-    b2Vec2 posA = bodyA.GetWorldCenter();
-    b2Vec2 posB = bodyB.GetWorldCenter();
-    b2Vec2 force = posA - posB;
-    float distance = force.Length();
-    force.Normalize();
-    float strength = (gravity->y * bodyA.GetMass() * bodyA.GetGravityScale() * mass) / (distance * distance);
-    force.operator*=(strength);
-    return force;
-}
-
 void ObjectController::stepBox2DWorld()
 {
 
     for(int i = 0; i < objectsOnScreen.size(); i++) {
         if(objectsOnScreen[i]->getTypeString() == "enemy" || objectsOnScreen[i]->getTypeString() == "target") {
+            b2Vec2 force = player->getBody()->GetPosition() - objectsOnScreen[i]->getBody()->GetPosition();
               objectsOnScreen[i]->getBody()->ApplyLinearImpulseToCenter(
-                          attractBToA(*objectsOnScreen[i]->getBody(),
-                                      *player->getBody(), 1000), true);
+                        force , true);
         }
         else if (objectsOnScreen[i]->getTypeString() == "projectile") {
              GameObjects::Projectile *projectile = (GameObjects::Projectile *)(objectsOnScreen[i]);
 
              if(projectile->getTargetBody() != nullptr) {
+                 b2Vec2 force = projectile->getTargetBody()->GetPosition() - projectile->getBody()->GetPosition();
                  projectile->getBody()->ApplyLinearImpulseToCenter(
-                             attractBToA(*projectile->getBody(),
-                                         *projectile->getTargetBody(), 10000), true);
+                             force, true);
              }
              else if(projectile->getBody()->GetPosition().y < -windowSizeY){
                  removeObjectAndDestroyBody(projectile);
@@ -587,16 +575,12 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round, std::string word
 
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
-    boxFixtureDef.density = 1;
+    boxFixtureDef.density = 10/round;
 
     enemyBody->CreateFixture(&boxFixtureDef);
 
     GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, imagePath, boxSize, {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
     enemyBody->SetUserData(enemy);
-
-    // TODO: Make scale factor dynamic depending on enemy word length
-    // Controls the speed of the enemy via proxy
-    enemyBody->SetGravityScale(round * 0.2);
 
     return enemy;
 }
