@@ -376,13 +376,14 @@ void ObjectController::stepBox2DWorld()
         if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "enemy"
                 || static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "target") {
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "projectile") {
+                GameObjects::Projectile *proj = static_cast<GameObjects::Projectile*>(bod2->GetUserData());
                 // Explosion at enemy
-                if(static_cast<GameObjects::Projectile*>(bod2->GetUserData())->getKillShot()) {
+                if(proj->getKillShot()) {
                     qInfo() << "Killing enemy ";
-                    createEnemyExplosion(static_cast<GameObjects::Projectile*>(bod2->GetUserData()));
+                    createEnemyExplosion(proj);
                 }
                 else {
-                    removeObjectAndDestroyBody(static_cast<GameObjects::Projectile*>(bod2->GetUserData()));
+                    removeObjectAndDestroyBody(proj);
                 }
             }
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "player") {
@@ -392,15 +393,16 @@ void ObjectController::stepBox2DWorld()
             }
         }
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "projectile") {
+             GameObjects::Projectile *proj = static_cast<GameObjects::Projectile*>(bod1->GetUserData());
             if (static_cast<GameObjects::GameObject*> (bod2->GetUserData())->getTypeString() == "enemy"
                     || static_cast<GameObjects::GameObject*> (bod2->GetUserData())->getTypeString() == "target") {
                 // Explosion at enemy
-                if(static_cast<GameObjects::Projectile*>(bod1->GetUserData())->getKillShot()) {
+                if(proj->getKillShot()) {
                      qInfo() << "Killing enemy ";
-                    createEnemyExplosion(static_cast<GameObjects::Projectile*>(bod1->GetUserData()));
+                    createEnemyExplosion(proj);
                 }
                 else {
-                    removeObjectAndDestroyBody(static_cast<GameObjects::Projectile*>(bod1->GetUserData()));
+                    removeObjectAndDestroyBody(proj);
                 }
             }
         }
