@@ -158,7 +158,7 @@ void ObjectController::removePlayerExplosion()
     playerExplosion = nullptr;
 }
 
-void ObjectController::createEnemyExplosion(GameObjects::GameObject projectileObject)
+void ObjectController::createEnemyExplosion(GameObjects::Projectile projectileObject)
 {
     int index = findIndexOfType(GameObjects::Type::targetedEnemy);
     //delete objectsOnScreen[index];
@@ -348,7 +348,9 @@ void ObjectController::stepBox2DWorld()
         if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "enemy") {
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "projectile") {
                 // Explosion at enemy
-                createEnemyExplosion();
+                if(static_cast<GameObjects::Projectile*>(bod2->GetUserData())->getKillShot()) {
+                    createEnemyExplosion(*static_cast<GameObjects::Projectile*>(bod2->GetUserData()));
+                }
             }
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "player") {
                 // Explosion at player
@@ -357,7 +359,9 @@ void ObjectController::stepBox2DWorld()
         }
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "projectile") {
                 // Explosion at enemy
-                createEnemyExplosion();
+                if(static_cast<GameObjects::Projectile*>(bod1->GetUserData())->getKillShot()) {
+                    createEnemyExplosion(*static_cast<GameObjects::Projectile*>(bod1->GetUserData()));
+                }
         }
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "player") {
                 // Explosion at player
@@ -430,7 +434,7 @@ GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body *targetBod
     GameObjects::Projectile *projectile;
 
     projectile = new GameObjects::Projectile({playerBodyDef.position.x, playerBodyDef.position.y},
-                                                                          *projectileBody, targetBody);
+                                                                          *projectileBody, targetBody, killShot);
     projectileBody->SetUserData(projectile);
 
     projectileBody->SetGravityScale(100);
