@@ -52,28 +52,12 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         if (obj->isOfType(GameObjects::Type::player))
         {
             sf::Sprite sprite;
-
-            // For running and debugging on mac
-            if(QSysInfo::productType() == "osx")
-            {
-                sprite_texture.loadFromFile("../../../../src/Images/cute_turtle.png");
-                //sprite_heart.loadFromFile("../../../../src/Images/full_heart.png");
-
-                //font.loadFromFile("../../../../src/Fonts/PTZ56F.ttf");
-            }
-            else
-            {
-                sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
-                //sprite_heart.loadFromFile("../src/Images/full_heart.png");
-                //font.loadFromFile("../src/Fonts/PTZ56F.ttf");
-            }
+            sprite_texture.loadFromFile("../src/Images/cute_turtle.png");
             sprite_texture.setSmooth(true);
             sprite_heart.setSmooth(true);
-
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
             texture.draw(sprite);
-
             updatePlayerHealth(obj);
 
         }
@@ -87,16 +71,10 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             text.setCharacterSize(18);
             text.setString(enemy->getWord());
             text.setFillColor(sf::Color::White);
-            if(QSysInfo::productType() == "osx")
-            {
-                sprite_texture.loadFromFile(obj->getImage());
-                font.loadFromFile("../../../../src/Fonts/PTZ56F.ttf");
-            }
-            else
-            {
-                sprite_texture.loadFromFile(obj->getImage());
-                font.loadFromFile("../src/Fonts/PTZ56F.ttf");
-            }
+
+            sprite_texture.loadFromFile(obj->getImage());
+            font.loadFromFile("../src/Fonts/PTZ56F.ttf");
+
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
@@ -116,15 +94,10 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size()-1);
             text.setString(targetText);
             text.setFillColor(sf::Color::White);
-            if(QSysInfo::productType() == "osx")
-            {
-                font.loadFromFile("../../../../src/Fonts/PTZ56F.ttf");
-            }
-            else
-            {
-                sprite_texture.loadFromFile(obj->getImage());
-                font.loadFromFile("../src/Fonts/PTZ56F.ttf");
-            }
+
+            sprite_texture.loadFromFile(obj->getImage());
+            font.loadFromFile("../src/Fonts/PTZ56F.ttf");
+
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
