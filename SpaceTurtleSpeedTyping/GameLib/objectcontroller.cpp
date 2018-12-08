@@ -160,26 +160,31 @@ void ObjectController::createPlayerExplosion(GameObjects::GameObject *enemyObjec
 void ObjectController::removePlayerExplosion()
 {
     int index = findIndexOfType(GameObjects::Type::explosion, playerExplosion);
-    //delete objectsOnScreen[index];
+    delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
-    //delete playerExplosion;
+    delete playerExplosion;
     playerExplosion = nullptr;
 }
 
-void ObjectController::createEnemyExplosion(GameObjects::Projectile projectileObject)
+void ObjectController::createEnemyExplosion(GameObjects::Projectile *projectileObject)
 {
     int index = findIndexOfType(GameObjects::Type::targetedEnemy);
-    //delete objectsOnScreen[index];
+    delete objectsOnScreen[index];
+    objectsOnScreen[index] = enemyExplosion;
+
+    index = findIndexOfType(GameObjects::Type::projectile, projectileObject);
+    delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
-    objectsOnScreen.push_back(enemyExplosion);
+
 }
 
 void ObjectController::removeEnemyExplosion()
 {
-    unsigned int index = findIndexOfType(GameObjects::Type::explosion);
-    //delete objectsOnScreen[index];
+    unsigned int index = findIndexOfType(GameObjects::Type::explosion, enemyExplosion);
+    delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
-    //delete enemyExplosion;
+
+    delete enemyExplosion;
     enemyExplosion = nullptr;
 }
 
@@ -196,7 +201,7 @@ void ObjectController::updateObjectPositions()
     }
 
     // End of enemyExplosion Timer
-    if (enemyExplosion != nullptr && enemyExplosion->getNumOfFrames() == 1000)
+    if (enemyExplosion != nullptr && enemyExplosion->getNumOfFrames() == 100)
     {
         removeEnemyExplosion();
     }
@@ -204,7 +209,7 @@ void ObjectController::updateObjectPositions()
     // End of playerExplosion Timer
     if (playerExplosion != nullptr && playerExplosion->getNumOfFrames() == 500)
     {
-        removeEnemyExplosion();
+        removePlayerExplosion();
     }
 }
 
@@ -358,7 +363,7 @@ void ObjectController::stepBox2DWorld()
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "projectile") {
                 // Explosion at enemy
                 if(static_cast<GameObjects::Projectile*>(bod2->GetUserData())->getKillShot()) {
-                    createEnemyExplosion(*static_cast<GameObjects::Projectile*>(bod2->GetUserData()));
+                    createEnemyExplosion(static_cast<GameObjects::Projectile*>(bod2->GetUserData()));
                 }
             }
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "player") {
@@ -369,7 +374,7 @@ void ObjectController::stepBox2DWorld()
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "projectile") {
                 // Explosion at enemy
                 if(static_cast<GameObjects::Projectile*>(bod1->GetUserData())->getKillShot()) {
-                    createEnemyExplosion(*static_cast<GameObjects::Projectile*>(bod1->GetUserData()));
+                    createEnemyExplosion(static_cast<GameObjects::Projectile*>(bod1->GetUserData()));
                 }
         }
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "player") {

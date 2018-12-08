@@ -42,7 +42,7 @@ public:
     void createEnemy();
     void createProjectile(bool hitEnemy);
     void createPlayerExplosion(GameObjects::GameObject *enemyObject);
-    void createEnemyExplosion(GameObjects::Projectile projectileObject);
+    void createEnemyExplosion(GameObjects::Projectile *projectileObject);
 
     // shoot closest enemy with starting letter = letter
     void findNewTargetedEnemy(char letter);
