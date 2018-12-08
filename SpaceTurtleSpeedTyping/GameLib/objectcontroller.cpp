@@ -69,14 +69,14 @@ void ObjectController::createProjectile(bool hitEnemy)
     {
         if (targetedEnemy->wasDestroyed())
         {
-            objectsOnScreen.push_back(b2MakeNewProjectile(&targetedEnemy->getBody(), true));
+            objectsOnScreen.push_back(b2MakeNewProjectile(targetedEnemy->getBody(), true));
             enemyExplosion = new GameObjects::Explosion(targetedEnemy->getPos());
 
             targetedEnemy = nullptr;
         }
         else
         {
-            objectsOnScreen.push_back(b2MakeNewProjectile(&targetedEnemy->getBody(), false));
+            objectsOnScreen.push_back(b2MakeNewProjectile(targetedEnemy->getBody(), false));
         }
     }
 }
@@ -185,7 +185,7 @@ void ObjectController::createEnemyExplosion(GameObjects::Projectile *projectileO
 void ObjectController::removeEnemyExplosion()
 {
     int index = findIndexOfType(GameObjects::Type::explosion, enemyExplosion);
-    world->DestroyBody(&objectsOnScreen[index]->getBody());
+    world->DestroyBody(objectsOnScreen[index]->getBody());
     delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
@@ -237,6 +237,18 @@ int ObjectController::findIndexOfType(GameObjects::Type type, GameObjects::GameO
         }
     }
     return index;
+}
+
+void ObjectController::removeObjectAndDestroyBody(GameObjects::GameObject *obj)
+{
+    if(obj->getBody() != nullptr) {
+        world->DestroyBody(obj->getBody());
+    }
+
+    objectsOnScreen.erase(std::remove(objectsOnScreen.begin(),
+                                      objectsOnScreen.end(),
+                                      obj),
+                            objectsOnScreen.end());
 }
 
 const std::vector<GameObjects::GameObject *>& ObjectController::getObjects()
@@ -331,16 +343,16 @@ void ObjectController::stepBox2DWorld()
 
     for(int i = 0; i < objectsOnScreen.size(); i++) {
         if(objectsOnScreen[i]->getTypeString() == "enemy" || objectsOnScreen[i]->getTypeString() == "target") {
-              objectsOnScreen[i]->getBody().ApplyLinearImpulseToCenter(
-                          attractBToA(objectsOnScreen[i]->getBody(),
-                                      player->getBody(), 500), true);
+              objectsOnScreen[i]->getBody()->ApplyLinearImpulseToCenter(
+                          attractBToA(*objectsOnScreen[i]->getBody(),
+                                      *player->getBody(), 500), true);
         }
         else if (objectsOnScreen[i]->getTypeString() == "projectile") {
              GameObjects::Projectile projectile = *(GameObjects::Projectile *)(objectsOnScreen[i]);
 
              if(projectile.getTargetBody() != nullptr) {
-                 projectile.getBody().ApplyLinearImpulseToCenter(
-                             attractBToA(projectile.getBody(),
+                 projectile.getBody()->ApplyLinearImpulseToCenter(
+                             attractBToA(*projectile.getBody(),
                                          *projectile.getTargetBody(), 10000), true);
              }
              else {
@@ -367,16 +379,10 @@ void ObjectController::stepBox2DWorld()
                 // Explosion at enemy
                 if(static_cast<GameObjects::Projectile*>(bod2->GetUserData())->getKillShot()) {
                     qInfo() << "Killing enemy ";
-//                    world->DestroyBody(bod2);
                     createEnemyExplosion(static_cast<GameObjects::Projectile*>(bod2->GetUserData()));
                 }
                 else {
-                    world->DestroyBody(&static_cast<GameObjects::Projectile*>(bod2->GetUserData())->getBody());
-                    objectsOnScreen.erase(std::remove(objectsOnScreen.begin(),
-                                                      objectsOnScreen.end(),
-                                                      static_cast<GameObjects::Projectile*>(bod2->GetUserData())),
-                                            objectsOnScreen.end());
-                    qInfo() << "Removed projectile from list";
+                    removeObjectAndDestroyBody(static_cast<GameObjects::Projectile*>(bod2->GetUserData()));
                 }
             }
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "player") {
@@ -391,15 +397,10 @@ void ObjectController::stepBox2DWorld()
                 // Explosion at enemy
                 if(static_cast<GameObjects::Projectile*>(bod1->GetUserData())->getKillShot()) {
                      qInfo() << "Killing enemy ";
-//                    world->DestroyBody(bod1);
                     createEnemyExplosion(static_cast<GameObjects::Projectile*>(bod1->GetUserData()));
                 }
                 else {
-                    world->DestroyBody(&static_cast<GameObjects::Projectile*>(bod1->GetUserData())->getBody());
-                    objectsOnScreen.erase(std::remove(objectsOnScreen.begin(),
-                                                      objectsOnScreen.end(),
-                                                      static_cast<GameObjects::Projectile*>(bod1->GetUserData())),
-                                            objectsOnScreen.end());
+                    removeObjectAndDestroyBody(static_cast<GameObjects::Projectile*>(bod1->GetUserData()));
                 }
             }
         }
@@ -473,7 +474,7 @@ GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body *targetBod
     b2BodyDef enemyBodyDef;
     enemyBodyDef.type = b2_dynamicBody;
     enemyBodyDef.bullet = true;
-    enemyBodyDef.position.Set(std::get<0>(player->getPos())/4 + 10,-std::get<1>(player->getPos())/4 + 10);
+    enemyBodyDef.position.Set(std::get<0>(player->getPos())/4,-std::get<1>(player->getPos())/4);
 
     b2Body *projectileBody = world->CreateBody(&enemyBodyDef);
     b2PolygonShape boxShape;

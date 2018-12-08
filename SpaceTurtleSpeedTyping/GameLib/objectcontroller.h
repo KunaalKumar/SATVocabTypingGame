@@ -53,6 +53,8 @@ public:
 
     int findIndexOfType(GameObjects::Type type, GameObjects::GameObject *gameObject = nullptr);
 
+    void removeObjectAndDestroyBody(GameObjects::GameObject*obj);
+
     GameObjects::Player *player;
     GameObjects::TargetedEnemy *targetedEnemy;
     GameObjects::Explosion *enemyExplosion;

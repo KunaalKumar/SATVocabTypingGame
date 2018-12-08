@@ -66,7 +66,7 @@ namespace GameObjects
                 return "";
             }
 
-            b2Body& getBody() { return *body; }
+            b2Body* getBody() { return body; }
 
         private:
             // Sets the values of the x,y positions to the latest b2Body positions
