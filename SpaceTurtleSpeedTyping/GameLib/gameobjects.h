@@ -71,8 +71,10 @@ namespace GameObjects
         private:
             // Sets the values of the x,y positions to the latest b2Body positions
             void updatePos() {
-                posX = body->GetPosition().x*4;
-                posY = -body->GetPosition().y*4;
+                if(body != nullptr) {
+                    posX = body->GetPosition().x*4;
+                    posY = -body->GetPosition().y*4;
+                }
             }
 
 
