@@ -314,14 +314,14 @@ void ObjectController::initBox2DWorld() {
     world = new b2World(*gravity);
 }
 
-b2Vec2 ObjectController::attractBToA(b2Body &bodyA, b2Body &bodyB)
+b2Vec2 ObjectController::attractBToA(b2Body &bodyA, b2Body &bodyB, int mass)
 {
     b2Vec2 posA = bodyA.GetWorldCenter();
     b2Vec2 posB = bodyB.GetWorldCenter();
     b2Vec2 force = posA - posB;
     float distance = force.Length();
     force.Normalize();
-    float strength = (gravity->y * bodyA.GetMass() * bodyA.GetGravityScale() * 200) / (distance * distance);
+    float strength = (gravity->y * bodyA.GetMass() * bodyA.GetGravityScale() * mass) / (distance * distance);
     force.operator*=(strength);
     return force;
 }
@@ -333,14 +333,15 @@ void ObjectController::stepBox2DWorld()
         if(objectsOnScreen[i]->getTypeString() == "enemy" || objectsOnScreen[i]->getTypeString() == "target") {
               objectsOnScreen[i]->getBody().ApplyLinearImpulseToCenter(
                           attractBToA(objectsOnScreen[i]->getBody(),
-                                      player->getBody()), true);
+                                      player->getBody(), 500), true);
         }
         else if (objectsOnScreen[i]->getTypeString() == "projectile") {
              GameObjects::Projectile projectile = *(static_cast<GameObjects::Projectile *>(objectsOnScreen[i]));
              if(projectile.getTargetBody() != nullptr) {
+                 qInfo() << projectile.getTargetBody()->GetPosition().x << " " << projectile.getTargetBody()->GetPosition().y;
                  projectile.getBody().ApplyLinearImpulseToCenter(
                              attractBToA(projectile.getBody(),
-                                         *projectile.getTargetBody()), true);
+                                         *projectile.getTargetBody(), 10000), true);
              }
              else {
                   // TODO :: apply miss impulse
@@ -465,7 +466,7 @@ GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body *targetBod
                                                                           *projectileBody, targetBody, killShot);
     projectileBody->SetUserData(projectile);
 
-    projectileBody->SetGravityScale(1000);
+    projectileBody->SetGravityScale(1);
 
     return projectile;
 }
