@@ -143,8 +143,16 @@ bool ObjectController::letterTyped(char letter)
     }
 }
 
-void ObjectController::createPlayerExplosion()
+void ObjectController::createPlayerExplosion(GameObjects::GameObject *enemyObject)
 {
+    for(int i = 0 ; i < objectsOnScreen.size(); i++) {
+        if(objectsOnScreen[i] == enemyObject) {
+            objectsOnScreen.erase(objectsOnScreen.begin() + i);
+            world->DestroyBody(&objectsOnScreen[i]->getBody());
+            break;
+        }
+    }
+
     playerExplosion = new GameObjects::Explosion(player->getPos());
     objectsOnScreen.push_back(playerExplosion);
 }
@@ -345,6 +353,7 @@ void ObjectController::stepBox2DWorld()
         // 2) enemy -- player
         // 3) projectile -- enemy
         // 4) player -- enemy
+
         if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "enemy") {
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "projectile") {
                 // Explosion at enemy
@@ -354,7 +363,7 @@ void ObjectController::stepBox2DWorld()
             }
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "player") {
                 // Explosion at player
-                createPlayerExplosion();
+                createPlayerExplosion(static_cast<GameObjects::GameObject*> (bod1->GetUserData()));
             }
         }
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "projectile") {
@@ -364,8 +373,9 @@ void ObjectController::stepBox2DWorld()
                 }
         }
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "player") {
+//                 world->DestroyBody(bod1);
                 // Explosion at player
-                createPlayerExplosion();
+                 createPlayerExplosion(static_cast<GameObjects::GameObject*> (bod1->GetUserData()));
         }
     }
 }
