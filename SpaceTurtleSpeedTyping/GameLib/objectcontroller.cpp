@@ -328,9 +328,27 @@ void ObjectController::stepBox2DWorld()
     world->Step(timeStep, velocityIterations, positionIterations);
 
     for(b2Contact *contact = world->GetContactList(); contact; contact = contact->GetNext()) {
-        // TODO: Check for:
-        //                  1) projectile contact with enemy body
-        //                  2) enemy contact with player body
+        b2Body *bod1 = contact->GetFixtureA()->GetBody();
+        b2Body *bod2 = contact->GetFixtureB()->GetBody();
+        //    bod1     bod2
+        // 1) enemy -- projectile
+        // 2) enemy -- player
+        // 3) projectile -- enemy
+        // 4) player -- enemy
+        if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "enemy") {
+            if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "projectile") {
+                // Explosion at enemy
+            }
+            if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "player") {
+                // Explosion at player
+            }
+        }
+        else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "projectile") {
+                // Explosion at enemy
+        }
+        else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "player") {
+                // Explosion at player
+        }
     }
 }
 
