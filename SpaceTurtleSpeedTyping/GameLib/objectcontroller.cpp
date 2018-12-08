@@ -319,7 +319,7 @@ b2Vec2 ObjectController::attractBToA(b2Body &bodyA, b2Body &bodyB)
     b2Vec2 force = posA - posB;
     float distance = force.Length();
     force.Normalize();
-    float strength = (gravity->y * bodyA.GetMass() * bodyA.GetGravityScale() * 10000) / (distance * distance);
+    float strength = (gravity->y * bodyA.GetMass() * bodyA.GetGravityScale() * 200) / (distance * distance);
     force.operator*=(strength);
     return force;
 }
@@ -411,7 +411,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round, std::string word
 
     // TODO: Make scale factor dynamic depending on enemy word length
     // Controls the speed of the enemy via proxy
-    enemyBody->SetGravityScale(10000);
+    enemyBody->SetGravityScale(0.02);
 
     return enemy;
 }
@@ -463,7 +463,7 @@ GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body *targetBod
                                                                           *projectileBody, targetBody, killShot);
     projectileBody->SetUserData(projectile);
 
-    projectileBody->SetGravityScale(100);
+    projectileBody->SetGravityScale(1000);
 
     return projectile;
 }
