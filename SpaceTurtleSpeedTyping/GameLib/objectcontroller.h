@@ -42,7 +42,7 @@ public:
     void createEnemy();
     void createProjectile(bool hitEnemy);
     void createPlayerExplosion();
-    void createEnemyExplosion();
+    void createEnemyExplosion(GameObjects::GameObject projectileObject);
 
     // shoot closest enemy with starting letter = letter
     void findNewTargetedEnemy(char letter);
@@ -120,7 +120,7 @@ public:
      * @param targetBody - target to hit
      * @return - projectile object
      */
-    GameObjects::Projectile *b2MakeNewProjectile(b2Body *targetBody);
+    GameObjects::Projectile *b2MakeNewProjectile(b2Body *targetBody, bool killShot);
 };
 
 #endif // OBJECTCONTROLLER_H

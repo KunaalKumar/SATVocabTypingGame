@@ -63,20 +63,22 @@ void ObjectController::createProjectile(bool hitEnemy)
 {
     if (!hitEnemy)
     {
-        objectsOnScreen.push_back(b2MakeNewProjectile(nullptr));
+        objectsOnScreen.push_back(b2MakeNewProjectile(nullptr, false));
     }
     else
     {
-        objectsOnScreen.push_back(b2MakeNewProjectile(&targetedEnemy->getBody()));
-
         if (targetedEnemy->wasDestroyed())
         {
+            objectsOnScreen.push_back(b2MakeNewProjectile(&targetedEnemy->getBody(), true));
             enemyExplosion = new GameObjects::Explosion(targetedEnemy->getPos());
-
-            createEnemyExplosion();
 
             //delete targetedEnemy;
             targetedEnemy = nullptr;
+        }
+        else
+        {
+            objectsOnScreen.push_back(b2MakeNewProjectile(&targetedEnemy->getBody(), false));
+
         }
     }
 }
@@ -120,6 +122,10 @@ bool ObjectController::letterTyped(char letter)
         if (foundTargetEnemy)
         {
             hit = targetedEnemy->shoot(letter);
+            if (!hit)
+            {
+                targetedEnemy->resetWord();
+            }
         }
 
         createProjectile(hit);
@@ -129,6 +135,10 @@ bool ObjectController::letterTyped(char letter)
     {
         bool hit = targetedEnemy->shoot(letter);
         createProjectile(true);
+        if (!hit)
+        {
+            targetedEnemy->resetWord();
+        }
         return hit;
     }
 }
@@ -148,7 +158,7 @@ void ObjectController::removePlayerExplosion()
     playerExplosion = nullptr;
 }
 
-void ObjectController::createEnemyExplosion()
+void ObjectController::createEnemyExplosion(GameObjects::GameObject projectileObject)
 {
     int index = findIndexOfType(GameObjects::Type::targetedEnemy);
     //delete objectsOnScreen[index];
@@ -401,7 +411,7 @@ GameObjects::Player *ObjectController::b2MakeNewPlayer()
     return player;
 }
 
-GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body *targetBody)
+GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body *targetBody, bool killShot)
 {
     playerBodyDef.position.Set(std::get<0>(player->getPos()),std::get<1>(player->getPos()));
 

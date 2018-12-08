@@ -47,7 +47,7 @@ namespace GameObjects {
 
 // Targeted Enemy
 
-    TargetedEnemy::TargetedEnemy(Enemy enemy) : Enemy(enemy)
+    TargetedEnemy::TargetedEnemy(Enemy &enemy) : Enemy(enemy)
     {
         type = GameObjects::Type::targetedEnemy;
         currentLetterPos = 0;

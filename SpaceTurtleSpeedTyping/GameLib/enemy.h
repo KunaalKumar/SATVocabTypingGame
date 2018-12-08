@@ -34,7 +34,7 @@ namespace GameObjects
     class TargetedEnemy : public Enemy
     {
         public:
-            TargetedEnemy(Enemy enemy);
+            TargetedEnemy(Enemy &enemy);
 
             using hitPlayer = bool;
             hitPlayer shoot(char letter);
