@@ -575,16 +575,12 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round, std::string word
 
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
-    boxFixtureDef.density = 1;
+    boxFixtureDef.density = 10/round;
 
     enemyBody->CreateFixture(&boxFixtureDef);
 
     GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, imagePath, boxSize, {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
     enemyBody->SetUserData(enemy);
-
-    // TODO: Make scale factor dynamic depending on enemy word length
-    // Controls the speed of the enemy via proxy
-    enemyBody->SetGravityScale(round * 0.2);
 
     return enemy;
 }
