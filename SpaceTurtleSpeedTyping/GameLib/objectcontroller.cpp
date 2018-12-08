@@ -127,7 +127,7 @@ bool ObjectController::letterTyped(char letter)
         }
 
         createProjectile(hit);
-        return targetedEnemy == nullptr;
+        return hit;
     }
     else
     {
@@ -172,7 +172,6 @@ void ObjectController::removePlayerExplosion()
 void ObjectController::createEnemyExplosion(GameObjects::Projectile *projectileObject)
 {
     int index = findIndexOfType(GameObjects::Type::targetedEnemy);
-//    world->DestroyBody(&objectsOnScreen[index]->getBody());
     delete objectsOnScreen[index];
     objectsOnScreen[index] = enemyExplosion;
 
@@ -185,8 +184,6 @@ void ObjectController::createEnemyExplosion(GameObjects::Projectile *projectileO
 void ObjectController::removeEnemyExplosion()
 {
     int index = findIndexOfType(GameObjects::Type::explosion, enemyExplosion);
-    world->DestroyBody(objectsOnScreen[index]->getBody());
-    delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
     delete enemyExplosion;
