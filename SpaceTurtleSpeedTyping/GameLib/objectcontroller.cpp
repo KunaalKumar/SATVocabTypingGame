@@ -424,7 +424,6 @@ bool ObjectController::isEndGame()
 }
 
 
-
 // SPRITE_GENERATOR_STUFF
 
 void ObjectController::initSpriteGenerator()
@@ -481,6 +480,9 @@ void ObjectController::initBox2DWorld() {
 void ObjectController::stepBox2DWorld()
 {
 
+    // Need this to avoid collision looping faults
+    std::vector<GameObjects::GameObject*> toDestroy;
+
     for(int i = 0; i < objectsOnScreen.size(); i++) {
         if(objectsOnScreen[i]->getTypeString() == "enemy" || objectsOnScreen[i]->getTypeString() == "target") {
             b2Vec2 force = player->getBody()->GetPosition() - objectsOnScreen[i]->getBody()->GetPosition();
@@ -496,7 +498,7 @@ void ObjectController::stepBox2DWorld()
                              force, true);
              }
              else if(projectile->getBody()->GetPosition().y < -windowSizeY){
-                 removeObjectAndDestroyBody(projectile);
+                 toDestroy.push_back(projectile);
              }
              else {
                  projectile->getBody()->ApplyLinearImpulseToCenter(b2Vec2(0,-100), true);
@@ -507,7 +509,6 @@ void ObjectController::stepBox2DWorld()
     // All body positions within world get updates after calling Step()
     world->Step(timeStep, velocityIterations, positionIterations);
 
-    std::vector<GameObjects::GameObject*> toDestroy;
     for(b2Contact *contact = world->GetContactList(); contact; contact = contact->GetNext()) {
         b2Body *bod1 = contact->GetFixtureA()->GetBody();
         b2Body *bod2 = contact->GetFixtureB()->GetBody();
@@ -532,7 +533,6 @@ void ObjectController::stepBox2DWorld()
             }
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "player") {
                 // Explosion at player
-                world->DestroyBody(bod1);
                 createPlayerExplosion(static_cast<GameObjects::GameObject*> (bod1->GetUserData()));
             }
         }
@@ -554,7 +554,6 @@ void ObjectController::stepBox2DWorld()
             if (static_cast<GameObjects::GameObject*> (bod2->GetUserData())->getTypeString() == "enemy"
                     || static_cast<GameObjects::GameObject*> (bod2->GetUserData())->getTypeString() == "target") {
                 // Explosion at player
-                 world->DestroyBody(bod2);
                  createPlayerExplosion(static_cast<GameObjects::GameObject*> (bod2->GetUserData()));
             }
         }
