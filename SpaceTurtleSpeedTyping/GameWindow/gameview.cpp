@@ -108,8 +108,8 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         }
         else if (obj->isOfType(GameObjects::Type::targetedEnemy))
         {
-            qDebug() <<"targeted!";
             GameObjects::TargetedEnemy* target = (GameObjects::TargetedEnemy*) obj;
+            sf::Sprite sprite;
             sf::Text text;
             text.setFont(font);
             text.setCharacterSize(18);
@@ -122,9 +122,15 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             }
             else
             {
+                sprite_texture.loadFromFile(obj->getImage());
                 font.loadFromFile("../src/Fonts/PTZ56F.ttf");
             }
+            sprite_texture.setSmooth(true);
+            sprite.setTexture(sprite_texture);
+            sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            sprite.scale(6.f,6.f);
             text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            texture.draw(sprite);
             texture.draw(text);
         }
         else if (obj->isOfType(GameObjects::Type::projectile))
