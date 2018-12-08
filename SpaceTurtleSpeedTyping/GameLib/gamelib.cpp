@@ -61,6 +61,18 @@ bool GameLib::letterTyped(char letter)
     return false;
 }
 
+double GameLib::getStatRound(){
+    return statistic.getRound();
+}
+
+double GameLib::getStatKillStreak(){
+    return statistic.getKillStreak();
+}
+
+double GameLib::getStatTotalScore(){
+    return statistic.getTotalKill();
+}
+
 void GameLib::setNewDictionary(std::string dictionary)
 {
 

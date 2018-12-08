@@ -95,7 +95,6 @@ bool Stats::highScore(bool isGameDone, int score){
                     }
                 }
             }
-            qDebug()<< playerScores.size();
             //If there are 4 scores
             if(playerScores.size()==4){
                 playerScores.pop_back();
@@ -126,5 +125,5 @@ const std::map<std::string, double>& Stats::getAllStats(){
 }
 
 int Stats::getScore() {
-    return getRound() * (getCorrectType() + getTotalKill() + getKillStreak());
+    //return getRound() * (getCorrectType() + getTotalKill() + getKillStreak());
 }

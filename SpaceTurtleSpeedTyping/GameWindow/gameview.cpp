@@ -129,7 +129,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
             sprite.scale(6.f,6.f);
-            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
+            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+48);
             texture.draw(sprite);
             texture.draw(text);
         }
@@ -160,6 +160,18 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 void GameView::updatePlayerHealth(GameObjects::GameObject * obj)
 {
     GameObjects::Player *player = (GameObjects::Player *) obj;
+    sf::Text text;
+    text.setFont(font);
+    text.setCharacterSize(18);
+    std::string targetText = "Total Kills : " + std::to_string((int)lib->getStatTotalScore());
+    text.setString(targetText);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(500,30);
+    texture.draw(text);
+    targetText = "Kill Streak : " + std::to_string((int)lib->getStatKillStreak());
+    text.setString(targetText);
+    text.setPosition(500,50);
+    texture.draw(text);
 
     for (unsigned int i = 0; i < player->getHealth(); i++)
     {

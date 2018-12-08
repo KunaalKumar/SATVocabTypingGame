@@ -53,6 +53,11 @@ class GameLib
         /* When user input, use this API */
         bool letterTyped(char letter);
 
+        /* Methods to get stats numbers cause maps dont work*/
+        double getStatTotalScore();
+        double getStatKillStreak();
+        double getStatRound();
+
         /* >>>>>>>>>> Load <<<<<<<<<< */
         void setNewDictionary(std::string dictionary);
 private:
