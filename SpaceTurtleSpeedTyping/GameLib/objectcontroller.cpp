@@ -380,7 +380,7 @@ void ObjectController::stepBox2DWorld()
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "player") {
 //                 world->DestroyBody(bod1);
                 // Explosion at player
-                 createPlayerExplosion(static_cast<GameObjects::GameObject*> (bod1->GetUserData()));
+                 createPlayerExplosion(static_cast<GameObjects::GameObject*> (bod2->GetUserData()));
         }
     }
 }
