@@ -161,8 +161,6 @@ void ObjectController::createPlayerExplosion(GameObjects::GameObject *enemyObjec
 void ObjectController::removePlayerExplosion()
 {
     int index = findIndexOfType(GameObjects::Type::explosion, playerExplosion);
-//    world->DestroyBody(&objectsOnScreen[index]->getBody());
-    delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
     delete playerExplosion;
