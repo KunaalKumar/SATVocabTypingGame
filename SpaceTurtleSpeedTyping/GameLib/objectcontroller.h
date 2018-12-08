@@ -75,10 +75,6 @@ public:
     b2World *world;
     // World gravity
     b2Vec2 *gravity;
-    // Enemy Body Definition
-    b2BodyDef enemyBodyDef;
-    // Player Body Definition
-    b2BodyDef playerBodyDef;
     // TODO: Sync timeStep with front end update rate
     // Frontend - 17 ms
     // Backend  - 1/60 - 16.6 ms
