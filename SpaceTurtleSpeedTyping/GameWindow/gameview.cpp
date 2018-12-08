@@ -91,8 +91,8 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sf::Text text;
             text.setFont(font);
             text.setCharacterSize(24);
-            std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size()-1);
-            text.setString(targetText);
+            //std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size()-1);
+            text.setString(target->getWord());
             text.setFillColor(sf::Color::Yellow);
 
             sprite_texture.loadFromFile(obj->getImage());
