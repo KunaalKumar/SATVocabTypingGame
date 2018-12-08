@@ -338,16 +338,20 @@ void ObjectController::stepBox2DWorld()
         if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "enemy") {
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "projectile") {
                 // Explosion at enemy
+                createEnemyExplosion();
             }
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "player") {
                 // Explosion at player
+                createPlayerExplosion();
             }
         }
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "projectile") {
                 // Explosion at enemy
+                createEnemyExplosion();
         }
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "player") {
                 // Explosion at player
+                createPlayerExplosion();
         }
     }
 }
