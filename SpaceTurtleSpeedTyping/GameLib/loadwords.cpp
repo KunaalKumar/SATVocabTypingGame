@@ -31,13 +31,13 @@ void LoadWords::importWords()
             }
          }
     }
+    srand(time(0));
 }
 
 void LoadWords::createRoundWords(int round)
 {
     for (int i = 0; i < 20; i++)
     {
-       srand(time(0));
        long wordLength = rand() % round + 3;
        long wordIndex = rand() % allWords[wordLength].size();
 
