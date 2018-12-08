@@ -366,9 +366,17 @@ void ObjectController::stepBox2DWorld()
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "projectile") {
                 // Explosion at enemy
                 if(static_cast<GameObjects::Projectile*>(bod2->GetUserData())->getKillShot()) {
-                    qInfo() << "Creating enemy ";
-                    world->DestroyBody(bod2);
+                    qInfo() << "Killing enemy ";
+//                    world->DestroyBody(bod2);
                     createEnemyExplosion(static_cast<GameObjects::Projectile*>(bod2->GetUserData()));
+                }
+                else {
+                    world->DestroyBody(&static_cast<GameObjects::Projectile*>(bod2->GetUserData())->getBody());
+                    objectsOnScreen.erase(std::remove(objectsOnScreen.begin(),
+                                                      objectsOnScreen.end(),
+                                                      static_cast<GameObjects::Projectile*>(bod2->GetUserData())),
+                                            objectsOnScreen.end());
+                    qInfo() << "Removed projectile from list";
                 }
             }
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "player") {
@@ -382,9 +390,16 @@ void ObjectController::stepBox2DWorld()
                     || static_cast<GameObjects::GameObject*> (bod2->GetUserData())->getTypeString() == "target") {
                 // Explosion at enemy
                 if(static_cast<GameObjects::Projectile*>(bod1->GetUserData())->getKillShot()) {
-                     qInfo() << "Creating enemy ";
-                    world->DestroyBody(bod1);
+                     qInfo() << "Killing enemy ";
+//                    world->DestroyBody(bod1);
                     createEnemyExplosion(static_cast<GameObjects::Projectile*>(bod1->GetUserData()));
+                }
+                else {
+                    world->DestroyBody(&static_cast<GameObjects::Projectile*>(bod1->GetUserData())->getBody());
+                    objectsOnScreen.erase(std::remove(objectsOnScreen.begin(),
+                                                      objectsOnScreen.end(),
+                                                      static_cast<GameObjects::Projectile*>(bod1->GetUserData())),
+                                            objectsOnScreen.end());
                 }
             }
         }
