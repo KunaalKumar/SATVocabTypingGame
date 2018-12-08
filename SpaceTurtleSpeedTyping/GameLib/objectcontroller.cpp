@@ -167,6 +167,7 @@ void ObjectController::findNewTargetedEnemy(char letter)
 
             if (enemy.startsWith(letter) && (distance = enemy.distanceTo(player->getPos())) < lowestDistance)
             {
+                lowestDistance = distance;
                 tempTarget = new GameObjects::TargetedEnemy(enemy);
                 index = i;
             }
@@ -469,7 +470,7 @@ void ObjectController::createImagePaths()
 void ObjectController::initBox2DWorld() {
     // TODO: Generate all enemy images
     // TODO: make gravity an instance variable
-    gravity = new b2Vec2(0, -100);
+    gravity = new b2Vec2(0, -10);
     world = new b2World(*gravity);
 //    world->SetAllowSleeping(false);
 }
@@ -493,7 +494,7 @@ void ObjectController::stepBox2DWorld()
         if(objectsOnScreen[i]->getTypeString() == "enemy" || objectsOnScreen[i]->getTypeString() == "target") {
               objectsOnScreen[i]->getBody()->ApplyLinearImpulseToCenter(
                           attractBToA(*objectsOnScreen[i]->getBody(),
-                                      *player->getBody(), 500), true);
+                                      *player->getBody(), 1000), true);
         }
         else if (objectsOnScreen[i]->getTypeString() == "projectile") {
              GameObjects::Projectile projectile = *(GameObjects::Projectile *)(objectsOnScreen[i]);
@@ -576,7 +577,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round, std::string word
 
     b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
     b2PolygonShape boxShape;
-    boxShape.SetAsBox(1, 1);
+    boxShape.SetAsBox(boxSize/4, boxSize/4);
 
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
@@ -589,7 +590,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round, std::string word
 
     // TODO: Make scale factor dynamic depending on enemy word length
     // Controls the speed of the enemy via proxy
-    enemyBody->SetGravityScale(0.02);
+    enemyBody->SetGravityScale(round * 0.2);
 
     return enemy;
 }

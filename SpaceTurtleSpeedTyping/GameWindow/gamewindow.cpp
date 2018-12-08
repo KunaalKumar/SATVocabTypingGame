@@ -6,6 +6,7 @@
 #include <iostream>
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QString>
 
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -36,8 +37,11 @@ void GameWindow::on_gameStartButton_clicked()
 
 void GameWindow::on_tutorialButton_clicked()
 {
+    QString tutorial = "Press START to start the game. \n"
+                       "Hit the enermy by spelling the word using keyboard. \n"
+                       "There are three lives total. If user miss one enermy, they will lose one lives. \n";
     qDebug() << "tutorial button pressed";
-    QMessageBox::StandardButton box = QMessageBox::information(this, "Tutorial", "This is toturial", QMessageBox::Ok, QMessageBox::NoButton);
+    QMessageBox::StandardButton box = QMessageBox::information(this, "Tutorial", tutorial, QMessageBox::Ok, QMessageBox::NoButton);
 }
 
 void GameWindow::moveHome()
