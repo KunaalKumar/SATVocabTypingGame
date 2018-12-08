@@ -423,7 +423,7 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round, std::string word
 
     b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
     b2PolygonShape boxShape;
-    boxShape.SetAsBox(1, 1);
+    boxShape.SetAsBox(boxSize/4, boxSize/4);
 
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
