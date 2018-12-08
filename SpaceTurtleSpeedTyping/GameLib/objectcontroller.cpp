@@ -265,13 +265,14 @@ void ObjectController::createEnemyExplosion(GameObjects::Projectile *projectileO
     // Remove old targeted enemy
     int index = findOldTargetedEnemy();
     GameObjects::posTuple oldTargetedEnemyPosition = objectsOnScreen[index]->getPos();
+    qDebug() << "Delete: " << index;
     delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
     // If there is an old enemy explosion, remove it
     removeOldEnemyExplosion();
     enemyExplosion = new GameObjects::Explosion(oldTargetedEnemyPosition);
-    objectsOnScreen[index] = enemyExplosion;
+    objectsOnScreen.push_back(enemyExplosion);
 
     // Remove Projectile that hit enemy
     index = findIndexOfType(GameObjects::Type::projectile, projectileObject);
@@ -345,10 +346,12 @@ int ObjectController::findOldTargetedEnemy()
             if (notNewTargetedEnemy || noTargetedEnemy)
             {
                 index = i;
+                 qDebug() << index;
                 break;
             }
         }
     }
+
     return index;
 }
 
