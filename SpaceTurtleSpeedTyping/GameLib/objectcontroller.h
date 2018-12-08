@@ -52,7 +52,9 @@ public:
     void removePlayerExplosion();
 
     int findIndexOfType(GameObjects::Type type, GameObjects::GameObject *gameObject = nullptr);
-
+    int findOldTargetedEnemy();
+    void removeOldEnemyExplosion();
+    void removeOldPlayerExplosion();
     void removeObjectAndDestroyBody(GameObjects::GameObject*obj);
 
     GameObjects::Player *player;

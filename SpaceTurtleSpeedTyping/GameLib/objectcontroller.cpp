@@ -31,12 +31,22 @@ ObjectController::~ObjectController()
     delete world;
 }
 
+/**
+ * @brief ObjectController::createPlayer
+ * Called at beginning of game
+ */
 void ObjectController::createPlayer()
 {
     player = b2MakeNewPlayer();
     objectsOnScreen.push_back(player);
 }
 
+/**
+ * @brief ObjectController::createRoundOfEnemies
+ * Called at beginning of round
+ *
+ * @param round
+ */
 void ObjectController::createRoundOfEnemies(int round)
 {
     this->round = round;
@@ -45,10 +55,15 @@ void ObjectController::createRoundOfEnemies(int round)
     stopCreatingEnemies = false;
 }
 
+/**
+ * @brief ObjectController::createEnemy
+ * Called every 100 frames if there are still enemies to be created
+ */
 void ObjectController::createEnemy()
 {
     std::string word = LoadWords::getWord();
-    if (word != "")
+    bool endOfRound = word == "";
+    if (!endOfRound)
     {
         GameObjects::Enemy *enemy = b2MakeNewEnemy(this->round, word);
         objectsOnScreen.push_back(enemy);
@@ -59,33 +74,90 @@ void ObjectController::createEnemy()
     }
 }
 
-void ObjectController::createProjectile(bool hitEnemy)
+/**
+ * @brief ObjectController::updateObjectPositions
+ *  Called every frame by GameLib
+ *  Updates everything in Box2D
+ *  Creates Enemies when needed
+ *  Removes Explosions when needed
+ */
+void ObjectController::updateObjectPositions()
 {
-    if (!hitEnemy)
-    {
-        objectsOnScreen.push_back(b2MakeNewProjectile(nullptr, false));
-    }
-    else
-    {
-        if (targetedEnemy->wasDestroyed())
-        {
-            objectsOnScreen.push_back(b2MakeNewProjectile(targetedEnemy->getBody(), true));
-            enemyExplosion = new GameObjects::Explosion(targetedEnemy->getPos());
+    stepBox2DWorld();
 
-            targetedEnemy = nullptr;
-        }
-        else
-        {
-            objectsOnScreen.push_back(b2MakeNewProjectile(targetedEnemy->getBody(), false));
-        }
+    // Create Enemy Timer
+    if (!stopCreatingEnemies && ++frameCounter == 100)
+    {
+        // TO FIX: Currently round is constant 1
+        createEnemy();
+        frameCounter = 0;
+    }
+
+    // End of enemyExplosion Timer
+    if (enemyExplosion != nullptr && enemyExplosion->getNumOfFrames() == 500)
+    {
+        removeEnemyExplosion();
+    }
+
+    // End of playerExplosion Timer
+    if (playerExplosion != nullptr && playerExplosion->getNumOfFrames() == 500)
+    {
+        removePlayerExplosion();
     }
 }
 
+/**
+ * @brief ObjectController::letterTyped
+ * Called from Gamelib when letter is typed on fronted
+ * Targets new enemy || checks if letter typed is correct on target
+ *
+ * @param letter
+ * @return Whether enemy was hit
+ */
+bool ObjectController::letterTyped(char letter)
+{
+    bool noCurrentTargetedEnemy = targetedEnemy == nullptr;
+    if (noCurrentTargetedEnemy)
+    {
+        findNewTargetedEnemy(letter);
+
+        bool hit = false;
+        bool foundTargetEnemy = targetedEnemy != nullptr;
+        if (foundTargetEnemy)
+        {
+            targetedEnemy->shoot(letter);
+        }
+
+        createProjectile(hit);
+        return foundTargetEnemy;
+    }
+    else
+    {
+        bool hit = targetedEnemy->shoot(letter);
+        createProjectile(true);
+        if (!hit)
+        {
+            targetedEnemy->resetWord();
+        }
+        return hit;
+    }
+}
+
+
+/**
+ * @brief ObjectController::findNewTargetedEnemy
+ * Called inside letterTyped() when there is no targetedEnemy
+ * Sets targetedEnemy and adds to objectsOnScreen if the letter == an enemy's first letter
+ *
+ * @param letter
+ */
 void ObjectController::findNewTargetedEnemy(char letter)
 {
     double lowestDistance = DBL_MAX;
     unsigned int index = 0;
     GameObjects::TargetedEnemy *tempTarget = nullptr;
+
+    // Finds the closest enemy with letter == enemy's firstLetter
     for (unsigned int i = 0; i < objectsOnScreen.size(); i++)
     {
         if (objectsOnScreen[i]->isOfType(GameObjects::Type::enemy))
@@ -101,63 +173,77 @@ void ObjectController::findNewTargetedEnemy(char letter)
         }
     }
 
-    if (tempTarget != nullptr)
+    bool foundNewTarget = tempTarget != nullptr;
+    if (foundNewTarget)
     {
         targetedEnemy = tempTarget;
         objectsOnScreen[index] = targetedEnemy;
     }
 }
 
-bool ObjectController::letterTyped(char letter)
+/**
+ * @brief ObjectController::createProjectile
+ * Called when correct letter is typed inside oc.letterTyped()
+ *
+ * @param hitEnemy
+ */
+void ObjectController::createProjectile(bool hitEnemy)
 {
-    bool noTargetedEnemy = targetedEnemy == nullptr;
-    if (noTargetedEnemy)
+    if (!hitEnemy)
     {
-        findNewTargetedEnemy(letter);
-
-        bool hit = false;
-        bool foundTargetEnemy = targetedEnemy != nullptr;
-        if (foundTargetEnemy)
-        {
-            hit = targetedEnemy->shoot(letter);
-            if (!hit)
-            {
-                targetedEnemy->resetWord();
-            }
-        }
-
-        createProjectile(hit);
-        return hit;
+        // make miss projectile
+        objectsOnScreen.push_back(b2MakeNewProjectile(nullptr, false));
     }
     else
     {
-        bool hit = targetedEnemy->shoot(letter);
-        createProjectile(true);
-        if (!hit)
+        // create killshot projectile
+        if (targetedEnemy->wasDestroyed())
         {
-            targetedEnemy->resetWord();
+            objectsOnScreen.push_back(b2MakeNewProjectile(targetedEnemy->getBody(), true));
+
+            // reset targetedEnemy so you can find new one
+            // not removed from objectsOnScreen because frontend will still need to display until hit by projectile
+            targetedEnemy = nullptr;
         }
-        return hit;
+        else
+        {
+            // create hit projectile (not a kill)
+            objectsOnScreen.push_back(b2MakeNewProjectile(targetedEnemy->getBody(), false));
+        }
     }
 }
 
+/**
+ * @brief ObjectController::createPlayerExplosion
+ * Called when b2d detects an enemy hit player
+ *
+ * @param enemyObject : enemy that hit player
+ */
 void ObjectController::createPlayerExplosion(GameObjects::GameObject *enemyObject)
 {
+    // remove Enemy that hits player
     for(int i = 0 ; i < objectsOnScreen.size(); i++) {
         if(objectsOnScreen[i] == enemyObject) {
             objectsOnScreen.erase(objectsOnScreen.begin() + i);
             break;
         }
     }
+    // remove targeted enemy if it was the enemy
     if (enemyObject == targetedEnemy)
     {
         targetedEnemy = nullptr;
     }
 
+    // If there is an old player explosion, remove it
+    removeOldPlayerExplosion();
     playerExplosion = new GameObjects::Explosion(player->getPos());
     objectsOnScreen.push_back(playerExplosion);
 }
 
+/**
+ * @brief ObjectController::removePlayerExplosion
+ * Called when player explosion has been on screen 500 frames
+ */
 void ObjectController::removePlayerExplosion()
 {
     int index = findIndexOfType(GameObjects::Type::explosion, playerExplosion);
@@ -167,18 +253,36 @@ void ObjectController::removePlayerExplosion()
     playerExplosion = nullptr;
 }
 
+/**
+ * @brief ObjectController::createEnemyExplosion
+ * Called when b2d detects an projectile hit enemy
+ *
+ * @param projectileObject : projectile that hit enemy
+ */
 void ObjectController::createEnemyExplosion(GameObjects::Projectile *projectileObject)
 {
-    int index = findIndexOfType(GameObjects::Type::targetedEnemy);
-    delete objectsOnScreen[index];
-    objectsOnScreen[index] = enemyExplosion;
-
-    index = findIndexOfType(GameObjects::Type::projectile, projectileObject);
+    // Remove old targeted enemy
+    int index = findOldTargetedEnemy();
+    GameObjects::posTuple oldTargetedEnemyPosition = objectsOnScreen[index]->getPos();
     delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
+    // If there is an old enemy explosion, remove it
+    removeOldEnemyExplosion();
+    enemyExplosion = new GameObjects::Explosion(oldTargetedEnemyPosition);
+    objectsOnScreen[index] = enemyExplosion;
+
+    // Remove Projectile that hit enemy
+    index = findIndexOfType(GameObjects::Type::projectile, projectileObject);
+    delete objectsOnScreen[index];
+    objectsOnScreen.erase(objectsOnScreen.begin() + index);
 }
 
+/**
+ * @brief ObjectController::removeEnemyExplosion
+ * Called when enemy explosion has been on screen 500 frames
+ *
+ */
 void ObjectController::removeEnemyExplosion()
 {
     int index = findIndexOfType(GameObjects::Type::explosion, enemyExplosion);
@@ -188,31 +292,15 @@ void ObjectController::removeEnemyExplosion()
     enemyExplosion = nullptr;
 }
 
-void ObjectController::updateObjectPositions()
-{
-    stepBox2DWorld();
-
-    // Create Enemy Timer
-    if (!stopCreatingEnemies && ++frameCounter == 100)
-    {
-        // TO FIX: Currently round is constant 1
-        createEnemy();
-        frameCounter = 0;
-    }
-
-    // End of enemyExplosion Timer
-    if (enemyExplosion != nullptr && enemyExplosion->getNumOfFrames() == 100)
-    {
-        removeEnemyExplosion();
-    }
-
-    // End of playerExplosion Timer
-    if (playerExplosion != nullptr && playerExplosion->getNumOfFrames() == 500)
-    {
-        removePlayerExplosion();
-    }
-}
-
+/**
+ * @brief ObjectController::findIndexOfType
+ * Finds the index of given type
+ * If only type is passed in then finds first instance
+ *
+ * @param type
+ * @param gameObject : default to nullptr
+ * @return
+ */
 int ObjectController::findIndexOfType(GameObjects::Type type, GameObjects::GameObject *gameObject)
 {
     int index = -1;
@@ -234,6 +322,71 @@ int ObjectController::findIndexOfType(GameObjects::Type type, GameObjects::GameO
     return index;
 }
 
+/**
+ * @brief ObjectController::findOldTargetedEnemy
+ * Called by createEnemyExplosion
+ * Instance of targetedEnemy may have changed if a new letter was typed
+ * The object would be left in objectsOnScreen to display until the projectile collides with the enemy
+ *
+ * @return : -1 if no old targeted, index of old target otherwise
+ */
+int ObjectController::findOldTargetedEnemy()
+{
+    int index = -1;
+    for (unsigned int i = 0; i < objectsOnScreen.size(); i ++)
+    {
+        GameObjects::GameObject *object = static_cast<GameObjects::GameObject *>(objectsOnScreen[i]);
+        if (object->isOfType(GameObjects::Type::targetedEnemy))
+        {
+            bool noTargetedEnemy = targetedEnemy == nullptr;
+            bool notNewTargetedEnemy = !noTargetedEnemy && targetedEnemy != object;
+
+            if (notNewTargetedEnemy || noTargetedEnemy)
+            {
+                index = i;
+                break;
+            }
+        }
+    }
+    return index;
+}
+
+/**
+ * @brief ObjectController::removeOldEnemyExplosion
+ * Called by createEnemyExplosion
+ * Removes explosion if there is an old one
+ */
+void ObjectController::removeOldEnemyExplosion()
+{
+    if (enemyExplosion != nullptr)
+    {
+        int index = findIndexOfType(GameObjects::Type::explosion, enemyExplosion);
+        delete objectsOnScreen[index];
+        objectsOnScreen.erase(objectsOnScreen.begin() + index);
+    }
+}
+
+/**
+ * @brief ObjectController::removeOldPlayerExplosion
+ * Called by createPlayerExplosion
+ * Removes explosion if there is an old one
+ */
+void ObjectController::removeOldPlayerExplosion()
+{
+    if (playerExplosion != nullptr)
+    {
+        int index = findIndexOfType(GameObjects::Type::explosion, playerExplosion);
+        delete objectsOnScreen[index];
+        objectsOnScreen.erase(objectsOnScreen.begin() + index);
+    }
+}
+
+/**
+ * @brief ObjectController::removeObjectAndDestroyBody
+ * Called when projectile is not a killshot
+ *
+ * @param obj
+ */
 void ObjectController::removeObjectAndDestroyBody(GameObjects::GameObject *obj)
 {
     if(obj->getBody() != nullptr) {
