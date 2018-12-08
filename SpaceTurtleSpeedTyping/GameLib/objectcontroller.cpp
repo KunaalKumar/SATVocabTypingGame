@@ -475,34 +475,22 @@ void ObjectController::initBox2DWorld() {
 //    world->SetAllowSleeping(false);
 }
 
-b2Vec2 ObjectController::attractBToA(b2Body &bodyA, b2Body &bodyB, int mass)
-{
-    b2Vec2 posA = bodyA.GetWorldCenter();
-    b2Vec2 posB = bodyB.GetWorldCenter();
-    b2Vec2 force = posA - posB;
-    float distance = force.Length();
-    force.Normalize();
-    float strength = (gravity->y * bodyA.GetMass() * bodyA.GetGravityScale() * mass) / (distance * distance);
-    force.operator*=(strength);
-    return force;
-}
-
 void ObjectController::stepBox2DWorld()
 {
 
     for(int i = 0; i < objectsOnScreen.size(); i++) {
         if(objectsOnScreen[i]->getTypeString() == "enemy" || objectsOnScreen[i]->getTypeString() == "target") {
+            b2Vec2 force = player->getBody()->GetPosition() - objectsOnScreen[i]->getBody()->GetPosition();
               objectsOnScreen[i]->getBody()->ApplyLinearImpulseToCenter(
-                          attractBToA(*objectsOnScreen[i]->getBody(),
-                                      *player->getBody(), 1000), true);
+                        force , true);
         }
         else if (objectsOnScreen[i]->getTypeString() == "projectile") {
              GameObjects::Projectile *projectile = (GameObjects::Projectile *)(objectsOnScreen[i]);
 
              if(projectile->getTargetBody() != nullptr) {
+                 b2Vec2 force = projectile->getTargetBody()->GetPosition() - projectile->getBody()->GetPosition();
                  projectile->getBody()->ApplyLinearImpulseToCenter(
-                             attractBToA(*projectile->getBody(),
-                                         *projectile->getTargetBody(), 10000), true);
+                             force, true);
              }
              else if(projectile->getBody()->GetPosition().y < -windowSizeY){
                  removeObjectAndDestroyBody(projectile);

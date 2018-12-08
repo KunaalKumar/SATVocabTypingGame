@@ -88,14 +88,6 @@ public:
     int32 positionIterations = 3;
 
     /**
-     * @brief attractBToA - attracts body B to body Agigggg
-     * @param bodyA
-     * @param bodyB
-     * @return - vector to apply
-     */
-    b2Vec2 attractBToA(b2Body &bodyA, b2Body &bodyB, int mass);
-
-    /**
      * @brief stepBox2DWorld - increments box2d world and checks for collisions
      */
     void stepBox2DWorld();
