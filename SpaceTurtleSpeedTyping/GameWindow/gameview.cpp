@@ -48,6 +48,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         //std::string type = obj->getTypeString();
         // use obj to determine what type of obj it is and
         // update their pos, image...etc
+
         sprite_texture.setSmooth(true);
         if (obj->isOfType(GameObjects::Type::player))
         {
@@ -63,7 +64,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         }
         else if (obj->isOfType(GameObjects::Type::enemy))
         {
-            GameObjects::Enemy* enemy = (GameObjects::Enemy*) obj;
+            GameObjects::Enemy* enemy = static_cast<GameObjects::Enemy*>(obj);
             //qDebug()<< "enemy made";
             sf::Sprite sprite;
             sf::Text text;
@@ -79,24 +80,27 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
             sprite.scale(6.f,6.f);
-            //sprite.setColor(sf::Color::Red);
             texture.draw(sprite);
             text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+48);
             texture.draw(text);
         }
         else if (obj->isOfType(GameObjects::Type::targetedEnemy))
         {
-            GameObjects::TargetedEnemy* target = (GameObjects::TargetedEnemy*) obj;
+            GameObjects::TargetedEnemy* target = static_cast<GameObjects::TargetedEnemy*>(obj);
             sf::Sprite sprite;
             sf::Text text;
             text.setFont(font);
-            text.setCharacterSize(18);
+            text.setCharacterSize(24);
             std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size()-1);
             text.setString(targetText);
-            text.setFillColor(sf::Color::White);
+            text.setFillColor(sf::Color::Yellow);
 
             sprite_texture.loadFromFile(obj->getImage());
             font.loadFromFile("../src/Fonts/PTZ56F.ttf");
+//            sf::FloatRect backgroundRect = text.getLocalBounds();
+//            sf::RectangleShape background(sf::Vector2f(backgroundRect.width, backgroundRect.height+10));
+//            background.setFillColor(sf::Color::Magenta);
+
 
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
@@ -104,6 +108,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sprite.scale(6.f,6.f);
             text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+48);
             texture.draw(sprite);
+            //texture.draw(background, text.getTransform());
             texture.draw(text);
         }
         else if (obj->isOfType(GameObjects::Type::projectile))
@@ -132,7 +137,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 
 void GameView::updatePlayerHealth(GameObjects::GameObject * obj)
 {
-    GameObjects::Player *player = (GameObjects::Player *) obj;
+    GameObjects::Player *player =  static_cast<GameObjects::Player*>(obj);
     sf::Text text;
     text.setFont(font);
     text.setCharacterSize(18);
@@ -146,7 +151,7 @@ void GameView::updatePlayerHealth(GameObjects::GameObject * obj)
     text.setPosition(500,50);
     texture.draw(text);
 
-    for (unsigned int i = 0; i < player->getHealth(); i++)
+    for (int i = 0; i < player->getHealth(); i++)
     {
         sf::Sprite heart;
         sprite_heart.loadFromFile("../src/Images/full_heart.png");
