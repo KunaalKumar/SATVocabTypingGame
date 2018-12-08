@@ -72,13 +72,11 @@ void ObjectController::createProjectile(bool hitEnemy)
             objectsOnScreen.push_back(b2MakeNewProjectile(&targetedEnemy->getBody(), true));
             enemyExplosion = new GameObjects::Explosion(targetedEnemy->getPos());
 
-            delete targetedEnemy;
             targetedEnemy = nullptr;
         }
         else
         {
             objectsOnScreen.push_back(b2MakeNewProjectile(&targetedEnemy->getBody(), false));
-
         }
     }
 }
@@ -150,6 +148,10 @@ void ObjectController::createPlayerExplosion(GameObjects::GameObject *enemyObjec
             objectsOnScreen.erase(objectsOnScreen.begin() + i);
             break;
         }
+    }
+    if (enemyObject == targetedEnemy)
+    {
+        targetedEnemy = nullptr;
     }
 
     playerExplosion = new GameObjects::Explosion(player->getPos());
