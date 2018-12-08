@@ -98,6 +98,14 @@ public:
     void initBox2DWorld();
 
     /**
+     * @brief attractBToA - attracts body B to body Agigggg
+     * @param bodyA
+     * @param bodyB
+     * @return - vector to apply
+     */
+    b2Vec2 attractBToA(b2Body &bodyA, b2Body &bodyB, int mass);
+
+    /**
      * @brief b2MakeNewEnemy - Adds new enemy body into b2World and returns a pointer to it
      * @param round - number of current round
      * @return
