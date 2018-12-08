@@ -6,12 +6,8 @@
 
 SpriteGenerator::SpriteGenerator() {}
 
-SpriteGenerator::SpriteGenerator(QString folderPath, QString ssFolder, QString msFolder, QString lsFolder, QString vlsFolder)
-    : structureFolderPath(folderPath),
-      smallSpritesFolder(ssFolder),
-      mediumSpritesFolder(msFolder),
-      largeSpritesFolder(lsFolder),
-      veryLargeSpritesFolder(vlsFolder)
+SpriteGenerator::SpriteGenerator(QString folderPath)
+    : structureFolderPath(folderPath)
 {
     getAllSpriteStructures();
 }
@@ -52,6 +48,9 @@ QImage SpriteGenerator::generatreNewSprite(SpriteSize ss)
         }
         else {throw "No very large sprite strucutres exists!";}
         break;
+    case SpriteSize::modular:
+        shipStructure = getModularSprite();
+        break;
 
     default:
         throw "Sprite size given to generateNewSprite was invalid!";
@@ -63,14 +62,14 @@ QImage SpriteGenerator::generatreNewSprite(SpriteSize ss)
 QImage SpriteGenerator::setAllRegionColors(SpriteStructure shipStructure)
 {
     shipStructure.image.fill(Qt::transparent);
-    for (CoordinateList region : shipStructure.regions)
+    for (auto regionIter = shipStructure.regions.begin(); regionIter != shipStructure.regions.end(); regionIter++)
     {
         int red = rand() % 255;
         int blue = rand() % 255;
         int green = rand() % 255;
         QColor color(red, blue, green);
 
-        setRegionColor(region, shipStructure, color);
+        setRegionColor(regionIter->second, shipStructure, color);
     }
 
     return shipStructure.image;
@@ -82,7 +81,62 @@ void SpriteGenerator::setRegionColor(CoordinateList region, SpriteStructure& ss,
     {
         ss.image.setPixelColor(coordinate.x, coordinate.y, color);
     }
+}
 
+SpriteStructure SpriteGenerator::getModularSprite()
+{
+    SpriteStructure spriteTop;
+    SpriteStructure spriteMiddle;
+    SpriteStructure spriteBottom;
+
+    bool evenOrOdd = rand() % 2;
+
+    if (evenOrOdd)
+    {
+        spriteTop    = modularTopEven[rand() % modularTopEven.size()];
+        spriteMiddle = modularMiddleEven[rand() % modularMiddleEven.size()];
+        spriteBottom = modularBottomEven[rand() % modularBottomEven.size()];
+    }
+    else
+    {
+        spriteTop    = modularTopOdd[rand() % modularTopOdd.size()];
+        spriteMiddle = modularMiddleOdd[rand() % modularMiddleOdd.size()];
+        spriteBottom = modularBottomOdd[rand() % modularBottomOdd.size()];
+    }
+
+    return constructModularSprite(evenOrOdd, spriteTop, spriteMiddle, spriteBottom);
+}
+
+SpriteStructure SpriteGenerator::constructModularSprite(bool evenOrOdd, SpriteStructure top, SpriteStructure middle, SpriteStructure bottom)
+{
+    std::map<QString, CoordinateList> regions;
+    for (auto topIter = top.regions.begin(); topIter != top.regions.end(); topIter++)
+    {
+        for (Coordinate c : topIter->second)
+        {
+            regions[topIter->first].push_back(c);
+        }
+    }
+
+    for (auto middleIter = middle.regions.begin(); middleIter != middle.regions.end(); middleIter++)
+    {
+        for (Coordinate c : middleIter->second)
+        {
+            evenOrOdd ? c.oddOffsetMiddle() : c.oddOffsetMiddle();
+            regions[middleIter->first].push_back(c);
+        }
+    }
+
+    for (auto bottomIter = bottom.regions.begin(); bottomIter != bottom.regions.end(); bottomIter++)
+    {
+        for (Coordinate c : bottomIter->second)
+        {
+            evenOrOdd ? c.evenOffsetBottom() : c.oddOffsetBottom();
+            regions[bottomIter->first].push_back(c);
+        }
+    }
+
+    return SpriteStructure(top.size, top.size * 3, regions);
 }
 
 void SpriteGenerator::getAllSpriteStructures()
@@ -91,6 +145,14 @@ void SpriteGenerator::getAllSpriteStructures()
     mediumSprites = getSpriteStructuresFromFolder(structureFolderPath + mediumSpritesFolder);
     largeSprites = getSpriteStructuresFromFolder(structureFolderPath + largeSpritesFolder);
     veryLargeSprites = getSpriteStructuresFromFolder(structureFolderPath + veryLargeSpritesFolder);
+
+    modularTopOdd = getSpriteStructuresFromFolder(structureFolderPath + modularTopOddFolder);
+    modularMiddleOdd = getSpriteStructuresFromFolder(structureFolderPath + modularMiddleOddFolder);
+    modularBottomOdd = getSpriteStructuresFromFolder(structureFolderPath + modularBottomOddFolder);
+
+    modularTopEven = getSpriteStructuresFromFolder(structureFolderPath + modularTopEvenFolder);
+    modularMiddleEven = getSpriteStructuresFromFolder(structureFolderPath + modularMiddleEvenFolder);
+    modularBottomEven = getSpriteStructuresFromFolder(structureFolderPath + modularBottomEvenFolder);
 }
 
 std::vector<SpriteStructure> SpriteGenerator::getSpriteStructuresFromFolder(QString folderPath)
@@ -112,7 +174,7 @@ std::vector<SpriteStructure> SpriteGenerator::getSpriteStructuresFromFolder(QStr
 
 SpriteStructure SpriteGenerator::getSpriteStructureFromFile(QString filePath)
 {
-    std::vector<CoordinateList> regions;
+    std::map<QString, CoordinateList> regions;
 
     QFile loadFile(filePath);
     loadFile.open((QIODevice::ReadOnly | QIODevice::Text));
@@ -138,8 +200,8 @@ SpriteStructure SpriteGenerator::getSpriteStructureFromFile(QString filePath)
             Coordinate c(coordPair);
             region.push_back(c);
         }
-        regions.push_back(region);
+        regions[colorString] = region;
     }
-    return SpriteStructure(static_cast<SpriteSize>(imageSize), regions);
+    return SpriteStructure(imageSize, imageSize, regions);
 }
 
