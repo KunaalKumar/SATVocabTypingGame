@@ -72,7 +72,7 @@ void ObjectController::createProjectile(bool hitEnemy)
             objectsOnScreen.push_back(b2MakeNewProjectile(&targetedEnemy->getBody(), true));
             enemyExplosion = new GameObjects::Explosion(targetedEnemy->getPos());
 
-            //delete targetedEnemy;
+            delete targetedEnemy;
             targetedEnemy = nullptr;
         }
         else
@@ -86,7 +86,7 @@ void ObjectController::createProjectile(bool hitEnemy)
 void ObjectController::findNewTargetedEnemy(char letter)
 {
     double lowestDistance = DBL_MAX;
-    int index = 0;
+    unsigned int index = 0;
     GameObjects::TargetedEnemy *tempTarget = nullptr;
     for (unsigned int i = 0; i < objectsOnScreen.size(); i++)
     {
@@ -160,8 +160,10 @@ void ObjectController::createPlayerExplosion(GameObjects::GameObject *enemyObjec
 void ObjectController::removePlayerExplosion()
 {
     int index = findIndexOfType(GameObjects::Type::explosion, playerExplosion);
+    world->DestroyBody(&objectsOnScreen[index]->getBody());
     delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
+
     delete playerExplosion;
     playerExplosion = nullptr;
 }
@@ -169,10 +171,12 @@ void ObjectController::removePlayerExplosion()
 void ObjectController::createEnemyExplosion(GameObjects::Projectile *projectileObject)
 {
     int index = findIndexOfType(GameObjects::Type::targetedEnemy);
+    world->DestroyBody(&objectsOnScreen[index]->getBody());
     delete objectsOnScreen[index];
     objectsOnScreen[index] = enemyExplosion;
 
     index = findIndexOfType(GameObjects::Type::projectile, projectileObject);
+    world->DestroyBody(&objectsOnScreen[index]->getBody());
     delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
@@ -180,7 +184,8 @@ void ObjectController::createEnemyExplosion(GameObjects::Projectile *projectileO
 
 void ObjectController::removeEnemyExplosion()
 {
-    unsigned int index = findIndexOfType(GameObjects::Type::explosion, enemyExplosion);
+    int index = findIndexOfType(GameObjects::Type::explosion, enemyExplosion);
+    world->DestroyBody(&objectsOnScreen[index]->getBody());
     delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
