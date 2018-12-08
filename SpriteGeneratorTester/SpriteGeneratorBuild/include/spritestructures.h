@@ -23,31 +23,36 @@ struct Coordinate
         this->x = xString.toInt();
         this->y = yString.toInt();
     }
+    void oddOffsetMiddle() { y += 8; }
+    void evenOffsetMiddle() { y += 7; }
+    void oddOffsetBottom() { y += 16; }
+    void evenOffsetBottom() { y += 14; }
 };
 
 using CoordinateList = std::vector<Coordinate>;
 
 enum SpriteSize
 {
-    small = 8,
-    medium = 16,
-    large = 32,
-    veryLarge = 64
+    small = 16,
+    medium = 24,
+    large = 48,
+    veryLarge = 64,
+    modular = -1
 };
 
 struct SpriteStructure
 {
     QImage image;
-    std::vector<CoordinateList> regions;
-    SpriteSize size;
+    std::map<QString, CoordinateList> regions;
+    int size;
 
     SpriteStructure() {};
     \
-    SpriteStructure(SpriteSize ss, std::vector<CoordinateList> regionVec)
+    SpriteStructure(int sizeX, int sizeY, std::map<QString, CoordinateList> regions)
     {
-        image= QImage(ss, ss, QImage::Format_ARGB32);
-        size = ss;
-        regions = regionVec;
+        this->size = sizeX;
+        image = QImage(sizeX, sizeY, QImage::Format_ARGB32);
+        this->regions = regions;
     }
 };
 

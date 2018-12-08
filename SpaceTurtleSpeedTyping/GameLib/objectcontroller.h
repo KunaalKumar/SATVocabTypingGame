@@ -80,7 +80,9 @@ public:
     // Player Body Definition
     b2BodyDef playerBodyDef;
     // TODO: Sync timeStep with front end update rate
-    float32 timeStep = 1.0f / 60.0f;
+    // Frontend - 17 ms
+    // Backend  - 1/60 - 16.6 ms
+    float32 timeStep = 17.0f / 1000.0f;
     int32 velocityIterations = 6;
     int32 positionIterations = 3;
 

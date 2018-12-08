@@ -76,6 +76,19 @@
      <string>Generate Very Large Sprite</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="modularSpriteButton">
+    <property name="geometry">
+     <rect>
+      <x>19</x>
+      <y>160</y>
+      <width>161</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Generate Modular Sprite</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
