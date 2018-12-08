@@ -163,7 +163,7 @@ void ObjectController::findNewTargetedEnemy(char letter)
         if (objectsOnScreen[i]->isOfType(GameObjects::Type::enemy))
         {
             GameObjects::Enemy enemy = *(static_cast<GameObjects::Enemy *>(objectsOnScreen[i]));
-            double distance;
+            double distance = 0.0;
 
             if (enemy.startsWith(letter) && (distance = enemy.distanceTo(player->getPos())) < lowestDistance)
             {

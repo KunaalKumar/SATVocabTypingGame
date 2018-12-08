@@ -181,7 +181,7 @@ void GameView::startGame()
     lib->startRound();
     texture.create(720, 800);
     fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
-    timer->start(17);
+    timer->start(10);
 }
 
 void GameView::fire(float x1, float y1, float x2, float y2)
