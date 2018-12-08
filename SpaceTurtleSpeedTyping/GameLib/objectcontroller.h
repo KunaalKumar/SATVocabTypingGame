@@ -13,6 +13,7 @@
 #include <string>
 #include <float.h>
 #include <vector>
+#include <QDebug>
 
 class ObjectController
 {
@@ -78,7 +79,7 @@ public:
     // TODO: Sync timeStep with front end update rate
     // Frontend - 17 ms
     // Backend  - 1/60 - 16.6 ms
-    float32 timeStep = 17.0f / 1000.0f;
+    float32 timeStep = 1.0f/60.0f;
     int32 velocityIterations = 6;
     int32 positionIterations = 3;
 
@@ -119,6 +120,22 @@ public:
      * @return - projectile object
      */
     GameObjects::Projectile *b2MakeNewProjectile(b2Body *targetBody, bool killShot);
+
+    class MyContactListener : public b2ContactListener
+    {
+    public:
+     void BeginContact(b2Contact* contact)
+     {
+         qInfo() << "Something";
+         /* handle begin event */ }
+     void EndContact(b2Contact* contact)
+     { /* handle end event */ qInfo() << "Something";}
+     void PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
+     { /* handle pre-solve event */ qInfo() << "Something";}
+     void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
+     { /* handle post-solve event */ qInfo() << "Something";}
+    };
+
 };
 
 #endif // OBJECTCONTROLLER_H
