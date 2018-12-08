@@ -446,7 +446,7 @@ GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body *targetBod
     b2BodyDef enemyBodyDef;
     enemyBodyDef.type = b2_dynamicBody;
 
-    enemyBodyDef.position.Set(std::get<0>(player->getPos()),std::get<1>(player->getPos()));
+    enemyBodyDef.position.Set(std::get<0>(player->getPos())/4,-std::get<1>(player->getPos())/4);
 
     b2Body *projectileBody = world->CreateBody(&enemyBodyDef);
     b2PolygonShape boxShape;
@@ -457,6 +457,7 @@ GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body *targetBod
     boxFixtureDef.density = 1;
 
     GameObjects::Projectile *projectile;
+
 
     projectile = new GameObjects::Projectile({enemyBodyDef.position.x, enemyBodyDef.position.y},
                                                                           *projectileBody, targetBody, killShot);
