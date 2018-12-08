@@ -164,7 +164,8 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sprite_heart.setSmooth(true);
 
             sprite.setTexture(sprite_texture);
-            sprite.setPosition(std::get<0>(obj->getPos(false)), std::get<1>(obj->getPos(false)));
+            GameObjects::Explosion *explosion = static_cast<GameObjects::Explosion*>(obj);
+            sprite.setPosition(std::get<0>(explosion->getPos()), std::get<1>(explosion->getPos()));
             texture.draw(sprite);
         }
 

@@ -42,12 +42,9 @@ namespace GameObjects
 
 //            }
 
-            posTuple getPos(bool update = true)
+            posTuple getPos()
             {
-                if (update == true)
-                {
-                   updatePos();
-                }
+                updatePos();
                 // TODO: Convert using window size to QtWindow coordinates
                 return {posX, posY};
             }

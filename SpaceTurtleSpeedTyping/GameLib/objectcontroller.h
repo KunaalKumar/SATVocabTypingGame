@@ -36,22 +36,26 @@ public:
  private:
     int windowSizeX;
     int windowSizeY;
+    int round;
 
     void createPlayer();
-    void createEnemy(int round);
+    void createEnemy();
     void createProjectile(bool hitEnemy);
-    void createExplosion();
+    void createPlayerExplosion();
+    void createEnemyExplosion();
 
     // shoot closest enemy with starting letter = letter
     void findNewTargetedEnemy(char letter);
 
-    void removeExplosion();
+    void removeEnemyExplosion();
+    void removePlayerExplosion();
 
-    unsigned int findIndexOfType(GameObjects::Type type);
+    int findIndexOfType(GameObjects::Type type, GameObjects::GameObject *gameObject = nullptr);
 
     GameObjects::Player *player;
     GameObjects::TargetedEnemy *targetedEnemy;
-    GameObjects::Explosion *explosion;
+    GameObjects::Explosion *enemyExplosion;
+    GameObjects::Explosion *playerExplosion;
     std::vector<GameObjects::GameObject*> objectsOnScreen;
 
     int frameCounter;
