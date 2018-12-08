@@ -338,7 +338,6 @@ void ObjectController::stepBox2DWorld()
         else if (objectsOnScreen[i]->getTypeString() == "projectile") {
              GameObjects::Projectile projectile = *(static_cast<GameObjects::Projectile *>(objectsOnScreen[i]));
              if(projectile.getTargetBody() != nullptr) {
-                 qInfo() << projectile.getTargetBody()->GetPosition().x << " " << projectile.getTargetBody()->GetPosition().y;
                  projectile.getBody().ApplyLinearImpulseToCenter(
                              attractBToA(projectile.getBody(),
                                          *projectile.getTargetBody(), 10000), true);
@@ -429,7 +428,7 @@ GameObjects::Player *ObjectController::b2MakeNewPlayer()
 
     b2Body *playerBody = world->CreateBody(&playerBodyDef);
     b2PolygonShape boxShape;
-    boxShape.SetAsBox(0, 0);
+    boxShape.SetAsBox(10, 10);
 
     b2FixtureDef boxFixtureDef;
     boxFixtureDef.shape = &boxShape;
