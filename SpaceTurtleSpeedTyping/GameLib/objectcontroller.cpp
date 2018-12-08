@@ -147,7 +147,6 @@ void ObjectController::createPlayerExplosion(GameObjects::GameObject *enemyObjec
 {
     for(int i = 0 ; i < objectsOnScreen.size(); i++) {
         if(objectsOnScreen[i] == enemyObject) {
-            world->DestroyBody(&objectsOnScreen[i]->getBody());
             objectsOnScreen.erase(objectsOnScreen.begin() + i);
             break;
         }
@@ -363,28 +362,31 @@ void ObjectController::stepBox2DWorld()
         // 2) enemy -- player
         // 3) projectile -- enemy
         // 4) player -- enemy
-
-        if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "enemy") {
+        if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "enemy"
+                || static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "target") {
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "projectile") {
                 // Explosion at enemy
                 if(static_cast<GameObjects::Projectile*>(bod2->GetUserData())->getKillShot()) {
+                    world->DestroyBody(bod2);
                     createEnemyExplosion(static_cast<GameObjects::Projectile*>(bod2->GetUserData()));
                 }
             }
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "player") {
                 // Explosion at player
+                world->DestroyBody(bod1);
                 createPlayerExplosion(static_cast<GameObjects::GameObject*> (bod1->GetUserData()));
             }
         }
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "projectile") {
                 // Explosion at enemy
                 if(static_cast<GameObjects::Projectile*>(bod1->GetUserData())->getKillShot()) {
+                    world->DestroyBody(bod1);
                     createEnemyExplosion(static_cast<GameObjects::Projectile*>(bod1->GetUserData()));
                 }
         }
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "player") {
-//                 world->DestroyBody(bod1);
                 // Explosion at player
+                 world->DestroyBody(bod2);
                  createPlayerExplosion(static_cast<GameObjects::GameObject*> (bod2->GetUserData()));
         }
     }
