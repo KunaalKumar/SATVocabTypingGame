@@ -147,8 +147,8 @@ void ObjectController::createPlayerExplosion(GameObjects::GameObject *enemyObjec
 {
     for(int i = 0 ; i < objectsOnScreen.size(); i++) {
         if(objectsOnScreen[i] == enemyObject) {
-            objectsOnScreen.erase(objectsOnScreen.begin() + i);
             world->DestroyBody(&objectsOnScreen[i]->getBody());
+            objectsOnScreen.erase(objectsOnScreen.begin() + i);
             break;
         }
     }
