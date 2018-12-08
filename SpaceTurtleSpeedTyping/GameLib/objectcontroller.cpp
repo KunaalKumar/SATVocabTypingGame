@@ -469,6 +469,8 @@ GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body *targetBod
     boxFixtureDef.density = 1;
     boxFixtureDef.friction = 0;
 
+    boxFixtureDef.isSensor = true;
+
     projectileBody->CreateFixture(&boxFixtureDef);
 
     projectileBody->SetBullet(true);
