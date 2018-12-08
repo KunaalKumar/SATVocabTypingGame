@@ -312,11 +312,6 @@ void ObjectController::initBox2DWorld() {
     // TODO: make gravity an instance variable
     gravity = new b2Vec2(0, -100);
     world = new b2World(*gravity);
-
-    // Initializing body defs
-    enemyBodyDef.type = b2_dynamicBody;
-
-    playerBodyDef.type = b2_staticBody;
 }
 
 b2Vec2 ObjectController::attractBToA(b2Body &bodyA, b2Body &bodyB)
@@ -399,6 +394,8 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round, std::string word
     std::string imagePath = imagePaths.at(enemyImagePathIndex++);
 
     int boxSize = GameObjects::Enemy::getSize(word.size());
+    b2BodyDef enemyBodyDef;
+    enemyBodyDef.type = b2_dynamicBody;
     enemyBodyDef.position.Set((rand() % (int)windowSizeX), 0);
 
     b2Body *enemyBody = world->CreateBody(&enemyBodyDef);
@@ -423,6 +420,9 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round, std::string word
 
 GameObjects::Player *ObjectController::b2MakeNewPlayer()
 {
+    b2BodyDef playerBodyDef;
+    playerBodyDef.type = b2_staticBody;
+
     // Player position - 10% up from the bottom and in the middle of the screen
     playerBodyDef.position.Set((windowSizeX/2), -(0.9*windowSizeY));
 
@@ -445,9 +445,12 @@ GameObjects::Player *ObjectController::b2MakeNewPlayer()
 
 GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body *targetBody, bool killShot)
 {
-    playerBodyDef.position.Set(std::get<0>(player->getPos()),std::get<1>(player->getPos()));
+    b2BodyDef enemyBodyDef;
+    enemyBodyDef.type = b2_dynamicBody;
 
-    b2Body *projectileBody = world->CreateBody(&playerBodyDef);
+    enemyBodyDef.position.Set(std::get<0>(player->getPos())/4,-std::get<1>(player->getPos())/4);
+
+    b2Body *projectileBody = world->CreateBody(&enemyBodyDef);
     b2PolygonShape boxShape;
     boxShape.SetAsBox(1,1);
 
@@ -457,7 +460,8 @@ GameObjects::Projectile *ObjectController::b2MakeNewProjectile(b2Body *targetBod
 
     GameObjects::Projectile *projectile;
 
-    projectile = new GameObjects::Projectile({playerBodyDef.position.x, playerBodyDef.position.y},
+
+    projectile = new GameObjects::Projectile({enemyBodyDef.position.x, enemyBodyDef.position.y},
                                                                           *projectileBody, targetBody, killShot);
     projectileBody->SetUserData(projectile);
 
