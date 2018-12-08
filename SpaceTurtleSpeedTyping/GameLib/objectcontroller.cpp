@@ -311,7 +311,7 @@ void ObjectController::initBox2DWorld() {
     // TODO: make gravity an instance variable
     gravity = new b2Vec2(0, -100);
     world = new b2World(*gravity);
-    world->SetAllowSleeping(false);
+//    world->SetAllowSleeping(false);
 }
 
 b2Vec2 ObjectController::attractBToA(b2Body &bodyA, b2Body &bodyB, int mass)
@@ -360,13 +360,13 @@ void ObjectController::stepBox2DWorld()
         // 2) enemy -- player
         // 3) projectile -- enemy
         // 4) player -- enemy
-        qInfo() << "Body 1 " << QString::fromStdString(static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString());
-        qInfo() << "Body 2 " << QString::fromStdString(static_cast<GameObjects::GameObject*> (bod2->GetUserData())->getTypeString());
+
         if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "enemy"
                 || static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "target") {
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "projectile") {
                 // Explosion at enemy
                 if(static_cast<GameObjects::Projectile*>(bod2->GetUserData())->getKillShot()) {
+                    qInfo() << "Creating enemy ";
                     world->DestroyBody(bod2);
                     createEnemyExplosion(static_cast<GameObjects::Projectile*>(bod2->GetUserData()));
                 }
@@ -378,15 +378,19 @@ void ObjectController::stepBox2DWorld()
             }
         }
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "projectile") {
+            if (static_cast<GameObjects::GameObject*> (bod2->GetUserData())->getTypeString() == "enemy"
+                    || static_cast<GameObjects::GameObject*> (bod2->GetUserData())->getTypeString() == "target") {
                 // Explosion at enemy
                 if(static_cast<GameObjects::Projectile*>(bod1->GetUserData())->getKillShot()) {
+                     qInfo() << "Creating enemy ";
                     world->DestroyBody(bod1);
                     createEnemyExplosion(static_cast<GameObjects::Projectile*>(bod1->GetUserData()));
                 }
+            }
         }
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "player") {
-            if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "enemy"
-                    || static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "target") {
+            if (static_cast<GameObjects::GameObject*> (bod2->GetUserData())->getTypeString() == "enemy"
+                    || static_cast<GameObjects::GameObject*> (bod2->GetUserData())->getTypeString() == "target") {
                 // Explosion at player
                  world->DestroyBody(bod2);
                  createPlayerExplosion(static_cast<GameObjects::GameObject*> (bod2->GetUserData()));
