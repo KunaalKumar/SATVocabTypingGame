@@ -1,6 +1,5 @@
 #include "gamewindow.h"
 #include "ui_gamewindow.h"
-#include <QDebug>
 #include <QKeyEvent>
 #include <QMessageBox>
 #include <iostream>

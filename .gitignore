@@ -6,4 +6,3 @@ SpaceTurtleSpeedTyping/build-*
 *.user*
 SpaceTurtleSpeedTyping/GameLib/*.user*
 SpaceTurtleSpeedTyping/GameWindow/*.user*
-SpaceTurtleSpeedTyping/src/GImages/*.png

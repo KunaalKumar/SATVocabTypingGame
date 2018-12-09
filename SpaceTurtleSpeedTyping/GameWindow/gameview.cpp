@@ -74,9 +74,9 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             GameObjects::Enemy* enemy = static_cast<GameObjects::Enemy*>(obj);
             sf::Sprite sprite;
             sf::Text text;
-            int rotation = ((enemy->getRotation(lib->getPlayer()) * 180) / 3.14);
-            rotation < 0 ? rotation -= 90 : rotation += 90;
-            sprite.rotate(rotation);
+//            int rotation = ((enemy->getRotation(lib->getPlayer()) * 180) / 3.14);
+//            rotation < 0 ? rotation -= 90 : rotation += 90;
+//            sprite.rotate(rotation);
             text.setFont(font);
             text.setCharacterSize(18);
             text.setString(enemy->getWord());
