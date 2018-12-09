@@ -164,6 +164,7 @@ void ObjectController::findNewTargetedEnemy(char letter)
             if (enemy.startsWith(letter) && (distance = enemy.distanceTo(player->getPos())) < lowestDistance)
             {
                 lowestDistance = distance;
+                delete tempTarget;
                 tempTarget = new GameObjects::TargetedEnemy(enemy);
                 index = i;
             }
