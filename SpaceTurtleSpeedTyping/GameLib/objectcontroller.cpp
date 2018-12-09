@@ -415,6 +415,8 @@ bool ObjectController::isEndGame()
 void ObjectController::resetObjects()
 {
     objectsOnScreen.clear();
+    targetedEnemy = nullptr;
+    LoadWords::resetWords();
 }
 
 

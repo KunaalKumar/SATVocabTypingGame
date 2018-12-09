@@ -56,6 +56,13 @@ void LoadWords::importWords(bool isHard)
     srand(time(0));
 }
 
+void LoadWords::resetWords()
+{
+    allEasyWords.clear();
+    allHardWords.clear();
+    roundWords.clear();
+}
+
 void LoadWords::createRoundWords(int round, bool hard)
 {
     if (hard)

@@ -11,6 +11,7 @@
 class LoadWords
 {
     public:
+        static void resetWords();
         static void importWords(bool hard);
         static void createRoundWords(int round, bool hard);
         // returns "" if end of round
