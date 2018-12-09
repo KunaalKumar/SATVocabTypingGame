@@ -251,7 +251,7 @@ void ObjectController::removePlayerExplosion()
     int index = findIndexOfType(GameObjects::Type::explosion, playerExplosion);
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
-    delete playerExplosion;
+    //delete playerExplosion;
     playerExplosion = nullptr;
 }
 
@@ -268,7 +268,7 @@ void ObjectController::createEnemyExplosion(GameObjects::GameObject *projectileO
     GameObjects::posTuple oldTargetedEnemyPosition = objectsOnScreen[index]->getPos();
     qDebug() << "Delete: " << index;
     world->DestroyBody(objectsOnScreen[index]->getBody());
-    delete objectsOnScreen[index];
+    //delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
     // If there is an old enemy explosion, remove it
@@ -279,7 +279,7 @@ void ObjectController::createEnemyExplosion(GameObjects::GameObject *projectileO
     // Remove Projectile that hit enemy
     index = findIndexOfType(GameObjects::Type::projectile, projectileObject);
     world->DestroyBody(objectsOnScreen[index]->getBody());
-    delete objectsOnScreen[index];
+    //delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 }
 
@@ -293,7 +293,7 @@ void ObjectController::removeEnemyExplosion()
     int index = findIndexOfType(GameObjects::Type::explosion, enemyExplosion);
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
-    delete enemyExplosion;
+    //delete enemyExplosion;
     enemyExplosion = nullptr;
 }
 
@@ -368,7 +368,7 @@ void ObjectController::removeOldEnemyExplosion()
     if (enemyExplosion != nullptr)
     {
         int index = findIndexOfType(GameObjects::Type::explosion, enemyExplosion);
-        delete objectsOnScreen[index];
+        //delete objectsOnScreen[index];
         objectsOnScreen.erase(objectsOnScreen.begin() + index);
     }
 }
@@ -383,7 +383,7 @@ void ObjectController::removeOldPlayerExplosion()
     if (playerExplosion != nullptr)
     {
         int index = findIndexOfType(GameObjects::Type::explosion, playerExplosion);
-        delete objectsOnScreen[index];
+        //delete objectsOnScreen[index];
         objectsOnScreen.erase(objectsOnScreen.begin() + index);
     }
 }

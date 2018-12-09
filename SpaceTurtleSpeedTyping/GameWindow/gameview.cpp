@@ -91,15 +91,15 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sf::Text text;
             text.setFont(font);
             text.setCharacterSize(24);
-            //std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size()-1);
-            text.setString(target->getWord());
+            std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size()-1);
+            text.setString(targetText);
             text.setFillColor(sf::Color::Yellow);
 
             sprite_texture.loadFromFile(obj->getImage());
             font.loadFromFile("../src/Fonts/PTZ56F.ttf");
-//            sf::FloatRect backgroundRect = text.getLocalBounds();
-//            sf::RectangleShape background(sf::Vector2f(backgroundRect.width, backgroundRect.height+10));
-//            background.setFillColor(sf::Color::Magenta);
+            //            sf::FloatRect backgroundRect = text.getLocalBounds();
+            //            sf::RectangleShape background(sf::Vector2f(backgroundRect.width, backgroundRect.height+10));
+            //            background.setFillColor(sf::Color::Magenta);
 
 
             sprite_texture.setSmooth(true);
@@ -123,6 +123,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         }
         else
         {
+
             sf::Sprite sprite;
             sprite_texture.loadFromFile("../src/Images/Explosion.png");
             sprite_texture.setSmooth(true);
@@ -130,6 +131,8 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             GameObjects::Explosion *explosion = static_cast<GameObjects::Explosion*>(obj);
             sprite.setPosition(std::get<0>(explosion->getPos()), std::get<1>(explosion->getPos()));
             texture.draw(sprite);
+
+
         }
 
     }
