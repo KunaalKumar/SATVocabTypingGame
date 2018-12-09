@@ -94,13 +94,13 @@ void ObjectController::updateObjectPositions()
     }
 
     // End of enemyExplosion Timer
-    if (enemyExplosion != nullptr && enemyExplosion->getNumOfFrames() == 500)
+    if (enemyExplosion != nullptr && enemyExplosion->getNumOfFrames() == 150)
     {
         removeEnemyExplosion();
     }
 
     // End of playerExplosion Timer
-    if (playerExplosion != nullptr && playerExplosion->getNumOfFrames() == 500)
+    if (playerExplosion != nullptr && playerExplosion->getNumOfFrames() == 150)
     {
         removePlayerExplosion();
     }
@@ -142,7 +142,6 @@ bool ObjectController::letterTyped(char letter)
         return hit;
     }
 }
-
 
 /**
  * @brief ObjectController::findNewTargetedEnemy
@@ -445,8 +444,8 @@ void ObjectController::createImagePaths()
     enemyImagePathIndex = 0;
     for (int i = 0; i < 20; i++)
     {
-        QImage sprite = sg.generatreNewSprite(SpriteSize::small);
-        sprite.scaled(32, 32);
+        QImage sprite = sg.generatreNewSprite(SpriteSize::modular);
+        sprite.scaled(32, 96);
 
         std::string path = "../src/GImages/ss" + std::to_string(++imageCounter) + ".png";
         QString string = QString::fromStdString(path);

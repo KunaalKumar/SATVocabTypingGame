@@ -7,7 +7,6 @@
 
 namespace GameObjects
 {
-
     class Explosion : public GameObject
     {
     public:
@@ -17,7 +16,6 @@ namespace GameObjects
     private:
         unsigned int numOfFrames;
     };
-
 }
 
 #endif // EXPLOSION_H

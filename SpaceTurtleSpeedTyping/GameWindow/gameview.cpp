@@ -6,7 +6,6 @@
 #include <QKeyEvent>
 #include <QtGui>
 
-
 GameView::GameView(QWidget *parent) :
     ui(new Ui::GameView)
 {
@@ -36,7 +35,6 @@ void GameView::renderTexture() {
     qi = qi.rgbSwapped();
 
     ui->label->setPixmap(QPixmap::fromImage(qi));
-
 }
 
 void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
@@ -122,7 +120,6 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         }
         else
         {
-
             sf::Sprite sprite;
             sprite_texture.loadFromFile("../src/Images/Explosion.png");
             sprite_texture.setSmooth(true);
@@ -130,10 +127,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             GameObjects::Explosion *explosion = static_cast<GameObjects::Explosion*>(obj);
             sprite.setPosition(std::get<0>(explosion->getPos()), std::get<1>(explosion->getPos()));
             texture.draw(sprite);
-
-
         }
-
     }
 }
 

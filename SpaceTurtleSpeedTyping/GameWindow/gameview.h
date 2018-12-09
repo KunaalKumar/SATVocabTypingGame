@@ -7,11 +7,10 @@
 #include "gamelib.h"
 #include "gameobjects.h"
 
-namespace Ui {
-class GameView;
+namespace Ui
+{
+    class GameView;
 }
-
-
 
 class GameView : public QWidget
 {

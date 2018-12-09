@@ -12,7 +12,6 @@
 
 namespace GameObjects
 {
-
     class Enemy : public GameObject
     {
         public:
@@ -28,7 +27,6 @@ namespace GameObjects
             std::string word;
             float speed;
             int boxWidth;
-
     };
 
     class TargetedEnemy : public Enemy
@@ -44,7 +42,6 @@ namespace GameObjects
             bool wasDestroyed();
         private:
             unsigned int currentLetterPos;
-
     };
 
 }
