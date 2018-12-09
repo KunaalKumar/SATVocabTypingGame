@@ -397,8 +397,7 @@ void ObjectController::removeOldPlayerExplosion()
 void ObjectController::removeObjectAndDestroyBody(GameObjects::GameObject *obj)
 {
     if(obj->getBody() != nullptr) {
-
-
+        world->DestroyBody(obj->getBody());
     }
 
     objectsOnScreen.erase(std::remove(objectsOnScreen.begin(),
