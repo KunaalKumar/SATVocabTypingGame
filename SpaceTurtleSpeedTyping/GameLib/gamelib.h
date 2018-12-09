@@ -19,7 +19,7 @@ class GameLib
          * @param x - size of widnow: x axis
          * @param y - size of widnow: y axis
          */
-        GameLib(int x, int y);
+        GameLib(int x, int y, bool hard);
         ~GameLib();
 
         /* >>>>>>>>>> Objects <<<<<<<<<< */

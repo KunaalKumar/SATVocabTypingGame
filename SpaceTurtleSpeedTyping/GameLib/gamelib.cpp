@@ -3,7 +3,7 @@
 #include "loadwords.h"
 
 
-GameLib::GameLib(int x, int y):oc(x, y)  { }
+GameLib::GameLib(int x, int y, bool hard):oc(x, y, hard)  { }
 
 GameLib::~GameLib() { }
 

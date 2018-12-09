@@ -46,7 +46,7 @@
         <x>250</x>
         <y>340</y>
         <width>165</width>
-        <height>241</height>
+        <height>251</height>
        </rect>
       </property>
       <property name="contextMenuPolicy">
@@ -62,26 +62,13 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>50</y>
+         <y>40</y>
          <width>170</width>
          <height>48</height>
         </rect>
        </property>
        <property name="text">
-        <string>Start Game</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="optionButton">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>120</y>
-         <width>170</width>
-         <height>48</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Options</string>
+        <string>Start Easy Game</string>
        </property>
       </widget>
       <widget class="QPushButton" name="tutorialButton">
@@ -95,6 +82,19 @@
        </property>
        <property name="text">
         <string>Tutorial</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton">
+       <property name="geometry">
+        <rect>
+         <x>-2</x>
+         <y>110</y>
+         <width>171</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Start SAT Prep</string>
        </property>
       </widget>
      </widget>

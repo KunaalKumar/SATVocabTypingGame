@@ -1,45 +1,92 @@
 #include "loadwords.h"
-#include <QDebug>
 
-std::vector<std::string> LoadWords::allWords;
+std::vector<std::string> LoadWords::allHardWords;
+std::map<int, std::vector<std::string>> LoadWords::allEasyWords;
 std::vector<std::string> LoadWords::roundWords;
 int LoadWords::nextWordIndex;
 
-void LoadWords::importWords()
+void LoadWords::importWords(bool isHard)
 {
-//    QString fileName = "..//src/dictionary/sat";
-//    QFile *file = new QFile(fileName);
-//    sortWordTxtFile(file);
     std::ifstream stream;
-     stream.open("..//src/dictionary/sat");
+    if (isHard)
+    {
+        stream.open("..//src/dictionary/sat");
+    }
+    else
+    {
+        stream.open("..//src/dictionary/words");
+     }
+
      if (!stream.is_open())
      {
          //TODO: Handle
      }
      else
      {
-        std::string word;
-        while (!stream.eof())
-        {
-            std::getline(stream, word);
-            allWords.push_back(word);
+         if (isHard)
+         {
+
+             std::string word;
+             while (!stream.eof())
+             {
+                 std::getline(stream, word);
+                 allHardWords.push_back(word);
+              }
+         }
+         else
+         {
+             std::string word;
+             std::vector<std::string> wordsOfSameLength;
+             int length = 3;
+             while (!stream.eof())
+             {
+                 std::getline(stream, word);
+                 if (word.length() == 0)
+                 {
+                     allEasyWords[length++] = wordsOfSameLength;
+                     wordsOfSameLength.clear();
+                 }
+                 else
+                 {
+                     wordsOfSameLength.push_back(word);
+                 }
+              }
          }
     }
     srand(time(0));
 }
 
-void LoadWords::createRoundWords(int round)
+void LoadWords::createRoundWords(int round, bool hard)
 {
-    int numWords = round * 10;
-    for (int i = 0; i < numWords; i++)
+    if (hard)
     {
-       long wordIndex = rand() % allWords.size();
-       std::string word = allWords.at(wordIndex);
-       roundWords.push_back(word);
+        int numWords = round * 10;
+        for (int i = 0; i < numWords; i++)
+        {
+           long wordIndex = rand() % allHardWords.size();
+           std::string word = allHardWords.at(wordIndex);
+           roundWords.push_back(word);
+        }
+
+        nextWordIndex = 0;
+    }
+    else
+    {
+        int numWords = round * 10;
+        for (int i = 0; i < numWords; i++)
+        {
+           long wordLength = (rand() % round + 3) % 14;
+           long wordIndex = rand() % allEasyWords[wordLength].size();
+
+           std::string word = allEasyWords[wordLength].at(wordIndex);
+           roundWords.push_back(word);
+        }
+
+        nextWordIndex = 0;
     }
 
-    nextWordIndex = 0;
 }
+
 
 std::string LoadWords::getWord()
 {

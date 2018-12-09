@@ -16,6 +16,7 @@ GameWindow::GameWindow(QWidget *parent) :
     ui->stackedWidget->insertWidget(1, &gameView);
     connect(&gameView, SIGNAL(homeClicked()), this, SLOT(moveHome()));
     connect(this, SIGNAL(signalGameStart()), &gameView, SLOT(startGame()));
+    connect(this, SIGNAL(satGame()), &gameView, SLOT(satGame()));
 }
 
 GameWindow::~GameWindow()
@@ -52,7 +53,8 @@ void GameWindow::createGameScreen()
 
 }
 
-void GameWindow::on_optionButton_clicked()
+void GameWindow::on_pushButton_clicked()
 {
-    QMessageBox::StandardButton box = QMessageBox::information(this, "Option", "Back to Title",                                                              QMessageBox::Ok, QMessageBox::NoButton);
+    emit satGame();
+    ui->stackedWidget->setCurrentIndex(1);
 }

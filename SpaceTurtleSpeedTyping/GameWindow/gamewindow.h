@@ -26,14 +26,15 @@ private slots:
     // Press the button will take the user to game page.
     void on_gameStartButton_clicked();
 
-    void on_optionButton_clicked();
-
     void on_tutorialButton_clicked();
 
     void moveHome();
 
+    void on_pushButton_clicked();
+
 signals:
     void signalGameStart();
+    void satGame();
 
 private:
 

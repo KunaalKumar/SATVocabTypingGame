@@ -30,6 +30,7 @@ signals:
 
 private slots:
     void startGame();
+    void satGame();
     void endDisplayStats();
 
 private:

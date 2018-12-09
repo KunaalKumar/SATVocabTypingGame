@@ -205,8 +205,15 @@ void GameView::keyPressEvent(QKeyEvent *event)
 
 void GameView::startGame()
 {
-    lib = new GameLib(720, 800);
-    //fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
+    lib = new GameLib(720, 800, false);
+    fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
+    startRound();
+}
+
+void GameView::satGame()
+{
+    lib = new GameLib(720, 800, true);
+    fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
     startRound();
 }
 
@@ -219,14 +226,12 @@ void GameView::startRound()
 
 void GameView::endRound()
 {
-    //qDebug() << "END ROUND";
     timer->stop();
     displayStats();
 }
 
 void GameView::displayStats()
 {
-    qDebug() << "Display Stats";
     texture.clear(sf::Color::Black);
 
     sf::Text text;
