@@ -145,29 +145,38 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 void GameView::updatePlayerHealth(GameObjects::GameObject * obj)
 {
     GameObjects::Player *player =  static_cast<GameObjects::Player*>(obj);
-    sf::Text text;
-    text.setFont(font);
-    text.setCharacterSize(18);
-    std::string targetText = "Total Kills : " + std::to_string(static_cast<int>(lib->getStatTotalScore()));
-    text.setString(targetText);
-    text.setFillColor(sf::Color::White);
-    text.setPosition(500,30);
-    texture.draw(text);
-    targetText = "Round : " + std::to_string(static_cast<int>(lib->getStatRound()));
-    text.setString(targetText);
-    text.setPosition(500,50);
-    texture.draw(text);
-
-    for (int i = 0; i < player->getHealth(); i++)
+    if (player->getHealth() > 0)
     {
-        sf::Sprite heart;
-        sprite_heart.loadFromFile("../src/Images/full_heart.png");
-        heart.setTexture(sprite_heart);
-        sprite_heart.setSmooth(true);
-        heart.setTexture(sprite_heart);
-        heart.setPosition(50 + 20+i*30, 50);
-        texture.draw(heart);
+        sf::Text text;
+        text.setFont(font);
+        text.setCharacterSize(18);
+        std::string targetText = "Total Kills : " + std::to_string(static_cast<int>(lib->getStatTotalScore()));
+        text.setString(targetText);
+        text.setFillColor(sf::Color::White);
+        text.setPosition(500,30);
+        texture.draw(text);
+        targetText = "Round : " + std::to_string(static_cast<int>(lib->getStatRound()));
+        text.setString(targetText);
+        text.setPosition(500,50);
+        texture.draw(text);
+
+        for (int i = 0; i < player->getHealth(); i++)
+        {
+            sf::Sprite heart;
+            sprite_heart.loadFromFile("../src/Images/full_heart.png");
+            heart.setTexture(sprite_heart);
+            sprite_heart.setSmooth(true);
+            heart.setTexture(sprite_heart);
+            heart.setPosition(50 + 20+i*30, 50);
+            texture.draw(heart);
+        }
     }
+    else
+    {
+        lib->isEndGame();
+        endRound();
+    }
+
 }
 
 void GameView::keyPressEvent(QKeyEvent *event)
@@ -190,7 +199,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
 void GameView::startGame()
 {
     lib = new GameLib(720, 800);
-    fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
+    //fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
     startRound();
 }
 
