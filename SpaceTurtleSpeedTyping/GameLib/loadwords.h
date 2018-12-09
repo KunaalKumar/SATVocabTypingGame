@@ -11,14 +11,15 @@
 class LoadWords
 {
     public:
-        static void importWords();
-        static void createRoundWords(int round);
+        static void importWords(bool hard);
+        static void createRoundWords(int round, bool hard);
         // returns "" if end of round
         static std::string getWord();
         static void sortWordTxtFile(QFile *target);
 
     private:
-        static std::vector<std::string> allWords;
+        static std::vector<std::string> allHardWords;
+        static std::map<int, std::vector<std::string>> allEasyWords;
         static std::vector<std::string> roundWords;
         static int nextWordIndex;
 };

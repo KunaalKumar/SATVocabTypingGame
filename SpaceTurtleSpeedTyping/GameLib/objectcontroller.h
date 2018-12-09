@@ -17,7 +17,7 @@
 class ObjectController
 {
 public:
-    ObjectController(int windowSizeX, int windowSizeY);
+    ObjectController(int windowSizeX, int windowSizeY, bool hard);
     ~ObjectController();
 
     void createRoundOfEnemies(int round);
@@ -39,6 +39,7 @@ public:
     int windowSizeX;
     int windowSizeY;
     int round;
+    bool hard;
 
     void createPlayer();
     void createEnemy();

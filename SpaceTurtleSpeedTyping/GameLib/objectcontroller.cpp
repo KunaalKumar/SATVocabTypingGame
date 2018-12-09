@@ -4,18 +4,19 @@
 #include <QImage>
 #include <QString>
 
-ObjectController::ObjectController(int windowSizeX, int windowSizeY)
+ObjectController::ObjectController(int windowSizeX, int windowSizeY, bool hard)
 {
     this->windowSizeX = windowSizeX / 4;
     this->windowSizeY = windowSizeY / 4;
 
     frameCounter = 0;
+    this->hard = hard;
     stopCreatingEnemies = false;
     playerExplosion = nullptr;
     enemyExplosion = nullptr;
     targetedEnemy = nullptr;
 
-    LoadWords::importWords();
+    LoadWords::importWords(hard);
     initSpriteGenerator();
     initBox2DWorld();
     createPlayer();
@@ -51,7 +52,7 @@ void ObjectController::createRoundOfEnemies(int round)
     stopCreatingEnemies = false;
     this->round = round;
     createImagePaths();
-    LoadWords::createRoundWords(round);
+    LoadWords::createRoundWords(round, hard);
 }
 
 /**
