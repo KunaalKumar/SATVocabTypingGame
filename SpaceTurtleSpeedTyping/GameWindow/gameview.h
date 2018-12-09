@@ -8,11 +8,10 @@
 #include "gameobjects.h"
 #include <QMutex>
 
-namespace Ui {
-class GameView;
+namespace Ui
+{
+    class GameView;
 }
-
-
 
 class GameView : public QWidget
 {

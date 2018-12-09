@@ -43,8 +43,6 @@ namespace GameObjects {
         }
     }
 
-
-
 // Targeted Enemy
 
     TargetedEnemy::TargetedEnemy(Enemy &enemy) : Enemy(enemy)

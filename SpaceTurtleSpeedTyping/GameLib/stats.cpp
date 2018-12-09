@@ -10,54 +10,70 @@ Stats::Stats()
     killStreak = 0;
 }
 
-void Stats::addRound() {
+void Stats::addRound()
+{
     round++;
 }
 
-int Stats::getRound() {
+int Stats::getRound()
+{
     return round;
 }
 
-void Stats::addTypeCount(bool isCorrectLetter) {
-    if(isCorrectLetter) {
+void Stats::addTypeCount(bool isCorrectLetter)
+{
+    if(isCorrectLetter)
+    {
         totalTypeCount++;
         correctTypeCount++;
         killStreak++;
-    } else {
+    }
+    else
+    {
         totalTypeCount++;
         killStreak = 0;
     }
 }
 
-double Stats::getCorrectRate() {
-    if(totalTypeCount == 0) {
+double Stats::getCorrectRate()
+{
+    if(totalTypeCount == 0)
+    {
         return 0.0;
-    } else {
+    }
+    else
+    {
         return correctTypeCount / totalTypeCount;
     }
 }
 
-int Stats::getTotalType() {
+int Stats::getTotalType()
+{
     return totalTypeCount;
 }
 
-int Stats::getCorrectType() {
+int Stats::getCorrectType()
+{
     return correctTypeCount;
 }
 
-void Stats::addTotalKill() {
+void Stats::addTotalKill()
+{
     totalKillCount++;
 }
 
-int Stats::getTotalKill() {
+int Stats::getTotalKill()
+{
     return totalKillCount;
 }
 
-int Stats::getKillStreak(){
+int Stats::getKillStreak()
+{
     return killStreak;
 }
 
-bool Stats::highScore(bool isGameDone, int score){
+bool Stats::highScore(bool isGameDone, int score)
+{
     bool newHighScore = false;
     if(isGameDone){
         std::ifstream stream;

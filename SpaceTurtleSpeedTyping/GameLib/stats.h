@@ -30,7 +30,6 @@ class Stats
 
         const std::map<std::string, double>& getAllStats();
 
-
     private:
         int round;
         int totalTypeCount;
@@ -39,7 +38,6 @@ class Stats
         int killStreak;
         std::map<std::string, double> statsMap;
         int getScore();
-
 };
 
 #endif // STATS_H

@@ -8,7 +8,6 @@
 #include <QFile>
 #include <QTextStream>
 
-
 class LoadWords
 {
     public:
@@ -22,7 +21,6 @@ class LoadWords
         static std::map<int, std::vector<std::string>> allWords;
         static std::vector<std::string> roundWords;
         static int nextWordIndex;
-
 };
 
 #endif // LOAD_H

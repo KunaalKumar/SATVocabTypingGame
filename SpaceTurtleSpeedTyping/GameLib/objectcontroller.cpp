@@ -94,13 +94,13 @@ void ObjectController::updateObjectPositions()
     }
 
     // End of enemyExplosion Timer
-    if (enemyExplosion != nullptr && enemyExplosion->getNumOfFrames() == 500)
+    if (enemyExplosion != nullptr && enemyExplosion->getNumOfFrames() == 150)
     {
         removeEnemyExplosion();
     }
 
     // End of playerExplosion Timer
-    if (playerExplosion != nullptr && playerExplosion->getNumOfFrames() == 500)
+    if (playerExplosion != nullptr && playerExplosion->getNumOfFrames() == 150)
     {
         removePlayerExplosion();
     }
@@ -143,7 +143,6 @@ bool ObjectController::letterTyped(char letter)
         return hit;
     }
 }
-
 
 /**
  * @brief ObjectController::findNewTargetedEnemy
@@ -234,6 +233,8 @@ void ObjectController::createPlayerExplosion(GameObjects::GameObject *enemyObjec
         if(objectsOnScreen[i] == enemyObject) {
             removeObjectAndDestroyBody(enemyObject);
 //            objectsOnScreen.erase(objectsOnScreen.begin() + i);
+    // remove one heart as player takes one hit
+    player->removeHealth();
             break;
         }
     }
@@ -253,7 +254,7 @@ void ObjectController::removePlayerExplosion()
     int index = findIndexOfType(GameObjects::Type::explosion, playerExplosion);
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
-    delete playerExplosion;
+    //delete playerExplosion;
     playerExplosion = nullptr;
 }
 
@@ -287,7 +288,7 @@ void ObjectController::removeEnemyExplosion()
     int index = findIndexOfType(GameObjects::Type::explosion, enemyExplosion);
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
-    delete enemyExplosion;
+    //delete enemyExplosion;
     enemyExplosion = nullptr;
 }
 
@@ -331,7 +332,7 @@ void ObjectController::removeOldEnemyExplosion()
     if (enemyExplosion != nullptr)
     {
         int index = findIndexOfType(GameObjects::Type::explosion, enemyExplosion);
-        delete objectsOnScreen[index];
+        //delete objectsOnScreen[index];
         objectsOnScreen.erase(objectsOnScreen.begin() + index);
     }
 }
@@ -346,7 +347,7 @@ void ObjectController::removeOldPlayerExplosion()
     if (playerExplosion != nullptr)
     {
         int index = findIndexOfType(GameObjects::Type::explosion, playerExplosion);
-        delete objectsOnScreen[index];
+        //delete objectsOnScreen[index];
         objectsOnScreen.erase(objectsOnScreen.begin() + index);
     }
 }
@@ -409,8 +410,8 @@ void ObjectController::createImagePaths()
     enemyImagePathIndex = 0;
     for (int i = 0; i < 20; i++)
     {
-        QImage sprite = sg.generatreNewSprite(SpriteSize::small);
-        sprite.scaled(32, 32);
+        QImage sprite = sg.generatreNewSprite(SpriteSize::modular);
+        sprite = sprite.scaled(32, 96);
 
         std::string path = "../src/GImages/ss" + std::to_string(++imageCounter) + ".png";
         QString string = QString::fromStdString(path);
@@ -552,9 +553,11 @@ void ObjectController::stepBox2DWorld()
     }
 
     if(projectileExplode != nullptr) {
+        qDebug() << "createEnemyExplosion";
         createEnemyExplosion(projectileExplode);
     }
     if(playerExplode != nullptr) {
+        qDebug() << "createPlayerExplosion";
         createPlayerExplosion(playerExplode);
     }
 }

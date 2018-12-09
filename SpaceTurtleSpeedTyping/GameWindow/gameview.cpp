@@ -6,7 +6,6 @@
 #include <QKeyEvent>
 #include <QtGui>
 
-
 GameView::GameView(QWidget *parent) :
     ui(new Ui::GameView)
 {
@@ -47,7 +46,6 @@ void GameView::renderTexture() {
 void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 {
     lib->updateFrame();
-    //qDebug() << "V size: " << v.size();
     for (auto *obj : v)
     {
         //std::string type = obj->getTypeString();
@@ -95,15 +93,11 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sf::Text text;
             text.setFont(font);
             text.setCharacterSize(24);
-            //std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size()-1);
-            text.setString(target->getWord());
+            std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size());
+            text.setString(targetText);
             text.setFillColor(sf::Color::Yellow);
 
             sprite_texture.loadFromFile(obj->getImage());
-//            sf::FloatRect backgroundRect = text.getLocalBounds();
-//            sf::RectangleShape background(sf::Vector2f(backgroundRect.width, backgroundRect.height+10));
-//            background.setFillColor(sf::Color::Magenta);
-
 
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
@@ -134,7 +128,6 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sprite.setPosition(std::get<0>(explosion->getPos()), std::get<1>(explosion->getPos()));
             texture.draw(sprite);
         }
-
     }
 }
 
@@ -144,12 +137,12 @@ void GameView::updatePlayerHealth(GameObjects::GameObject * obj)
     sf::Text text;
     text.setFont(font);
     text.setCharacterSize(18);
-    std::string targetText = "Total Kills : " + std::to_string((int)lib->getStatTotalScore());
+    std::string targetText = "Total Kills : " + std::to_string(static_cast<int>(lib->getStatTotalScore()));
     text.setString(targetText);
     text.setFillColor(sf::Color::White);
     text.setPosition(500,30);
     texture.draw(text);
-    targetText = "Kill Streak : " + std::to_string((int)lib->getStatKillStreak());
+    targetText = "Round : " + std::to_string(static_cast<int>(lib->getStatRound()));
     text.setString(targetText);
     text.setPosition(500,50);
     texture.draw(text);

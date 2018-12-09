@@ -9,7 +9,6 @@
 
 namespace GameObjects
 {
-
     using posTuple = std::tuple<float, float>;
 
     enum class Type
@@ -37,11 +36,6 @@ namespace GameObjects
                 this->posY = std::get<1>(pos);
                 this->body = &body;
             }
-
-//            ~GameObject()
-//            {
-
-//            }
 
             posTuple getPos()
             {
@@ -82,14 +76,12 @@ namespace GameObjects
                 }
             }
 
-
         protected:
             float posX;
             float posY;
             Type type;
             std::string imagePath;
             b2Body *body;
-
     };
 
 }
