@@ -10,7 +10,7 @@ GameView::GameView(QWidget *parent) :
     ui(new Ui::GameView)
 {
     ui->setupUi(this);
-    font.loadFromFile("../src/Fonts/PTZ56F.ttf");
+    font.loadFromFile("../src/Fonts/Avenir.otf");
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &GameView::renderTexture);
 }
@@ -98,7 +98,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             text.setCharacterSize(24);
             std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size());
             text.setString(targetText);
-            text.setFillColor(sf::Color::Yellow);
+            text.setFillColor(sf::Color::Red);
 
             sprite_texture.loadFromFile(obj->getImage());
 
@@ -114,10 +114,15 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         else if (obj->isOfType(GameObjects::Type::projectile))
         {
             sf::Sprite sprite;
-            sprite_texture.loadFromFile("../src/Images/Blue_Projectile.png");
+            GameObjects::Projectile *projectile = static_cast<GameObjects::Projectile*>(obj);
+            if(projectile->getKillShot()) {
+                sprite_texture.loadFromFile("../src/Images/Red_Projectile.png");
+            }
+            else {
+                sprite_texture.loadFromFile("../src/Images/Blue_Projectile.png");
+            }
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
-            GameObjects::Projectile *projectile = static_cast<GameObjects::Projectile*>(obj);
             sprite.setPosition(std::get<0>(projectile->getPos()), std::get<1>(projectile->getPos()));
             texture.draw(sprite);
         }
