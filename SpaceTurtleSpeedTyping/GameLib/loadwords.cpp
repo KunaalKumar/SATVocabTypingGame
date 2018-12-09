@@ -1,5 +1,4 @@
 #include "loadwords.h"
-#include <QDebug>
 
 std::vector<std::string> LoadWords::allHardWords;
 std::map<int, std::vector<std::string>> LoadWords::allEasyWords;
@@ -76,7 +75,7 @@ void LoadWords::createRoundWords(int round, bool hard)
         int numWords = round * 10;
         for (int i = 0; i < numWords; i++)
         {
-           long wordLength = rand() % round + 3;
+           long wordLength = (rand() % round + 3) % 14;
            long wordIndex = rand() % allEasyWords[wordLength].size();
 
            std::string word = allEasyWords[wordLength].at(wordIndex);

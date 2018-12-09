@@ -210,14 +210,12 @@ void GameView::startRound()
 
 void GameView::endRound()
 {
-    qDebug() << "END ROUND";
     timer->stop();
     displayStats();
 }
 
 void GameView::displayStats()
 {
-    qDebug() << "Display Stats";
     texture.clear(sf::Color::Black);
 
     sf::Text text;
