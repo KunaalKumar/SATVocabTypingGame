@@ -32,8 +32,10 @@ private slots:
     void on_tutorialButton_clicked();
 
     void moveHome();
+
 signals:
     void signalGameStart();
+
 private:
 
     // This ui reference is composed of 2 pages enabled by the stackedWidget
