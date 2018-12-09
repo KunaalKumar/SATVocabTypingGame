@@ -13,7 +13,6 @@
 #include <string>
 #include <float.h>
 #include <vector>
-#include <QDebug>
 
 class ObjectController
 {
@@ -131,14 +130,10 @@ public:
     public:
      void BeginContact(b2Contact* contact)
      {
-         qInfo() << "Something";
          /* handle begin event */ }
-     void EndContact(b2Contact* contact)
-     { /* handle end event */ qInfo() << "Something";}
-     void PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
-     { /* handle pre-solve event */ qInfo() << "Something";}
-     void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
-     { /* handle post-solve event */ qInfo() << "Something";}
+     void EndContact(b2Contact* contact) {}
+     void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) {}
+     void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) {}
     };
 
 };

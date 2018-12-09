@@ -1,7 +1,6 @@
 #include "gameview.h"
 #include "ui_gameview.h"
 #include <iostream>
-#include <QDebug>
 #include <QTimer>
 #include <QKeyEvent>
 #include <QtGui>
@@ -68,7 +67,6 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         else if (obj->isOfType(GameObjects::Type::enemy))
         {
             GameObjects::Enemy* enemy = static_cast<GameObjects::Enemy*>(obj);
-            //qDebug()<< "enemy made";
             sf::Sprite sprite;
             sf::Text text;
             int rotation = ((enemy->getRotation(lib->getPlayer()) * 180) / 3.14);
