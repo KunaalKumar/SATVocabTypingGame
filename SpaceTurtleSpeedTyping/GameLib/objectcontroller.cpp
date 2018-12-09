@@ -264,7 +264,6 @@ void ObjectController::removePlayerExplosion()
     int index = findIndexOfType(GameObjects::Type::explosion, playerExplosion);
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
-    //delete playerExplosion;
     playerExplosion = nullptr;
 }
 
@@ -298,7 +297,6 @@ void ObjectController::removeEnemyExplosion()
     int index = findIndexOfType(GameObjects::Type::explosion, enemyExplosion);
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
-    //delete enemyExplosion;
     enemyExplosion = nullptr;
 }
 
@@ -342,7 +340,6 @@ void ObjectController::removeOldEnemyExplosion()
     if (enemyExplosion != nullptr)
     {
         int index = findIndexOfType(GameObjects::Type::explosion, enemyExplosion);
-        //delete objectsOnScreen[index];
         objectsOnScreen.erase(objectsOnScreen.begin() + index);
     }
 }
@@ -357,7 +354,6 @@ void ObjectController::removeOldPlayerExplosion()
     if (playerExplosion != nullptr)
     {
         int index = findIndexOfType(GameObjects::Type::explosion, playerExplosion);
-        //delete objectsOnScreen[index];
         objectsOnScreen.erase(objectsOnScreen.begin() + index);
     }
 }
@@ -379,7 +375,6 @@ void ObjectController::removeObjectAndDestroyBody(GameObjects::GameObject *obj)
                                       objectsOnScreen.end(),
                                       obj),
                             objectsOnScreen.end());
-    //    delete obj;
 }
 
 GameObjects::Player *ObjectController::getPlayer()
