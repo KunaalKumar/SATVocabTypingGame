@@ -32,7 +32,7 @@ public:
     bool isEnemyKilled();
     bool isRoundEnd();
     bool isEndGame();
-
+    void resetObjects();
     GameObjects::Player* getPlayer();
 
  private:

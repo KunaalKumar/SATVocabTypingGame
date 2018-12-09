@@ -42,7 +42,7 @@ class GameLib
 
         /* >>>>>>>>>> Game <<<<<<<<<< */
         void startRound();
-
+        void resetGame();
         bool isEndRound();
         bool isEndGame();
 

@@ -24,6 +24,11 @@ void GameLib::startRound()
     oc.updateObjectPositions();
 }
 
+void GameLib::resetGame()
+{
+    oc.resetObjects();
+}
+
 bool GameLib::isEndRound()
 {
     oc.isRoundEnd();

@@ -411,6 +411,11 @@ bool ObjectController::isEndGame()
     return player->getHealth() == 0;
 }
 
+void ObjectController::resetObjects()
+{
+    objectsOnScreen.clear();
+}
+
 
 //
 // SPRITE_GENERATOR_STUFF

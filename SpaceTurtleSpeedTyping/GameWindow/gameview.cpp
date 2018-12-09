@@ -25,24 +25,32 @@ void GameView::renderTexture() {
         return;
     }
     texture.clear(sf::Color::Black);
-    refreshGameObjects(lib->getGameObject());
+    if (!lib->isEndGame())
+    {
+        refreshGameObjects(lib->getGameObject());
 
-    // We're done drawing to the texture
-    texture.display();
+        // We're done drawing to the texture
+        texture.display();
 
-    // Set to a QImage
-    sf::Texture rt = texture.getTexture();
-    sf::Image irt = rt.copyToImage();
-    const uint8_t *pp = irt.getPixelsPtr();
-    QImage qi(pp, 720, 800, QImage::Format_ARGB32);
-    qi = qi.rgbSwapped();
+        // Set to a QImage
+        sf::Texture rt = texture.getTexture();
+        sf::Image irt = rt.copyToImage();
+        const uint8_t *pp = irt.getPixelsPtr();
+        QImage qi(pp, 720, 800, QImage::Format_ARGB32);
+        qi = qi.rgbSwapped();
 
-    ui->label->setPixmap(QPixmap::fromImage(qi));
+        ui->label->setPixmap(QPixmap::fromImage(qi));
+        if (lib->isEndRound())
+        {
+            endRound();
+        }
 
-    if (lib->isEndRound())
+    }
+    else
     {
         endRound();
     }
+
 
     mutex.unlock();
 }
@@ -173,8 +181,7 @@ void GameView::updatePlayerHealth(GameObjects::GameObject * obj)
     }
     else
     {
-        lib->isEndGame();
-        endRound();
+        lib->resetGame();
     }
 
 }
@@ -212,7 +219,7 @@ void GameView::startRound()
 
 void GameView::endRound()
 {
-    qDebug() << "END ROUND";
+    //qDebug() << "END ROUND";
     timer->stop();
     displayStats();
 }
