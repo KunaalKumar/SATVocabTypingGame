@@ -40,7 +40,6 @@ private:
     sf::RenderTexture texture;
 
     sf::Texture sprite_texture;  //turtle
-    sf::Texture sprite_background;
     sf::Texture sprite_heart; //heart
 
     sf::Font font;

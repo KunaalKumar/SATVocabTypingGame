@@ -26,11 +26,6 @@ void GameView::renderTexture() {
         return;
     }
     texture.clear(sf::Color::Black);
-    sprite_background.loadFromFile("../src/Images/Starry_Sky.png");
-    sprite_background.setSmooth(true);
-    sf::Sprite background;
-    background.setTexture(sprite_background);
-    texture.draw(background);
     refreshGameObjects(lib->getGameObject());
 
     // We're done drawing to the texture
