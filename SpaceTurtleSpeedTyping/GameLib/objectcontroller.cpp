@@ -143,7 +143,6 @@ bool ObjectController::letterTyped(char letter)
     }
 }
 
-
 /**
  * @brief ObjectController::findNewTargetedEnemy
  * Called inside letterTyped() when there is no targetedEnemy

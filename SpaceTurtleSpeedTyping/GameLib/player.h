@@ -6,7 +6,6 @@
 
 namespace GameObjects
 {
-
     class Player : public GameObject
     {
         public:
@@ -19,7 +18,6 @@ namespace GameObjects
         private:
             unsigned int health;
     };
-
 }
 
 #endif // PLAYER_H

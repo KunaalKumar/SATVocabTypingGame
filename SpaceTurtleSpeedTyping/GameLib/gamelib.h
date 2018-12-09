@@ -12,7 +12,6 @@
 
 class GameLib
 {
-
     public:
         /* >>>>>>>>>> GameLib <<<<<<<<<< */
     /**
