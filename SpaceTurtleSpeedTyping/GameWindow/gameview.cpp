@@ -249,7 +249,7 @@ void GameView::displayStats()
     text.setPosition(275,350);
     texture.draw(text);
 
-    targetText = "Percentage Hit : " + std::to_string((int)lib->getStatHitRate()) + "%";
+    targetText = "Percentage Hit : " + std::to_string((int)(lib->getStatHitRate())) + "%";
     text.setString(targetText);
     text.setPosition(275,400);
     texture.draw(text);

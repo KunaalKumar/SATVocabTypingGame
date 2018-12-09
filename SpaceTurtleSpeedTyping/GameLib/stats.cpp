@@ -47,7 +47,7 @@ double Stats::getCorrectRate()
     {
         return 0.0;
     } else {
-        return (correctTypeCount / totalTypeCount) * 100;
+        return ((double)correctTypeCount / (double)totalTypeCount) * 100;
     }
 }
 
