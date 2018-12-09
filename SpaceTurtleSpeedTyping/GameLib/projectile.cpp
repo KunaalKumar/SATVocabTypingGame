@@ -9,7 +9,7 @@ namespace GameObjects
         killShot(killShot)
     {
         type = Type::projectile;
-
+        this->imagePath = "../src/Images/Blue_Projectile.png";
     }
 
     b2Body *Projectile::getTargetBody()

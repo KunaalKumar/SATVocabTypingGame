@@ -7,7 +7,7 @@ namespace GameObjects
     {
         type = Type::explosion;
         numOfFrames = 0;
-        this->imagePath = "../src/Images/cute_turtle.png";
+        this->imagePath = "../src/Images/Explosion.png";
     }
 
     posTuple Explosion::getPos()
