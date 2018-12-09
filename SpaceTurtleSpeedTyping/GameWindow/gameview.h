@@ -6,6 +6,7 @@
 #include <QMediaPlayer>
 #include "gamelib.h"
 #include "gameobjects.h"
+#include <QMutex>
 
 namespace Ui {
 class GameView;
@@ -32,6 +33,7 @@ private slots:
     void startGame();
 
 private:
+    QMutex mutex;
     Ui::GameView *ui;
     GameLib *lib;
     int hitIdx;

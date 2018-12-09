@@ -5,6 +5,7 @@
 #include <tuple>
 #include <string>
 #include <Box2D/Box2D.h>
+#include <QDebug>
 
 namespace GameObjects
 {
@@ -51,7 +52,8 @@ namespace GameObjects
 
             std::string getImage() { return imagePath; }
 
-            bool isOfType(Type other) { return other == type; }
+            bool isOfType(Type other) {
+                return other == type; }
 
             std::string getTypeString()
             {
@@ -67,6 +69,9 @@ namespace GameObjects
             }
 
             b2Body* getBody() { return body; }
+            void removeBody() {
+                body = nullptr;
+            }
 
         private:
             // Sets the values of the x,y positions to the latest b2Body positions

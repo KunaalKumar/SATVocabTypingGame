@@ -43,7 +43,7 @@ public:
     void createEnemy();
     void createProjectile(bool hitEnemy);
     void createPlayerExplosion(GameObjects::GameObject *enemyObject);
-    void createEnemyExplosion(GameObjects::GameObject *projectileObject);
+    void createEnemyExplosion(GameObjects::Projectile *projectileObject);
 
     // shoot closest enemy with starting letter = letter
     void findNewTargetedEnemy(char letter);
@@ -52,7 +52,6 @@ public:
     void removePlayerExplosion();
 
     int findIndexOfType(GameObjects::Type type, GameObjects::GameObject *gameObject = nullptr);
-    int findOldTargetedEnemy();
     void removeOldEnemyExplosion();
     void removeOldPlayerExplosion();
     void removeObjectAndDestroyBody(GameObjects::GameObject*obj);
@@ -123,7 +122,7 @@ public:
      * @param targetBody - target to hit
      * @return - projectile object
      */
-    GameObjects::Projectile *b2MakeNewProjectile(b2Body *targetBody, bool killShot);
+    GameObjects::Projectile *b2MakeNewProjectile(GameObjects::TargetedEnemy *targetedEnemy, b2Body *targetBody, bool killShot);
 
     class MyContactListener : public b2ContactListener
     {

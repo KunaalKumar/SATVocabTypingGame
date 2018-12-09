@@ -11,6 +11,7 @@ GameView::GameView(QWidget *parent) :
     ui(new Ui::GameView)
 {
     ui->setupUi(this);
+    font.loadFromFile("../src/Fonts/PTZ56F.ttf");
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &GameView::renderTexture);
 }
@@ -22,6 +23,9 @@ GameView::~GameView()
 }
 
 void GameView::renderTexture() {
+    if(!mutex.tryLock()) {
+        return;
+    }
     texture.clear(sf::Color::Black);
     refreshGameObjects(lib->getGameObject());
 
@@ -37,6 +41,7 @@ void GameView::renderTexture() {
 
     ui->label->setPixmap(QPixmap::fromImage(qi));
 
+    mutex.unlock();
 }
 
 void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
@@ -74,7 +79,6 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             text.setFillColor(sf::Color::White);
 
             sprite_texture.loadFromFile(obj->getImage());
-            font.loadFromFile("../src/Fonts/PTZ56F.ttf");
 
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
@@ -96,7 +100,6 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             text.setFillColor(sf::Color::Yellow);
 
             sprite_texture.loadFromFile(obj->getImage());
-            font.loadFromFile("../src/Fonts/PTZ56F.ttf");
 //            sf::FloatRect backgroundRect = text.getLocalBounds();
 //            sf::RectangleShape background(sf::Vector2f(backgroundRect.width, backgroundRect.height+10));
 //            background.setFillColor(sf::Color::Magenta);
@@ -165,6 +168,7 @@ void GameView::updatePlayerHealth(GameObjects::GameObject * obj)
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {
+    mutex.lock();
     char ch = static_cast<char>(event->key()+32);
 
     if (lib->letterTyped(ch))
@@ -173,6 +177,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
         {
             endGame();
         }
+    mutex.unlock();
 }
 
 void GameView::startGame()
