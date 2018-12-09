@@ -39,6 +39,11 @@ void GameView::renderTexture() {
 
     ui->label->setPixmap(QPixmap::fromImage(qi));
 
+    if (lib->isEndRound())
+    {
+        endRound();
+    }
+
     mutex.unlock();
 }
 
@@ -170,39 +175,101 @@ void GameView::keyPressEvent(QKeyEvent *event)
     mutex.lock();
     char ch = static_cast<char>(event->key()+32);
 
-    if (lib->letterTyped(ch))
-        //fireSound.play();
-        if (event->key() == Qt::Key_Escape)
-        {
-            endGame();
-        }
+    if (event->key() == Qt::Key_Escape)
+    {
+        endGame();
+    }
+    else
+    {
+        lib->letterTyped(ch);
+    }
+
     mutex.unlock();
 }
 
 void GameView::startGame()
 {
     lib = new GameLib(720, 800);
+    fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
+    startRound();
+}
+
+void GameView::startRound()
+{
     lib->startRound();
     texture.create(720, 800);
-    fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
     timer->start(10);
 }
 
-void GameView::fire(float x1, float y1, float x2, float y2)
+void GameView::endRound()
 {
-    sf::Vertex line[] =
-    {
-        sf::Vertex(sf::Vector2f(x1, y1)),
-        sf::Vertex(sf::Vector2f(x2, y2))
-    };
+    qDebug() << "END ROUND";
+    timer->stop();
+    displayStats();
+}
 
-    fired = true;
-    texture.draw(line, 2, sf::Lines);
-    fireSound.play();
+void GameView::displayStats()
+{
+    qDebug() << "Display Stats";
+    texture.clear(sf::Color::Black);
+
+    sf::Text text;
+    text.setFont(font);
+    text.setCharacterSize(25);
+
+    std::string targetText = "Round : " + std::to_string((int)lib->getStatRound());
+    text.setString(targetText);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(275,300);
+    texture.draw(text);
+
+    targetText = "Total Kills : " + std::to_string((int)lib->getStatTotalScore());
+    text.setString(targetText);
+    text.setPosition(275,350);
+    texture.draw(text);
+
+    targetText = "Percentage Hit : " + std::to_string((int)lib->getStatHitRate()) + "%";
+    text.setString(targetText);
+    text.setPosition(275,400);
+    texture.draw(text);
+
+    targetText = "KillStreak : " + std::to_string((int)lib->getStatKillStreak());
+    text.setString(targetText);
+    text.setPosition(275,450);
+    texture.draw(text);
+
+    texture.display();
+
+    sf::Texture rt = texture.getTexture();
+    sf::Image irt = rt.copyToImage();
+    const uint8_t *pp = irt.getPixelsPtr();
+    QImage qi(pp, 720, 800, QImage::Format_ARGB32);
+    qi = qi.rgbSwapped();
+
+    ui->label->setPixmap(QPixmap::fromImage(qi));
+
+   QTimer::singleShot(4000, this, SLOT(endDisplayStats()));
+
+}
+
+void GameView::endDisplayStats()
+{
+    if (lib->isEndGame())
+    {
+        endGame();
+    }
+    else
+    {
+        startRound();
+    }
 }
 
 void GameView::endGame()
 {
-    timer->stop();
+    if (timer->isActive())
+    {
+        timer->stop();
+    }
+
     emit homeClicked();
 }

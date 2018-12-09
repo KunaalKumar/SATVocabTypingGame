@@ -7,7 +7,8 @@ Stats::Stats()
     totalTypeCount = 0;
     correctTypeCount = 0;
     totalKillCount = 0;
-    killStreak = 0;
+    hitStreak = 0;
+    longestHitStreak = 0;
 }
 
 void Stats::addRound()
@@ -26,12 +27,17 @@ void Stats::addTypeCount(bool isCorrectLetter)
     {
         totalTypeCount++;
         correctTypeCount++;
-        killStreak++;
+        hitStreak++;
+        if (hitStreak > longestHitStreak)
+        {
+            longestHitStreak = hitStreak;
+        }
     }
     else
     {
         totalTypeCount++;
-        killStreak = 0;
+
+        hitStreak = 0;
     }
 }
 
@@ -40,10 +46,8 @@ double Stats::getCorrectRate()
     if(totalTypeCount == 0)
     {
         return 0.0;
-    }
-    else
-    {
-        return correctTypeCount / totalTypeCount;
+    } else {
+        return (correctTypeCount / totalTypeCount) * 100;
     }
 }
 
@@ -67,9 +71,8 @@ int Stats::getTotalKill()
     return totalKillCount;
 }
 
-int Stats::getKillStreak()
-{
-    return killStreak;
+int Stats::getLongestHitStreak(){
+    return longestHitStreak;
 }
 
 bool Stats::highScore(bool isGameDone, int score)
@@ -133,7 +136,7 @@ const std::map<std::string, double>& Stats::getAllStats(){
     statsMap.insert(std::pair<std::string, double>("round", getRound()));
     statsMap.insert(std::pair<std::string, double>("correctRate", getCorrectRate()));
     statsMap.insert(std::pair<std::string, double>("totalKill", getTotalKill()));
-    statsMap.insert(std::pair<std::string, double>("killStreak", getKillStreak()));
+    statsMap.insert(std::pair<std::string, double>("killStreak", getLongestHitStreak()));
     statsMap.insert(std::pair<std::string, double>("currentScore", getScore()));
     statsMap.insert(std::pair<std::string, double>("highScore", highScore(true, getScore())));
 

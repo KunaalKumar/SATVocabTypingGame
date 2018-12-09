@@ -15,10 +15,10 @@ class LoadWords
         static void createRoundWords(int round);
         // returns "" if end of round
         static std::string getWord();
-        static void sortWordTxtFile(QFile target);
+        static void sortWordTxtFile(QFile *target);
 
     private:
-        static std::map<int, std::vector<std::string>> allWords;
+        static std::vector<std::string> allWords;
         static std::vector<std::string> roundWords;
         static int nextWordIndex;
 };

@@ -1,13 +1,17 @@
 #include "loadwords.h"
+#include <QDebug>
 
-std::map<int, std::vector<std::string>> LoadWords::allWords;
+std::vector<std::string> LoadWords::allWords;
 std::vector<std::string> LoadWords::roundWords;
 int LoadWords::nextWordIndex;
 
 void LoadWords::importWords()
 {
+//    QString fileName = "..//src/dictionary/sat";
+//    QFile *file = new QFile(fileName);
+//    sortWordTxtFile(file);
     std::ifstream stream;
-     stream.open("..//src/dictionary/words");
+     stream.open("..//src/dictionary/sat");
      if (!stream.is_open())
      {
          //TODO: Handle
@@ -15,20 +19,10 @@ void LoadWords::importWords()
      else
      {
         std::string word;
-        std::vector<std::string> wordsOfSameLength;
-        int length = 3;
         while (!stream.eof())
         {
             std::getline(stream, word);
-            if (word.length() == 0)
-            {
-                allWords[length++] = wordsOfSameLength;
-                wordsOfSameLength.clear();
-            }
-            else
-            {
-                wordsOfSameLength.push_back(word);
-            }
+            allWords.push_back(word);
          }
     }
     srand(time(0));
@@ -36,12 +30,11 @@ void LoadWords::importWords()
 
 void LoadWords::createRoundWords(int round)
 {
-    for (int i = 0; i < 20; i++)
+    int numWords = round * 10;
+    for (int i = 0; i < numWords; i++)
     {
-       long wordLength = rand() % round + 3;
-       long wordIndex = rand() % allWords[wordLength].size();
-
-       std::string word = allWords[wordLength].at(wordIndex);
+       long wordIndex = rand() % allWords.size();
+       std::string word = allWords.at(wordIndex);
        roundWords.push_back(word);
     }
 
@@ -57,17 +50,17 @@ std::string LoadWords::getWord()
     return roundWords.at(nextWordIndex++);
 }
 
-void sortWordTxtFile(QFile target)
+void LoadWords::sortWordTxtFile(QFile *target)
 {
      std::fstream stream;
-     //stream.open("../GameLib/temp");
+     //stream.open("..//src/dictionary/sat");
 
      std::vector<std::string> words;
      //Save all words from user file into a vector
-     if (target.open(QIODevice::ReadOnly))
+     if (target->open(QIODevice::ReadOnly))
      {
         std::string line;
-        QTextStream reader(&target);
+        QTextStream reader(target);
         //int i = 0;
         while (!reader.atEnd())
         {
@@ -89,7 +82,7 @@ void sortWordTxtFile(QFile target)
 
      //stream.close();
 
-     stream.open("../src/dictionary/userWords");
+     stream.open("...//src/dictionary/sat1");
 
      //store it into the folder
      int currentLength = words.at(0).length();

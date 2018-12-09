@@ -48,10 +48,10 @@ void ObjectController::createPlayer()
  */
 void ObjectController::createRoundOfEnemies(int round)
 {
+    stopCreatingEnemies = false;
     this->round = round;
     createImagePaths();
     LoadWords::createRoundWords(round);
-    stopCreatingEnemies = false;
 }
 
 /**
@@ -85,11 +85,9 @@ void ObjectController::updateObjectPositions()
     stepBox2DWorld();
 
     // Create Enemy Timer
-    if (!stopCreatingEnemies && ++frameCounter == 100)
+    if (!stopCreatingEnemies && frameCounter++ % 100 == 0)
     {
-        // TO FIX: Currently round is constant 1
         createEnemy();
-        frameCounter = 0;
     }
 
     // End of enemyExplosion Timer
@@ -399,7 +397,12 @@ bool ObjectController::isEnemyKilled()
 
 bool ObjectController::isRoundEnd()
 {
-    return targetedEnemy == nullptr && objectsOnScreen.size() == 1;
+    bool isRoundEnd = targetedEnemy == nullptr && objectsOnScreen.size() == 1;
+    if (isRoundEnd)
+    {
+        frameCounter = 0;
+    }
+    return isRoundEnd;
 }
 
 bool ObjectController::isEndGame()
@@ -408,7 +411,9 @@ bool ObjectController::isEndGame()
 }
 
 
+//
 // SPRITE_GENERATOR_STUFF
+//
 
 void ObjectController::initSpriteGenerator()
 {
@@ -422,7 +427,7 @@ void ObjectController::initSpriteGenerator()
 void ObjectController::createImagePaths()
 {
     enemyImagePathIndex = 0;
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < this->round * 10; i++)
     {
         QImage sprite = sg.generatreNewSprite(SpriteSize::modular);
         sprite = sprite.scaled(32, 96);

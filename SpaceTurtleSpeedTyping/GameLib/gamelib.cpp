@@ -3,14 +3,9 @@
 #include "loadwords.h"
 
 
-GameLib::GameLib(int x, int y):oc(x, y)
-{
-}
+GameLib::GameLib(int x, int y):oc(x, y)  { }
 
-GameLib::~GameLib()
-{
-
-}
+GameLib::~GameLib() { }
 
 const std::vector<GameObjects::GameObject *>& GameLib::getGameObject()
 {
@@ -71,11 +66,16 @@ GameObjects::Player *GameLib::getPlayer()
 }
 
 double GameLib::getStatKillStreak(){
-    return statistic.getKillStreak();
+    return statistic.getLongestHitStreak();
 }
 
 double GameLib::getStatTotalScore(){
     return statistic.getTotalKill();
+}
+
+double GameLib::getStatHitRate()
+{
+    return statistic.getCorrectRate();
 }
 
 void GameLib::setNewDictionary(std::string dictionary)
