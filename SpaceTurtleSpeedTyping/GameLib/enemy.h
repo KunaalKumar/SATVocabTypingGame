@@ -20,6 +20,7 @@ namespace GameObjects
             std::string getWord();
             double distanceTo(GameObjects::posTuple);
             bool startsWith(char letter);
+            double getRotation(GameObjects::GameObject* player);
 
             static int getSize(int wordLength);
 

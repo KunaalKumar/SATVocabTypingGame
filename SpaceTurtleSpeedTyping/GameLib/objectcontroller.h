@@ -34,6 +34,8 @@ public:
     bool isRoundEnd();
     bool isEndGame();
 
+    GameObjects::Player* getPlayer();
+
  private:
     int windowSizeX;
     int windowSizeY;

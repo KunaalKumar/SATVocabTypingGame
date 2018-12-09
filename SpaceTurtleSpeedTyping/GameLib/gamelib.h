@@ -57,6 +57,8 @@ class GameLib
         double getStatKillStreak();
         double getStatRound();
 
+        GameObjects::Player* getPlayer();
+
         /* >>>>>>>>>> Load <<<<<<<<<< */
         void setNewDictionary(std::string dictionary);
 private:

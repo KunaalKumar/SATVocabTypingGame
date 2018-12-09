@@ -370,7 +370,12 @@ void ObjectController::removeObjectAndDestroyBody(GameObjects::GameObject *obj)
                                       objectsOnScreen.end(),
                                       obj),
                             objectsOnScreen.end());
-//    delete obj;
+    //    delete obj;
+}
+
+GameObjects::Player *ObjectController::getPlayer()
+{
+    return player;
 }
 
 const std::vector<GameObjects::GameObject *>& ObjectController::getObjects()
