@@ -10,7 +10,7 @@ GameView::GameView(QWidget *parent) :
     ui(new Ui::GameView)
 {
     ui->setupUi(this);
-    font.loadFromFile("../src/Fonts/PTZ56F.ttf");
+    font.loadFromFile("../src/Fonts/Avenir.otf");
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &GameView::renderTexture);
 }
