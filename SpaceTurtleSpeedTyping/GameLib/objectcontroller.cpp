@@ -3,7 +3,6 @@
 #include <QImageWriter>
 #include <QImage>
 #include <QString>
-#include <QDebug>
 
 ObjectController::ObjectController(int windowSizeX, int windowSizeY)
 {
@@ -114,7 +113,6 @@ void ObjectController::updateObjectPositions()
  */
 bool ObjectController::letterTyped(char letter)
 {
-    qInfo() << letter;
     bool noCurrentTargetedEnemy = targetedEnemy == nullptr;
     if (noCurrentTargetedEnemy)
     {
@@ -374,7 +372,6 @@ void ObjectController::removeObjectAndDestroyBody(GameObjects::GameObject *obj)
     if(obj->getBody() != nullptr) {
         world->DestroyBody(obj->getBody());
         obj->removeBody();
-        qInfo() << "Body removed ";
     }
 
     objectsOnScreen.erase(std::remove(objectsOnScreen.begin(),
@@ -449,7 +446,6 @@ void ObjectController::createImagePaths()
         {
             QImageWriter::ImageWriterError error = writer.error();
             QString strError = writer.errorString();
-           // qDebug() << "ERROR" << strError;
         }
 
     }
@@ -570,17 +566,13 @@ void ObjectController::stepBox2DWorld()
     }
 
     for(int i = 0; i < toDestroy.size(); i++) {
-        qInfo() << "Type: " << QString::fromStdString(toDestroy[i]->getTypeString());
-        qInfo() << "Address: " << toDestroy[i];
         removeObjectAndDestroyBody(toDestroy[i]);
     }
 
     if(projectileExplode != nullptr) {
-        qDebug() << "createEnemyExplosion";
         createEnemyExplosion(projectileExplode);
     }
     if(playerExplode != nullptr) {
-        qDebug() << "createPlayerExplosion";
         createPlayerExplosion(playerExplode);
     }
 }
@@ -607,7 +599,6 @@ GameObjects::Enemy *ObjectController::b2MakeNewEnemy(int round, std::string word
 
     enemyBody->CreateFixture(&boxFixtureDef);
 
-    qInfo() << "Word is " << QString::fromStdString(word);
     GameObjects::Enemy *enemy = new GameObjects::Enemy(round, word, imagePath, boxSize, {enemyBodyDef.position.x, windowSizeY}, *enemyBody);
     enemyBody->SetUserData(enemy);
 

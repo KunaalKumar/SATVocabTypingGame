@@ -1,7 +1,6 @@
 #include "gameview.h"
 #include "ui_gameview.h"
 #include <iostream>
-#include <QDebug>
 #include <QTimer>
 #include <QKeyEvent>
 #include <QtGui>

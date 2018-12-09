@@ -2,7 +2,6 @@
 #define GAMEWINDOW_H
 
 #include <QMainWindow>
-#include <QDebug>
 #include <SFML/Graphics.hpp>
 #include <gameview.h>
 
