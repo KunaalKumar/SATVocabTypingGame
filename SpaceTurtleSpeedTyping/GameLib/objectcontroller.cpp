@@ -443,8 +443,8 @@ void ObjectController::createImagePaths()
     enemyImagePathIndex = 0;
     for (int i = 0; i < 20; i++)
     {
-        QImage sprite = sg.generatreNewSprite(SpriteSize::small);
-        sprite.scaled(32, 32);
+        QImage sprite = sg.generatreNewSprite(SpriteSize::modular);
+        sprite.scaled(32, 96);
 
         std::string path = "../src/GImages/ss" + std::to_string(++imageCounter) + ".png";
         QString string = QString::fromStdString(path);
