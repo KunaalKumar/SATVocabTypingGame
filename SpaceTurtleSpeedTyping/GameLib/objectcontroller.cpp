@@ -94,13 +94,13 @@ void ObjectController::updateObjectPositions()
     }
 
     // End of enemyExplosion Timer
-    if (enemyExplosion != nullptr && enemyExplosion->getNumOfFrames() == 500)
+    if (enemyExplosion != nullptr && enemyExplosion->getNumOfFrames() == 150)
     {
         removeEnemyExplosion();
     }
 
     // End of playerExplosion Timer
-    if (playerExplosion != nullptr && playerExplosion->getNumOfFrames() == 500)
+    if (playerExplosion != nullptr && playerExplosion->getNumOfFrames() == 150)
     {
         removePlayerExplosion();
     }
