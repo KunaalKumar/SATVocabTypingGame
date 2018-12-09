@@ -60,6 +60,11 @@ double GameLib::getStatRound(){
     return statistic.getRound();
 }
 
+GameObjects::Player *GameLib::getPlayer()
+{
+    return oc.getPlayer();
+}
+
 double GameLib::getStatKillStreak(){
     return statistic.getLongestHitStreak();
 }

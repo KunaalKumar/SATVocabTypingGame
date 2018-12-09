@@ -6,11 +6,11 @@
 #include <QKeyEvent>
 #include <QtGui>
 
-
 GameView::GameView(QWidget *parent) :
     ui(new Ui::GameView)
 {
     ui->setupUi(this);
+    font.loadFromFile("../src/Fonts/Avenir.otf");
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &GameView::renderTexture);
 }
@@ -22,6 +22,9 @@ GameView::~GameView()
 }
 
 void GameView::renderTexture() {
+    if(!mutex.tryLock()) {
+        return;
+    }
     texture.clear(sf::Color::Black);
     refreshGameObjects(lib->getGameObject());
 
@@ -42,12 +45,12 @@ void GameView::renderTexture() {
         endRound();
     }
 
+    mutex.unlock();
 }
 
 void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 {
     lib->updateFrame();
-    //qDebug() << "V size: " << v.size();
     for (auto *obj : v)
     {
         //std::string type = obj->getTypeString();
@@ -72,20 +75,22 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             GameObjects::Enemy* enemy = static_cast<GameObjects::Enemy*>(obj);
             sf::Sprite sprite;
             sf::Text text;
+            int rotation = ((enemy->getRotation(lib->getPlayer()) * 180) / 3.14);
+            rotation < 0 ? rotation -= 90 : rotation += 90;
+            sprite.rotate(rotation);
             text.setFont(font);
             text.setCharacterSize(18);
             text.setString(enemy->getWord());
             text.setFillColor(sf::Color::White);
 
             sprite_texture.loadFromFile(obj->getImage());
-            font.loadFromFile("../src/Fonts/PTZ56F.ttf");
 
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
-            sprite.scale(6.f,6.f);
+            //sprite.scale(6.f,6.f);
             texture.draw(sprite);
-            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+48);
+            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+80);
             texture.draw(text);
         }
         else if (obj->isOfType(GameObjects::Type::targetedEnemy))
@@ -97,20 +102,15 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             text.setCharacterSize(24);
             std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size());
             text.setString(targetText);
-            text.setFillColor(sf::Color::Yellow);
+            text.setFillColor(sf::Color::Red);
 
             sprite_texture.loadFromFile(obj->getImage());
-            font.loadFromFile("../src/Fonts/PTZ56F.ttf");
-            //            sf::FloatRect backgroundRect = text.getLocalBounds();
-            //            sf::RectangleShape background(sf::Vector2f(backgroundRect.width, backgroundRect.height+10));
-            //            background.setFillColor(sf::Color::Magenta);
-
 
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
-            sprite.scale(6.f,6.f);
-            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+48);
+            //sprite.scale(6.f,6.f);
+            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+80);
             texture.draw(sprite);
             //texture.draw(background, text.getTransform());
             texture.draw(text);
@@ -118,16 +118,20 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         else if (obj->isOfType(GameObjects::Type::projectile))
         {
             sf::Sprite sprite;
-            sprite_texture.loadFromFile("../src/Images/Blue_Projectile.png");
+            GameObjects::Projectile *projectile = static_cast<GameObjects::Projectile*>(obj);
+            if(projectile->getKillShot()) {
+                sprite_texture.loadFromFile("../src/Images/Red_Projectile.png");
+            }
+            else {
+                sprite_texture.loadFromFile("../src/Images/Blue_Projectile.png");
+            }
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
-            GameObjects::Projectile *projectile = static_cast<GameObjects::Projectile*>(obj);
             sprite.setPosition(std::get<0>(projectile->getPos()), std::get<1>(projectile->getPos()));
             texture.draw(sprite);
         }
         else
         {
-
             sf::Sprite sprite;
             sprite_texture.loadFromFile("../src/Images/Explosion.png");
             sprite_texture.setSmooth(true);
@@ -136,7 +140,6 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sprite.setPosition(std::get<0>(explosion->getPos()), std::get<1>(explosion->getPos()));
             texture.draw(sprite);
         }
-
     }
 }
 
@@ -146,12 +149,12 @@ void GameView::updatePlayerHealth(GameObjects::GameObject * obj)
     sf::Text text;
     text.setFont(font);
     text.setCharacterSize(18);
-    std::string targetText = "Total Kills : " + std::to_string((int)lib->getStatTotalScore());
+    std::string targetText = "Total Kills : " + std::to_string(static_cast<int>(lib->getStatTotalScore()));
     text.setString(targetText);
     text.setFillColor(sf::Color::White);
     text.setPosition(500,30);
     texture.draw(text);
-    targetText = "Round : " + std::to_string((int)lib->getStatRound());
+    targetText = "Round : " + std::to_string(static_cast<int>(lib->getStatRound()));
     text.setString(targetText);
     text.setPosition(500,50);
     texture.draw(text);
@@ -170,6 +173,7 @@ void GameView::updatePlayerHealth(GameObjects::GameObject * obj)
 
 void GameView::keyPressEvent(QKeyEvent *event)
 {
+    mutex.lock();
     char ch = static_cast<char>(event->key()+32);
 
     if (event->key() == Qt::Key_Escape)
@@ -180,6 +184,8 @@ void GameView::keyPressEvent(QKeyEvent *event)
     {
         lib->letterTyped(ch);
     }
+
+    mutex.unlock();
 }
 
 void GameView::startGame()

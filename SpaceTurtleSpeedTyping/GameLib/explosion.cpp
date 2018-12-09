@@ -17,6 +17,4 @@ namespace GameObjects
     }
 
     unsigned int Explosion::getNumOfFrames() { return numOfFrames; }
-
-
 }

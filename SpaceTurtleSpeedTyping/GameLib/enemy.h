@@ -12,7 +12,6 @@
 
 namespace GameObjects
 {
-
     class Enemy : public GameObject
     {
         public:
@@ -21,6 +20,7 @@ namespace GameObjects
             std::string getWord();
             double distanceTo(GameObjects::posTuple);
             bool startsWith(char letter);
+            double getRotation(GameObjects::GameObject* player);
 
             static int getSize(int wordLength);
 
@@ -28,7 +28,6 @@ namespace GameObjects
             std::string word;
             float speed;
             int boxWidth;
-
     };
 
     class TargetedEnemy : public Enemy
@@ -44,7 +43,6 @@ namespace GameObjects
             bool wasDestroyed();
         private:
             unsigned int currentLetterPos;
-
     };
 
 }

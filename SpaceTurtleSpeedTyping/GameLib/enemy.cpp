@@ -1,5 +1,6 @@
 #include "enemy.h"
 #include <QDebug>
+#include <math.h>
 
 namespace GameObjects {
 
@@ -31,6 +32,16 @@ namespace GameObjects {
         return letter == word[0];
     }
 
+    double Enemy::getRotation(GameObject *player)
+    {
+        posTuple playerPos = player->getPos();
+        posTuple thisPos = this->getPos();
+        int x = std::get<0>(thisPos) - std::get<0>(playerPos);
+        int y = std::get<1>(thisPos) - std::get<1>(playerPos);
+
+        return atan(y/x);
+    }
+
     // Static
     int Enemy::getSize(int wordLength)
     {
@@ -42,8 +53,6 @@ namespace GameObjects {
             default       : return 128;
         }
     }
-
-
 
 // Targeted Enemy
 

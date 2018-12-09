@@ -29,7 +29,6 @@ class Stats
 
         const std::map<std::string, double>& getAllStats();
 
-
     private:
         int round;
         int totalTypeCount;
@@ -39,7 +38,6 @@ class Stats
         int longestHitStreak;
         std::map<std::string, double> statsMap;
         int getScore();
-
 };
 
 #endif // STATS_H

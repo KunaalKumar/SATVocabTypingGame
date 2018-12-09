@@ -11,16 +11,20 @@ Stats::Stats()
     longestHitStreak = 0;
 }
 
-void Stats::addRound() {
+void Stats::addRound()
+{
     round++;
 }
 
-int Stats::getRound() {
+int Stats::getRound()
+{
     return round;
 }
 
-void Stats::addTypeCount(bool isCorrectLetter) {
-    if(isCorrectLetter) {
+void Stats::addTypeCount(bool isCorrectLetter)
+{
+    if(isCorrectLetter)
+    {
         totalTypeCount++;
         correctTypeCount++;
         hitStreak++;
@@ -28,34 +32,42 @@ void Stats::addTypeCount(bool isCorrectLetter) {
         {
             longestHitStreak = hitStreak;
         }
-    } else {
+    }
+    else
+    {
         totalTypeCount++;
 
         hitStreak = 0;
     }
 }
 
-double Stats::getCorrectRate() {
-    if(totalTypeCount == 0) {
+double Stats::getCorrectRate()
+{
+    if(totalTypeCount == 0)
+    {
         return 0.0;
     } else {
         return (correctTypeCount / totalTypeCount) * 100;
     }
 }
 
-int Stats::getTotalType() {
+int Stats::getTotalType()
+{
     return totalTypeCount;
 }
 
-int Stats::getCorrectType() {
+int Stats::getCorrectType()
+{
     return correctTypeCount;
 }
 
-void Stats::addTotalKill() {
+void Stats::addTotalKill()
+{
     totalKillCount++;
 }
 
-int Stats::getTotalKill() {
+int Stats::getTotalKill()
+{
     return totalKillCount;
 }
 
@@ -63,7 +75,8 @@ int Stats::getLongestHitStreak(){
     return longestHitStreak;
 }
 
-bool Stats::highScore(bool isGameDone, int score){
+bool Stats::highScore(bool isGameDone, int score)
+{
     bool newHighScore = false;
     if(isGameDone){
         std::ifstream stream;

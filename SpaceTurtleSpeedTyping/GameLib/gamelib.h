@@ -12,7 +12,6 @@
 
 class GameLib
 {
-
     public:
         /* >>>>>>>>>> GameLib <<<<<<<<<< */
     /**
@@ -58,6 +57,8 @@ class GameLib
         double getStatKillStreak();
         double getStatHitRate();
         double getStatRound();
+
+        GameObjects::Player* getPlayer();
 
         /* >>>>>>>>>> Load <<<<<<<<<< */
         void setNewDictionary(std::string dictionary);
