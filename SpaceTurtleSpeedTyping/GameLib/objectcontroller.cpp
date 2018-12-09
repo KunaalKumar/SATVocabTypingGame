@@ -260,7 +260,7 @@ void ObjectController::removePlayerExplosion()
  *
  * @param projectileObject : projectile that hit enemy
  */
-void ObjectController::createEnemyExplosion(GameObjects::Projectile *projectileObject)
+void ObjectController::createEnemyExplosion(GameObjects::GameObject *projectileObject)
 {
     // Remove old targeted enemy
     int index = findOldTargetedEnemy();
@@ -494,6 +494,8 @@ void ObjectController::stepBox2DWorld()
 
     // Need this to avoid collision looping faults
     std::vector<GameObjects::GameObject*> toDestroy;
+    GameObjects::GameObject *playerExplode = nullptr;
+    GameObjects::GameObject *projectileExplode = nullptr;
 
     for(int i = 0; i < objectsOnScreen.size(); i++) {
         if(objectsOnScreen[i]->getTypeString() == "enemy" || objectsOnScreen[i]->getTypeString() == "target") {
@@ -538,7 +540,8 @@ void ObjectController::stepBox2DWorld()
                 // Explosion at enemy
                 if(proj->getKillShot() && proj->getTargetBody() == bod1) {
                     qInfo() << "Killing enemy ";
-                    createEnemyExplosion(proj);
+                    projectileExplode = proj;
+//                    createEnemyExplosion(proj);
                 }
                 else if(proj->getTargetBody() == bod1){
                     toDestroy.push_back(proj);
@@ -546,7 +549,8 @@ void ObjectController::stepBox2DWorld()
             }
             if(static_cast<GameObjects::GameObject*>(bod2->GetUserData())->getTypeString() == "player") {
                 // Explosion at player
-                createPlayerExplosion(static_cast<GameObjects::GameObject*> (bod1->GetUserData()));
+                playerExplode = (static_cast<GameObjects::GameObject*> (bod1->GetUserData()));
+//                createPlayerExplosion(static_cast<GameObjects::GameObject*> (bod1->GetUserData()));
             }
         }
         else if (static_cast<GameObjects::GameObject*> (bod1->GetUserData())->getTypeString() == "projectile") {
@@ -556,7 +560,8 @@ void ObjectController::stepBox2DWorld()
                 // Explosion at enemy
                 if(proj->getKillShot() && proj->getTargetBody() == bod2) {
                      qInfo() << "Killing enemy ";
-                    createEnemyExplosion(proj);
+                     projectileExplode = proj;
+//                    createEnemyExplosion(proj);
                 }
                 else if(proj->getTargetBody() == bod2) {
                     toDestroy.push_back(proj);
@@ -567,13 +572,21 @@ void ObjectController::stepBox2DWorld()
             if (static_cast<GameObjects::GameObject*> (bod2->GetUserData())->getTypeString() == "enemy"
                     || static_cast<GameObjects::GameObject*> (bod2->GetUserData())->getTypeString() == "target") {
                 // Explosion at player
-                 createPlayerExplosion(static_cast<GameObjects::GameObject*> (bod2->GetUserData()));
+                playerExplode = (static_cast<GameObjects::GameObject*> (bod2->GetUserData()));
+//                 createPlayerExplosion(static_cast<GameObjects::GameObject*> (bod2->GetUserData()));
             }
         }
     }
 
     for(int i = 0; i < toDestroy.size(); i++) {
         removeObjectAndDestroyBody(toDestroy[i]);
+    }
+
+    if(projectileExplode != nullptr) {
+        createEnemyExplosion(projectileExplode);
+    }
+    if(playerExplode != nullptr) {
+        createPlayerExplosion(playerExplode);
     }
 }
 
