@@ -225,6 +225,7 @@ void ObjectController::createPlayerExplosion(GameObjects::GameObject *enemyObjec
     // remove Enemy that hits player
     for(int i = 0 ; i < objectsOnScreen.size(); i++) {
         if(objectsOnScreen[i] == enemyObject) {
+            world->DestroyBody(objectsOnScreen[i]->getBody());
             objectsOnScreen.erase(objectsOnScreen.begin() + i);
             break;
         }
@@ -266,6 +267,7 @@ void ObjectController::createEnemyExplosion(GameObjects::GameObject *projectileO
     int index = findOldTargetedEnemy();
     GameObjects::posTuple oldTargetedEnemyPosition = objectsOnScreen[index]->getPos();
     qDebug() << "Delete: " << index;
+    world->DestroyBody(objectsOnScreen[index]->getBody());
     delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 
@@ -276,6 +278,7 @@ void ObjectController::createEnemyExplosion(GameObjects::GameObject *projectileO
 
     // Remove Projectile that hit enemy
     index = findIndexOfType(GameObjects::Type::projectile, projectileObject);
+    world->DestroyBody(objectsOnScreen[index]->getBody());
     delete objectsOnScreen[index];
     objectsOnScreen.erase(objectsOnScreen.begin() + index);
 }
@@ -394,7 +397,8 @@ void ObjectController::removeOldPlayerExplosion()
 void ObjectController::removeObjectAndDestroyBody(GameObjects::GameObject *obj)
 {
     if(obj->getBody() != nullptr) {
-        world->DestroyBody(obj->getBody());
+
+
     }
 
     objectsOnScreen.erase(std::remove(objectsOnScreen.begin(),
@@ -583,9 +587,11 @@ void ObjectController::stepBox2DWorld()
     }
 
     if(projectileExplode != nullptr) {
+        qDebug() << "createEnemyExplosion";
         createEnemyExplosion(projectileExplode);
     }
     if(playerExplode != nullptr) {
+        qDebug() << "createPlayerExplosion";
         createPlayerExplosion(playerExplode);
     }
 }
