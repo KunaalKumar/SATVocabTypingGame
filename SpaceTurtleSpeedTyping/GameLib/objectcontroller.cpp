@@ -228,21 +228,34 @@ void ObjectController::createPlayerExplosion(GameObjects::GameObject *enemyObjec
         targetedEnemy = nullptr;
     }
 
+    //Remove any projectiles targeting enemyObject
+
+    std::vector<GameObjects::GameObject*> toDestroy;
+
     // remove Enemy that hits player
-    for(int i = 0 ; i < objectsOnScreen.size(); i++) {
+    for(size_t i = 0 ; i < objectsOnScreen.size(); i++) {
+        if(objectsOnScreen[i]->isOfType(GameObjects::Type::projectile)){
+            GameObjects::Projectile *proj = static_cast<GameObjects::Projectile*>(objectsOnScreen[i]);
+            if(proj->getTargetedEnemy() == enemyObject) {
+                toDestroy.push_back(proj);
+            }
+        }
+
         if(objectsOnScreen[i] == enemyObject) {
-            removeObjectAndDestroyBody(enemyObject);
-//            objectsOnScreen.erase(objectsOnScreen.begin() + i);
-    // remove one heart as player takes one hit
-    player->removeHealth();
-            break;
+            toDestroy.push_back(enemyObject);
+            // remove one heart as player takes one hit
+             player->removeHealth();
         }
     }
 
+    for(size_t i = 0; i < toDestroy.size(); i++) {
+        removeObjectAndDestroyBody(toDestroy[i]);
+    }
+
     // If there is an old player explosion, remove it
-//    removeOldPlayerExplosion();
-//    playerExplosion = new GameObjects::Explosion(player->getPos());
-//    objectsOnScreen.push_back(playerExplosion);
+    removeOldPlayerExplosion();
+    playerExplosion = new GameObjects::Explosion(player->getPos());
+    objectsOnScreen.push_back(playerExplosion);
 }
 
 /**
@@ -270,9 +283,9 @@ void ObjectController::createEnemyExplosion(GameObjects::Projectile *projectileO
     removeObjectAndDestroyBody(projectileObject->getTargetedEnemy());
 
     // If there is an old enemy explosion, remove it
-//    removeOldEnemyExplosion();
-//    enemyExplosion = new GameObjects::Explosion(oldTargetedEnemyPosition);
-//    objectsOnScreen.push_back(enemyExplosion);
+    removeOldEnemyExplosion();
+    enemyExplosion = new GameObjects::Explosion(projectileObject->getTargetedEnemy()->getPos());
+    objectsOnScreen.push_back(enemyExplosion);
 
     // Remove Projectile that hit enemy
     removeObjectAndDestroyBody(projectileObject);

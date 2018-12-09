@@ -111,10 +111,15 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         else if (obj->isOfType(GameObjects::Type::projectile))
         {
             sf::Sprite sprite;
-            sprite_texture.loadFromFile("../src/Images/Blue_Projectile.png");
+            GameObjects::Projectile *projectile = static_cast<GameObjects::Projectile*>(obj);
+            if(projectile->getKillShot()) {
+                sprite_texture.loadFromFile("../src/Images/Red_Projectile.png");
+            }
+            else {
+                sprite_texture.loadFromFile("../src/Images/Blue_Projectile.png");
+            }
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
-            GameObjects::Projectile *projectile = static_cast<GameObjects::Projectile*>(obj);
             sprite.setPosition(std::get<0>(projectile->getPos()), std::get<1>(projectile->getPos()));
             texture.draw(sprite);
         }
