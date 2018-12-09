@@ -42,7 +42,6 @@ void GameView::renderTexture() {
 void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
 {
     lib->updateFrame();
-    //qDebug() << "V size: " << v.size();
     for (auto *obj : v)
     {
         //std::string type = obj->getTypeString();
@@ -144,12 +143,12 @@ void GameView::updatePlayerHealth(GameObjects::GameObject * obj)
     sf::Text text;
     text.setFont(font);
     text.setCharacterSize(18);
-    std::string targetText = "Total Kills : " + std::to_string((int)lib->getStatTotalScore());
+    std::string targetText = "Total Kills : " + std::to_string(static_cast<int>(lib->getStatTotalScore()));
     text.setString(targetText);
     text.setFillColor(sf::Color::White);
     text.setPosition(500,30);
     texture.draw(text);
-    targetText = "Round : " + std::to_string((int)lib->getStatRound());
+    targetText = "Round : " + std::to_string(static_cast<int>(lib->getStatRound()));
     text.setString(targetText);
     text.setPosition(500,50);
     texture.draw(text);

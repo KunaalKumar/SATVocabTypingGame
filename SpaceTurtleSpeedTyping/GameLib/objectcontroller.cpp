@@ -222,6 +222,8 @@ void ObjectController::createProjectile(bool hitEnemy)
  */
 void ObjectController::createPlayerExplosion(GameObjects::GameObject *enemyObject)
 {
+    // remove one heart as player takes one hit
+    player->removeHealth();
     // remove Enemy that hits player
     for(int i = 0 ; i < objectsOnScreen.size(); i++) {
         if(objectsOnScreen[i] == enemyObject) {
