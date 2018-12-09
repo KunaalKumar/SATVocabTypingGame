@@ -5,7 +5,6 @@
 #include <tuple>
 #include <string>
 #include <Box2D/Box2D.h>
-#include <QDebug>
 
 namespace GameObjects
 {
