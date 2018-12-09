@@ -26,6 +26,11 @@ void GameView::renderTexture() {
         return;
     }
     texture.clear(sf::Color::Black);
+    sprite_background.loadFromFile("../src/Images/Starry_Sky.png");
+    sprite_background.setSmooth(true);
+    sf::Sprite background;
+    background.setTexture(sprite_background);
+    texture.draw(background);
     refreshGameObjects(lib->getGameObject());
 
     // We're done drawing to the texture
@@ -81,9 +86,9 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
-            sprite.scale(6.f,6.f);
+            //sprite.scale(6.f,6.f);
             texture.draw(sprite);
-            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+48);
+            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+80);
             texture.draw(text);
         }
         else if (obj->isOfType(GameObjects::Type::targetedEnemy))
@@ -95,15 +100,15 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             text.setCharacterSize(24);
             std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size());
             text.setString(targetText);
-            text.setFillColor(sf::Color::Yellow);
+            text.setFillColor(sf::Color::Red);
 
             sprite_texture.loadFromFile(obj->getImage());
 
             sprite_texture.setSmooth(true);
             sprite.setTexture(sprite_texture);
             sprite.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos()));
-            sprite.scale(6.f,6.f);
-            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+48);
+            //sprite.scale(6.f,6.f);
+            text.setPosition(std::get<0>(obj->getPos()), std::get<1>(obj->getPos())+80);
             texture.draw(sprite);
             //texture.draw(background, text.getTransform());
             texture.draw(text);
