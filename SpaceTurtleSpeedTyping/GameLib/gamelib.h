@@ -56,6 +56,7 @@ class GameLib
         /* Methods to get stats numbers cause maps dont work*/
         double getStatTotalScore();
         double getStatKillStreak();
+        double getStatHitRate();
         double getStatRound();
 
         /* >>>>>>>>>> Load <<<<<<<<<< */

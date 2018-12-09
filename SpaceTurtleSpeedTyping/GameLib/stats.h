@@ -23,8 +23,7 @@ class Stats
         void addTotalKill();
         int getTotalKill();
 
-        // todo: streak of letters(If it is wrong go back to 0)
-        int getKillStreak();
+        int getLongestHitStreak();
         // todo: load stats text file 3 highest scores
         bool highScore(bool isGameDone, int score);
 
@@ -36,7 +35,8 @@ class Stats
         int totalTypeCount;
         int correctTypeCount;
         int totalKillCount;
-        int killStreak;
+        int hitStreak;
+        int longestHitStreak;
         std::map<std::string, double> statsMap;
         int getScore();
 

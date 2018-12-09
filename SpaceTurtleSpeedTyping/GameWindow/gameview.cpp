@@ -70,7 +70,6 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
         else if (obj->isOfType(GameObjects::Type::enemy))
         {
             GameObjects::Enemy* enemy = static_cast<GameObjects::Enemy*>(obj);
-            //qDebug()<< "enemy made";
             sf::Sprite sprite;
             sf::Text text;
             text.setFont(font);
@@ -136,8 +135,6 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             GameObjects::Explosion *explosion = static_cast<GameObjects::Explosion*>(obj);
             sprite.setPosition(std::get<0>(explosion->getPos()), std::get<1>(explosion->getPos()));
             texture.draw(sprite);
-
-
         }
 
     }
@@ -194,7 +191,6 @@ void GameView::startGame()
 
 void GameView::startRound()
 {
-
     lib->startRound();
     texture.create(720, 800);
     timer->start(10);
@@ -202,14 +198,50 @@ void GameView::startRound()
 
 void GameView::endRound()
 {
-    //timer->stop();
-    // displayStats();
+    qDebug() << "END ROUND";
+    timer->stop();
+    displayStats();
 }
 
 void GameView::displayStats()
 {
-    // DisplayStats
+    qDebug() << "Display Stats";
+    texture.clear(sf::Color::Black);
 
+    sf::Text text;
+    text.setFont(font);
+    text.setCharacterSize(25);
+
+    std::string targetText = "Round : " + std::to_string((int)lib->getStatRound());
+    text.setString(targetText);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(275,300);
+    texture.draw(text);
+
+    targetText = "Total Kills : " + std::to_string((int)lib->getStatTotalScore());
+    text.setString(targetText);
+    text.setPosition(275,350);
+    texture.draw(text);
+
+    targetText = "Percentage Hit : " + std::to_string((int)lib->getStatHitRate()) + "%";
+    text.setString(targetText);
+    text.setPosition(275,400);
+    texture.draw(text);
+
+    targetText = "KillStreak : " + std::to_string((int)lib->getStatKillStreak());
+    text.setString(targetText);
+    text.setPosition(275,450);
+    texture.draw(text);
+
+    texture.display();
+
+    sf::Texture rt = texture.getTexture();
+    sf::Image irt = rt.copyToImage();
+    const uint8_t *pp = irt.getPixelsPtr();
+    QImage qi(pp, 720, 800, QImage::Format_ARGB32);
+    qi = qi.rgbSwapped();
+
+    ui->label->setPixmap(QPixmap::fromImage(qi));
 
    QTimer::singleShot(4000, this, SLOT(endDisplayStats()));
 

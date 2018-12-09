@@ -61,11 +61,16 @@ double GameLib::getStatRound(){
 }
 
 double GameLib::getStatKillStreak(){
-    return statistic.getKillStreak();
+    return statistic.getLongestHitStreak();
 }
 
 double GameLib::getStatTotalScore(){
     return statistic.getTotalKill();
+}
+
+double GameLib::getStatHitRate()
+{
+    return statistic.getCorrectRate();
 }
 
 void GameLib::setNewDictionary(std::string dictionary)
