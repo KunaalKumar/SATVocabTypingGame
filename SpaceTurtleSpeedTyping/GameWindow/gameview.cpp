@@ -37,6 +37,11 @@ void GameView::renderTexture() {
 
     ui->label->setPixmap(QPixmap::fromImage(qi));
 
+    if (lib->isEndRound())
+    {
+        endRound();
+    }
+
 }
 
 void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
@@ -170,37 +175,64 @@ void GameView::keyPressEvent(QKeyEvent *event)
 {
     char ch = static_cast<char>(event->key()+32);
 
-    lib->letterTyped(ch);
     if (event->key() == Qt::Key_Escape)
     {
         endGame();
+    }
+    else
+    {
+        lib->letterTyped(ch);
     }
 }
 
 void GameView::startGame()
 {
     lib = new GameLib(720, 800);
+    fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
+    startRound();
+}
+
+void GameView::startRound()
+{
+
     lib->startRound();
     texture.create(720, 800);
-    fireSound.setMedia(QUrl("qrc:/src/Sound/gun.wav"));
     timer->start(10);
 }
 
-void GameView::fire(float x1, float y1, float x2, float y2)
+void GameView::endRound()
 {
-    sf::Vertex line[] =
-    {
-        sf::Vertex(sf::Vector2f(x1, y1)),
-        sf::Vertex(sf::Vector2f(x2, y2))
-    };
+    //timer->stop();
+    // displayStats();
+}
 
-    fired = true;
-    texture.draw(line, 2, sf::Lines);
-    fireSound.play();
+void GameView::displayStats()
+{
+    // DisplayStats
+
+
+   QTimer::singleShot(4000, this, SLOT(endDisplayStats()));
+
+}
+
+void GameView::endDisplayStats()
+{
+    if (lib->isEndGame())
+    {
+        endGame();
+    }
+    else
+    {
+        startRound();
+    }
 }
 
 void GameView::endGame()
 {
-    timer->stop();
+    if (timer->isActive())
+    {
+        timer->stop();
+    }
+
     emit homeClicked();
 }

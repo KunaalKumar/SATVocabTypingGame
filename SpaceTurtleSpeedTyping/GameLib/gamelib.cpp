@@ -3,14 +3,9 @@
 #include "loadwords.h"
 
 
-GameLib::GameLib(int x, int y):oc(x, y)
-{
-}
+GameLib::GameLib(int x, int y):oc(x, y)  { }
 
-GameLib::~GameLib()
-{
-
-}
+GameLib::~GameLib() { }
 
 const std::vector<GameObjects::GameObject *>& GameLib::getGameObject()
 {

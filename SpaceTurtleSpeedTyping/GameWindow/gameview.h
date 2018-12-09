@@ -30,6 +30,7 @@ signals:
 
 private slots:
     void startGame();
+    void endDisplayStats();
 
 private:
     Ui::GameView *ui;
@@ -57,7 +58,10 @@ private:
     // Initialize all game objects information (position, words..etc)
     void refreshGameObjects(std::vector<GameObjects::GameObject *>);
     void updatePlayerHealth(GameObjects::GameObject *);
-    void fire(float x1, float y1, float x2, float y2);
+
+    void startRound();
+    void endRound();
+    void displayStats();
     void endGame();
 
 };
