@@ -241,22 +241,22 @@ void GameView::displayStats()
     std::string targetText = "Round : " + std::to_string((int)lib->getStatRound());
     text.setString(targetText);
     text.setFillColor(sf::Color::White);
-    text.setPosition(275,300);
+    text.setPosition(250,300);
     texture.draw(text);
 
     targetText = "Total Kills : " + std::to_string((int)lib->getStatTotalScore());
     text.setString(targetText);
-    text.setPosition(275,350);
+    text.setPosition(250,350);
     texture.draw(text);
 
     targetText = "Percentage Hit : " + std::to_string((int)lib->getStatHitRate()) + "%";
     text.setString(targetText);
-    text.setPosition(275,400);
+    text.setPosition(250,400);
     texture.draw(text);
 
     targetText = "KillStreak : " + std::to_string((int)lib->getStatKillStreak());
     text.setString(targetText);
-    text.setPosition(275,450);
+    text.setPosition(250,450);
     texture.draw(text);
 
     texture.display();
@@ -291,6 +291,6 @@ void GameView::endGame()
     {
         timer->stop();
     }
-
+    lib->resetGame();
     emit homeClicked();
 }
