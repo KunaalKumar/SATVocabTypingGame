@@ -91,7 +91,7 @@ void GameView::refreshGameObjects(std::vector<GameObjects::GameObject *> v)
             sf::Text text;
             text.setFont(font);
             text.setCharacterSize(24);
-            std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size()-1);
+            std::string targetText = target->getWord().substr(target->getCurrentLetterPos(), target->getWord().size());
             text.setString(targetText);
             text.setFillColor(sf::Color::Yellow);
 
@@ -149,7 +149,7 @@ void GameView::updatePlayerHealth(GameObjects::GameObject * obj)
     text.setFillColor(sf::Color::White);
     text.setPosition(500,30);
     texture.draw(text);
-    targetText = "Kill Streak : " + std::to_string((int)lib->getStatKillStreak());
+    targetText = "Round : " + std::to_string((int)lib->getStatRound());
     text.setString(targetText);
     text.setPosition(500,50);
     texture.draw(text);
@@ -170,12 +170,11 @@ void GameView::keyPressEvent(QKeyEvent *event)
 {
     char ch = static_cast<char>(event->key()+32);
 
-    if (lib->letterTyped(ch))
-        //fireSound.play();
-        if (event->key() == Qt::Key_Escape)
-        {
-            endGame();
-        }
+    lib->letterTyped(ch);
+    if (event->key() == Qt::Key_Escape)
+    {
+        endGame();
+    }
 }
 
 void GameView::startGame()
